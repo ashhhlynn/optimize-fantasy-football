@@ -1,5 +1,5 @@
 # Optimize Daily
-> Fantasy Football lineup builder application created with Node.js, React.js, and Draft Kings contest data with projections via Sleeper. The back end features a linear programming optimizer that generates the highest projected lineup given salary and position constraints, and the front end allows manually setting lineup from player queue. 
+> Fantasy Football lineup builder application created with Node.js and React.js, ft. live Draft Kings contest data and projections from Sleeper. The back end features a linear programming optimizer that generates the highest projected lineup given salary and position constraints, and the front end allows manually setting lineup from player queue. 
 
 Coming soon - <a href="https://netlify.app/">live</a> and <a href="https://vimeo.com/">video</a> demos.
 
@@ -24,9 +24,9 @@ Coming soon - <a href="https://netlify.app/">live</a> and <a href="https://vimeo
 
 ## To Implement
 - Queue Opponent Rank (and sorting)
-- Sunday and Monday night showdown contests
+- Sunday night showdown contests
 - Injury designations live for queue
-- Correct data and data errors
+- Data errors
 
 ## Media 
 - Coming soon
