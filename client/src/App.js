@@ -5,13 +5,11 @@ import Head from './components/Head.js'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import ClassicHome from './components/classic/ClassicHome.js'
 import CaptainHome from './components/captain/CaptainHome.js'
-import SunCaptainHome from './components/captain/SunCaptainHome.js'
 
 function App() {
 
   const [thursday, setThursday] = useState('')
   const [sunday, setSunday] = useState('')
-  const [current, setCurrent] = useState('')
 
   useEffect(() => {
     getDates()
@@ -23,18 +21,16 @@ function App() {
     .then(data => {
       setThursday(data.tr.substr(5,5))
       setSunday(data.sun.substr(5,5))
-      setCurrent(data.current)
     })
   }
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Head thursday={thursday} sunday={sunday} current={current}/>
+        <Head thursday={thursday} sunday={sunday}/>
         <Routes>
 				  <Route exact path="/" element={<ClassicHome/> }/>
           <Route exact path="/trcaptain" element={<CaptainHome/> }/>
-          <Route exact path="/suncaptain" element={<SunCaptainHome/> }/>
         </Routes>
         <br></br><br></br>
       </div>

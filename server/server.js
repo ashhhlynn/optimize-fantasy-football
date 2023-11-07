@@ -81,7 +81,7 @@ async function updateCaptain(num) {
             Position: element.position,
             Salary: element.salary,
             Game: element.competition['name'],
-            FFPG: parseInt(element.draftStatAttributes[0].value),
+            FFPG: element.draftStatAttributes[0].value,
             Test: element.draftStatAttributes[0].id,
             Team: element.teamAbbreviation,
             DraftTableId: element.playerId,
@@ -222,9 +222,9 @@ async function fetchClassic(num) {
 }
 
 async function updateClassic(num) {
-    let xo = await fetchClassic(num)
-    let data = xo.dkData
-    let sleeperdata = xo.sleeperData
+    let d = await fetchClassic(num)
+    let data = d.dkData
+    let sleeperdata = d.sleeperData
     let z = data.draftables.map((element) => {
         if (sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
             let p = sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
@@ -234,7 +234,7 @@ async function updateClassic(num) {
                 Position: element.position,
                 Salary: element.salary,
                 Game: element.competition['name'],
-                FFPG: parseInt(element.draftStatAttributes[0].value),
+                FFPG: element.draftStatAttributes[0].value,
                 Test: element.draftStatAttributes[0].id,
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
@@ -247,7 +247,7 @@ async function updateClassic(num) {
                 Position: element.position,
                 Salary: element.salary,
                 Game: element.competition['name'],
-                FFPG: parseInt(element.draftStatAttributes[0].value),
+                FFPG: element.draftStatAttributes[0].value,
                 Test: element.draftStatAttributes[0].id,
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,

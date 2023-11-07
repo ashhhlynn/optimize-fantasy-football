@@ -17,7 +17,7 @@ function ClassicLineup(props) {
 
     return (
         <>
-        <Table fixed style={{marginTop:"-2%", marginLeft:"14%", width:"520px"}}>           
+        <Table fixed style={{marginTop:"-2%", marginLeft:"13%", width:"520px"}}>           
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell style={{width:"54px", backgroundColor:"#f0f0f0"}}>POS</Table.HeaderCell>

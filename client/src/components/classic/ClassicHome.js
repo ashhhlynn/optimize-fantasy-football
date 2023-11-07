@@ -194,7 +194,7 @@ function ClassicHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"10%", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
+                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"10%", fontFamily:"Trebuchet MS",letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
                             OPTIMIZE LINEUP
                         </Button>
                         <ClassicLineupHeader

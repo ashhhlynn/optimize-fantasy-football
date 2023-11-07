@@ -30,8 +30,8 @@ function CaptainHome() {
         fetch("http://localhost:8000/optimizedcaptain")
         .then((res) => res.json())
         .then((data) => { 
-            let ssum = parseInt(data.crown.Salary * 1.5)
-            let psum = parseInt(data.crown.Projection * 1.5)
+            let ssum = data.crown.Salary * 1.5
+            let psum = data.crown.Projection * 1.5
             setCrown(data.crown)
             setFlexPlayers(data.fps)
             data.fps.forEach(value => {
@@ -67,11 +67,11 @@ function CaptainHome() {
 
     const setCrownPlayer = (player) => {
         if (crown.length === 0 && !flexPlayers.find(p => p === player)) {
-            let s = salary - parseInt(player.Salary * 1.5)
+            let s = salary - player.Salary * 1.5
             setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
             setSalary(s)
             setPlayerCount(playerCount - 1)
-            setProjection(projection + parseInt(player.Projection * 1.5))
+            setProjection(projection + player.Projection * 1.5)
             setCrown(player)
         }
     }
@@ -88,11 +88,11 @@ function CaptainHome() {
     }
 
     const removeCrownPlayer = (player) => {
-        let s = salary + parseInt(player.Salary * 1.5)
+        let s = salary + player.Salary * 1.5
         setSalaryPerPlayer(parseInt(s/(playerCount + 1)))
         setSalary(s)
         setPlayerCount(playerCount + 1)
-        setProjection(projection - parseInt(player.Projection * 1.5))
+        setProjection(projection - player.Projection * 1.5)
         setCrown([])
     }
 
@@ -111,7 +111,7 @@ function CaptainHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                    <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"10%", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
+                    <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"10%", letterSpacing:"3px", fontWeight:"bold", fontFamily:"Trebuchet MS", backgroundColor:"#61dafb"}}>
                             OPTIMIZE LINEUP
                     </Button>
                     <CaptainLineupHeader
@@ -127,7 +127,7 @@ function CaptainHome() {
                     />
                     </Grid.Column>
                     <Grid.Column>
-                        <Label style={{backgroundColor:"#61dafb", marginLeft:"49%"}}>
+                        <Label style={{backgroundColor:"#61dafb", marginLeft:"50%"}}>
                             <Icon name="chess queen" color="black"/> 1.5 Points
                         </Label>
                         <CaptainQueue 

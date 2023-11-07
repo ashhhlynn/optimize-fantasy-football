@@ -18,7 +18,7 @@ function CaptainLineup(props) {
 
     return (
         <>
-        <Table fixed style={{marginTop:"-2%", marginLeft:"14%", width:"520px"}}>           
+        <Table fixed style={{marginTop:"-2%", marginLeft:"13%", width:"520px"}}>           
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell style={{width:"54px", backgroundColor:"#f0f0f0"}}>POS</Table.HeaderCell>
@@ -42,8 +42,8 @@ function CaptainLineup(props) {
                         <>
                         <Table.Cell><b>{crown.Name} {crown.Position}</b></Table.Cell>
                         <Table.Cell>{crown.Team}</Table.Cell>
-                        <Table.Cell>{parseInt(crown.Projection * 1.5)}</Table.Cell>
-                        <Table.Cell>${parseInt(crown.Salary * 1.5)}</Table.Cell>
+                        <Table.Cell>{(crown.Projection * 1.5).toFixed(2)}</Table.Cell>
+                        <Table.Cell>${crown.Salary * 1.5}</Table.Cell>
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeCrownPlayer(event, crown)}/></center></Table.Cell>
                         </>
                     :
