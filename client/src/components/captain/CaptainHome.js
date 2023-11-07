@@ -19,7 +19,7 @@ function CaptainHome() {
       },[])
 
     const fetchPlayerQueue = () => {
-        fetch("http://localhost:8000/captainplayers")
+        fetch("http://localhost:8000/trcaptainplayers")
         .then((res)=> res.json())
         .then(data => {
             setPlayers(data.flexes)   
