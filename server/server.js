@@ -182,7 +182,6 @@ function optimizeCaptain(crownsQueue, flexesQueue) {
     myObjSTwo['Salary'] = {'max': 50000}
     myObjSTwo['CROWN'] = { 'min': 1, 'max': 1 }
     myObjSTwo['FLEX'] = { 'min': 5, 'max': 5 }
-
     const modelS = {
         optimize: "Projection",
         opType: "max",
@@ -327,7 +326,6 @@ function optimizeClassic(uniques, duplicates) {
     };        
     const results = solver.Solve(model);
     console.log(results)
-
     let QB = []
     let RB = []
     let WR = []
