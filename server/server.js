@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const solver = require("javascript-lp-solver");
+solver = require("javascript-lp-solver");
 const app = express();
 const PORT = process.env.PORT || 8000;
 app.use(cors());
