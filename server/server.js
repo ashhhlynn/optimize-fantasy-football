@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
+const fetch = require("node-fetch")
 const current = Math.ceil((new Date() - new Date("2023-09-04"))/604800000)
 
 function getSunday() {
