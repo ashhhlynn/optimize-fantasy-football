@@ -11,12 +11,14 @@ function App() {
   const [thursday, setThursday] = useState('')
   const [sunday, setSunday] = useState('')
 
+  const url = "https://optimize-daily.onrender.com"
+
   useEffect(() => {
     getDates()
   }, )
 
   const getDates = () => {
-    fetch("http://localhost:8000/dates")
+    fetch(`${url}/dates`)
     .then((res)=> res.json())
     .then(data => {
       setThursday(data.tr.substr(5,5))

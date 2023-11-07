@@ -14,12 +14,14 @@ function CaptainHome() {
     const [crown, setCrown] = useState([])
     const [flexPlayers, setFlexPlayers] = useState([])
    
+    const url = "https://optimize-daily.onrender.com"
+
     useEffect(() => {
         fetchPlayerQueue()
       },[])
 
     const fetchPlayerQueue = () => {
-        fetch("http://localhost:8000/trcaptainplayers")
+        fetch(`${url}/trcaptainplayers`)
         .then((res)=> res.json())
         .then(data => {
             setPlayers(data.flexes)   
@@ -27,7 +29,7 @@ function CaptainHome() {
     }
 
     const fetchOptimized = () => {
-        fetch("http://localhost:8000/optimizedcaptain")
+        fetch(`${url}/optimizedcaptain`)
         .then((res) => res.json())
         .then((data) => { 
             let ssum = data.crown.Salary * 1.5

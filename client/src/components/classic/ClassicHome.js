@@ -31,9 +31,11 @@ function ClassicHome() {
     useEffect(() => {
         fetchPlayerQueue()
     },[])
-  
+
+    const url = "https://optimize-daily.onrender.com"
+
     const fetchPlayerQueue = () => {
-        fetch("http://localhost:8000/classicplayers")
+        fetch(`${url}/classicplayers`)
         .then((res)=> res.json())
         .then(data => {
             setQQbs(data.qqb)
@@ -77,7 +79,7 @@ function ClassicHome() {
     }
 
     const optimizeLineup = () => {
-        fetch("http://localhost:8000/optimizedclassic")
+        fetch(`${url}/optimizedclassic`)
         .then((res)=> res.json())
         .then(data => {
             let s = 0
@@ -194,7 +196,7 @@ function ClassicHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"10%", fontFamily:"Trebuchet MS",letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
+                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"10%", fontFamily:"Trebuchet MS", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
                             OPTIMIZE LINEUP
                         </Button>
                         <ClassicLineupHeader
