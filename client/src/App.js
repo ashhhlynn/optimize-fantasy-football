@@ -5,6 +5,7 @@ import Head from './components/Head.js'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import ClassicHome from './components/classic/ClassicHome.js'
 import CaptainHome from './components/captain/CaptainHome.js'
+import SunCaptainHome from './components/captain/SunCaptainHome.js'
 
 function App() {
 
@@ -32,7 +33,8 @@ function App() {
         <Head thursday={thursday} sunday={sunday} current={current}/>
         <Routes>
 				  <Route exact path="/" element={<ClassicHome/> }/>
-          <Route exact path="/captain" element={<CaptainHome/> }/>
+          <Route exact path="/trcaptain" element={<CaptainHome/> }/>
+          <Route exact path="/suncaptain" element={<SunCaptainHome/> }/>
         </Routes>
         <br></br><br></br>
       </div>

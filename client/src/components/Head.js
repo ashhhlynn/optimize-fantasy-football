@@ -11,7 +11,7 @@ function Head(props) {
                 <Menu.Menu position="right"  style={{marginRight:"4%"}}>
                     <div className="schedulebuttons">
                         <Label.Group>
-                            <Label as={Link} to="/captain" basic style={{backgroundColor:"#282c34" }}circular>
+                            <Label as={Link} to="/trcaptain" basic style={{backgroundColor:"#282c34" }}circular>
                                 <h5 style={{marginTop:"27%"}}>{props.thursday}</h5>
                                 <p style={{ marginTop:"-26%", marginBottom:"20%"}}>Captain</p>
                             </Label>
@@ -19,7 +19,7 @@ function Head(props) {
                                 <h5 style={{ marginTop:"27%"}}>{props.sunday}</h5>
                                 <p style={{marginTop:"-26%", marginBottom:"20%"}}>Classic</p>
                             </Label>
-                            <Label as={Link} to="/captain" basic style={{backgroundColor:"#282c34" }}circular>
+                            <Label as={Link} to="/suncaptain" basic style={{backgroundColor:"#282c34" }}circular>
                                 <h5 style={{marginTop:"27%"}}>{props.sunday}</h5>
                                 <p style={{ marginTop:"-26%", marginBottom:"20%"}}>Captain</p>
                             </Label>
