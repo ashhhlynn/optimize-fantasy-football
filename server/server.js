@@ -362,8 +362,8 @@ function optimizeClassic(uniques, duplicates) {
     app.get("/optimizedclassic", (req, res) => {
         res.json({
             lineup: lineup, qb: QB, rb: RB, wr: WR, te: TE, dst: DST, flex: FLEX, result: results.result
-        });
-    });  
+        })
+    })
 }
 
 app.listen(8000, () => {
