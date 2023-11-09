@@ -29,7 +29,9 @@ Coming soon - <a href="https://netlify.app/">live</a> and <a href="https://vimeo
 - Data errors
 
 ## Media 
-- Coming soon
+![Screenshot (141)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/46fffab2-f512-4fe9-ad15-3d6dbdfb3d21)
+
+![Screenshot (142)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/9bc39246-3e4f-40d1-8b2f-a7dca891be79)
 
 ## Setup
 - ` git clone < this repository > `
