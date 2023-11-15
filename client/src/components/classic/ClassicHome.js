@@ -28,11 +28,11 @@ function ClassicHome() {
     const [playerCount, setPlayerCount] = useState(9)
     const [projection, setProjection] = useState(0)
 
+    const url = "https://optimize-daily.onrender.com"
+
     useEffect(() => {
         fetchPlayerQueue()
     },[])
-
-    const url = "https://optimize-daily.onrender.com"
 
     const fetchPlayerQueue = () => {
         fetch(`${url}/classicplayers`)

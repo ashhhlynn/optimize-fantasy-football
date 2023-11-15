@@ -114,7 +114,7 @@ function CaptainHome() {
                 <Grid.Row columns={2}>
                     <Grid.Column>
                     <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"10%", letterSpacing:"3px", fontWeight:"bold", fontFamily:"Trebuchet MS", backgroundColor:"#61dafb"}}>
-                            OPTIMIZE LINEUP
+                        OPTIMIZE LINEUP
                     </Button>
                     <CaptainLineupHeader
                         salary={salary}

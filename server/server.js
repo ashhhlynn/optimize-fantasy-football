@@ -146,7 +146,7 @@ async function updateCaptain(num) {
 }
 
 app.get("/suncaptainplayers", async (req, res) => { 
-    let num = 95261 
+    let num = 95299
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
@@ -157,7 +157,7 @@ app.get("/suncaptainplayers", async (req, res) => {
 })
 
 app.get("/trcaptainplayers", async (req, res) => { 
-    let num = 95260
+    let num = 95306
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
@@ -273,7 +273,7 @@ async function updateClassic(num) {
 }
 
 app.get("/classicplayers", async (req, res) => { 
-    let num = 95253
+    let num = 95299
     const uniques = await updateClassic(num)
     let q = uniques.filter(d => d.Position === "QB")
     let r = uniques.filter(d => d.Position === "RB")
