@@ -50,7 +50,7 @@ function ClassicHome() {
     }
 
     const setPlayer = (player) => {
-        if (!lineupPlayers.find(p => p === player)) { 
+        if (!lineupPlayers.find(p => p.DraftTableId === player.DraftTableId)) { 
             if (player.Position === "QB" && !qb ) {
               setLineupData(player)
               setQb(player)
@@ -139,7 +139,7 @@ function ClassicHome() {
         setSalaryPerPlayer(parseInt(s/(playerCount + 1)))
         setSalary(s)
         setPlayerCount(playerCount + 1)
-        let x = lineupPlayers.filter(f => f !== player)
+        let x = lineupPlayers.filter(f => f.DraftTableId !== player.DraftTableId)
         setLineupPlayers(x)
     }
 
