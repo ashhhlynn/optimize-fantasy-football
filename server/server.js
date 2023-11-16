@@ -30,11 +30,9 @@ function getThursday() {
 app.get("/dates", (req, res) => {   
     const tr = getThursday()
     const sun = getSunday()
-    console.log(current)
-
     res.json({
         tr: tr, sun: sun, current: current
-    });
+    })
 })
 
 async function fetchSleeperProjections() {
@@ -147,17 +145,6 @@ async function updateCaptain(num) {
     }
 }
 
-app.get("/suncaptainplayers", async (req, res) => { 
-    let num = 95299
-    const queue = await updateCaptain(num)
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
-    res.json({
-        crowns: crownsQueue, flexes: flexesQueue
-    });
-    optimizeCaptain(crownsQueue, flexesQueue)
-})
-
 app.get("/trcaptainplayers", async (req, res) => { 
     let num = 95306
     const queue = await updateCaptain(num)
@@ -209,9 +196,8 @@ function optimizeCaptain(crownsQueue, flexesQueue) {
     app.get("/optimizedcaptain", (req, res) => {
         res.json({
             crown: cp[0], fps: fps
-        });
-    }); 
-    console.log(results)
+        })
+    })
 }
 
 async function fetchClassic(num) {
@@ -328,7 +314,6 @@ function optimizeClassic(uniques, duplicates) {
         variables: obj,
     };        
     const results = solver.Solve(model);
-    console.log(results)
     let QB = []
     let RB = []
     let WR = []
