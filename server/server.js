@@ -5,12 +5,12 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
-
 const fetch = require("node-fetch")
+
 const current = Math.ceil((new Date() - new Date("2023-09-04"))/604800000)
 
 function getSunday() {
-    let sundayDate = new Date("2023-09-05")
+    let sundayDate = new Date("2023-09-04")
     sundayDate.setDate(sundayDate.getDate() + (current-1)*7 + 5)
     let sun = String(sundayDate.getFullYear()) + '-' + String(sundayDate.getMonth() + 1).padStart(2, '0') + '-' + String(sundayDate.getDate() + 1).padStart(2, '0') + 'T00:00:00'
     return (
@@ -19,7 +19,7 @@ function getSunday() {
 }
 
 function getThursday() {
-    let thursdayDate = new Date("2023-09-05")
+    let thursdayDate = new Date("2023-09-04")
     thursdayDate.setDate(thursdayDate.getDate() + (current-1)*7 + 2)
     let tr =  String(thursdayDate.getFullYear()) + '-' + String(thursdayDate.getMonth() + 1).padStart(2, '0') + '-' + String(thursdayDate.getDate() + 1).padStart(2, '0') + 'T00:00:00'
     return (
@@ -30,6 +30,8 @@ function getThursday() {
 app.get("/dates", (req, res) => {   
     const tr = getThursday()
     const sun = getSunday()
+    console.log(current)
+
     res.json({
         tr: tr, sun: sun, current: current
     });

@@ -18,7 +18,6 @@ function CaptainQueue(props) {
         props.sortFFPG()
     }
     
-    
     const sortMoney = (e) => {
         e.preventDefault()
         props.sortMoney()

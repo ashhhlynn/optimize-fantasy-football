@@ -10,7 +10,7 @@
 }
 
 .ui.table {
-  letter-spacing: .25px
+  letter-spacing: .25px;
 }
 
 .ui.label {
@@ -49,12 +49,11 @@
 }
 
 .head h1 {
-  font-family:"Trebuchet MS", sans-serif !important;
-  margin-top: 3.3% !important;
+  font-family:"Lato" !important;
+  margin-top: 3% !important;
   margin-bottom: -1.5% !important;
   margin-left: 3%;
-  font-size: 2.5em;
+  font-size: 2.6em;
   font-weight: 600;
   letter-spacing: 1.3px !important;
 }
-
