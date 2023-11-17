@@ -39,3 +39,9 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - ` npm start `
 - ` cd server `
 - ` npm run dev `
+
+## Acknowledgements
+This project was created by Ashley.
+
+## License 
+This project is MIT licensed.
