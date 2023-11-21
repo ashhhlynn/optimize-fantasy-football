@@ -58,15 +58,15 @@ function ClassicQueue(props) {
     
     return (
         <div className="dfsClassic" style={{marginLeft:"5.3%"}}>
-            <Table style={{width:"504px", marginTop:"0%"}}sortable fixed>
+            <Table style={{width:"504px", marginTop:"0%",backgroundColor:"#2a2f37", borderColor:"white", color:"white"}}sortable fixed>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell style={{ backgroundColor:"#f0f0f0", border:"none", width:"38px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#f0f0f0", border:"none", width:"134px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
-                        <Table.HeaderCell style={{backgroundColor:"#f0f0f0", border:"none", width:"44px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#f0f0f0", border:"none", width:"46px"}}onClick={(e) => sortProjection(e)}>PROJ</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#f0f0f0",  border:"none", width:"60px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#f0f0f0", border:"none", width:"42px"}}><center><Icon name="add"/></center></Table.HeaderCell>
+                        <Table.HeaderCell style={{ backgroundColor:"#333842", color:"white", border:"none", width:"38px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS</Table.HeaderCell>
+                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"134px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"44px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
+                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"46px"}}onClick={(e) => sortProjection(e)}>PROJ</Table.HeaderCell>
+                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white",  border:"none", width:"60px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
+                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"42px"}}><center><Icon name="add"/></center></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

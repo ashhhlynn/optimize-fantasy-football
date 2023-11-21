@@ -17,15 +17,15 @@ function ClassicLineup(props) {
 
     return (
         <>
-        <Table fixed style={{marginTop:"-2%", marginLeft:"13%", width:"520px"}}>           
+        <Table fixed style={{backgroundColor:"#2a2f37", borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"13%", width:"520px"}}>           
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell style={{width:"54px", backgroundColor:"#f0f0f0"}}>POS</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"180px", backgroundColor:"#f0f0f0"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px", backgroundColor:"#f0f0f0"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px", backgroundColor:"#f0f0f0"}}>PROJ</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"72px", backgroundColor:"#f0f0f0"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"35px", backgroundColor:"#f0f0f0"}}>
+                    <Table.HeaderCell style={{width:"54px", color:"white", backgroundColor:"#333842"}}>POS</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"180px", color:"white", backgroundColor:"#333842"}}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"56px", color:"white", backgroundColor:"#333842"}}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"56px", color:"white", backgroundColor:"#333842"}}>PROJ</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"72px", color:"white", backgroundColor:"#333842"}}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"35px", color:"white", backgroundColor:"#333842"}}>
                         <center><Icon name="close"/></center>
                     </Table.HeaderCell>
                 </Table.Row>
