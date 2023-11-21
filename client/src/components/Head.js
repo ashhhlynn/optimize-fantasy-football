@@ -1,13 +1,13 @@
 import React from 'react'
-import { Divider, Icon, Menu, Label } from 'semantic-ui-react'
+import { Divider, Menu, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 function Head(props) {
     
     return (
-        <div className="head">
+        <div className="head" style={{backgroundColor:"#282c34"}}>
             <Menu style={{background:"inherit", color:"#61dafb"}}>
-                <h1> Optimize Daily <Icon style={{marginTop:"-.5%"}} name="football ball"/></h1>
+                <h1> Optimize Daily</h1>
                 <Menu.Menu position="right"  style={{marginRight:"3.5%"}}>
                     <div className="schedulebuttons">
                         <Label.Group>

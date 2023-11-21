@@ -113,7 +113,7 @@ function CaptainHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                    <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"10%", letterSpacing:"3px", fontWeight:"bold", fontFamily:"Trebuchet MS", backgroundColor:"#61dafb"}}>
+                    <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"10%", letterSpacing:".5px", fontFamily:"Trebuchet MS",backgroundColor:"#61dafb"}}>
                         OPTIMIZE LINEUP
                     </Button>
                     <CaptainLineupHeader
