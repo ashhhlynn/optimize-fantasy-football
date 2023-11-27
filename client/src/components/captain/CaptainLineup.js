@@ -18,29 +18,27 @@ function CaptainLineup(props) {
 
     return (
         <>
-        <Table fixed style={{backgroundColor:"#2a2f37", borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"13%", width:"520px"}}>           
+        <Table fixed style={{backgroundColor:"#2a2f37", borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
             <Table.Header >
                 <Table.Row >
-                    <Table.HeaderCell style={{width:"54px", color:"white", backgroundColor:"#333842"}}>POS</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"180px", color:"white", backgroundColor:"#333842"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px", color:"white", backgroundColor:"#333842"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px", color:"white", backgroundColor:"#333842"}}>PROJ</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"72px", color:"white", backgroundColor:"#333842"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"35px", color:"white", backgroundColor:"#333842"}}>
-                        <center><Icon name="close"/></center>
-                    </Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"54px", color:"white", backgroundColor:"#333842"}}>POS</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"180px", color:"white", backgroundColor:"#333842"}}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"56px", color:"white", backgroundColor:"#333842"}}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"56px", color:"white", backgroundColor:"#333842"}}>PROJ</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"72px", color:"white", backgroundColor:"#333842"}}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"35px", color:"white", backgroundColor:"#333842"}}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 <Table.Row>
                     <Table.Cell>
                         <Header as='h4' image>
-                            <Header.Content><Icon size="large" style={{color:"white", marginLeft:"8%"}}name="chess queen"/></Header.Content>
+                            <Header.Content><Icon size="large" style={{marginTop:"6%", color:"white", marginLeft:"8%"}}name="chess queen"/></Header.Content>
                         </Header>
                     </Table.Cell>
                     {crown.length !== 0 ?
                         <>
-                        <Table.Cell><b>{crown.Name} {crown.Position}</b></Table.Cell>
+                        <Table.Cell><b>{crown.Name}</b> {crown.Position}</Table.Cell>
                         <Table.Cell>{crown.Team}</Table.Cell>
                         <Table.Cell>{(crown.Projection * 1.5).toFixed(2)}</Table.Cell>
                         <Table.Cell>${crown.Salary * 1.5}</Table.Cell>
@@ -59,7 +57,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 0? 
                         <>
-                        <Table.Cell><b>{flexPlayers[0].Name} {flexPlayers[0].Position}</b></Table.Cell>
+                        <Table.Cell><b>{flexPlayers[0].Name}</b> {flexPlayers[0].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[0].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[0].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[0].Salary}</Table.Cell>
@@ -78,7 +76,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 1? 
                         <>
-                        <Table.Cell><b>{flexPlayers[1].Name} {flexPlayers[1].Position}</b></Table.Cell>
+                        <Table.Cell><b>{flexPlayers[1].Name}</b> {flexPlayers[1].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[1].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[1].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[1].Salary}</Table.Cell>
@@ -97,7 +95,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 2 ? 
                         <>
-                        <Table.Cell><b>{flexPlayers[2].Name} {flexPlayers[2].Position}</b></Table.Cell>
+                        <Table.Cell><b>{flexPlayers[2].Name}</b> {flexPlayers[2].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[2].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[2].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[2].Salary}</Table.Cell>
@@ -116,11 +114,11 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 3? 
                         <>
-                        <Table.Cell><b>{flexPlayers[3].Name} {flexPlayers[3].Position}</b></Table.Cell>
+                        <Table.Cell><b>{flexPlayers[3].Name}</b> {flexPlayers[3].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[3].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[3].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[3].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close"  onClick={(event) => removeFlexPlayer(event, flexPlayers[3])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeFlexPlayer(event, flexPlayers[3])}/></center></Table.Cell>
                         </>
                     :
                         <> 
@@ -135,11 +133,11 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 4? 
                         <>
-                        <Table.Cell><b>{flexPlayers[4].Name} {flexPlayers[4].Position}</b></Table.Cell>
+                        <Table.Cell><b>{flexPlayers[4].Name}</b> {flexPlayers[4].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[4].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[4].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[4].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close"  onClick={(event) => removeFlexPlayer(event, flexPlayers[4])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeFlexPlayer(event, flexPlayers[4])}/></center></Table.Cell>
                         </>
                     :
                         <> 

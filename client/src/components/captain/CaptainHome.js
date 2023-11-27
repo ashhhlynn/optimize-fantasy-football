@@ -113,23 +113,23 @@ function CaptainHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                    <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"10%", letterSpacing:".5px", fontFamily:"Trebuchet MS",backgroundColor:"#61dafb"}}>
-                        OPTIMIZE LINEUP
-                    </Button>
-                    <CaptainLineupHeader
-                        salary={salary}
-                        salaryPerPlayer={salaryPerPlayer}
-                        projection={projection}
-                    />
-                    <CaptainLineup 
-                        flexPlayers={flexPlayers}
-                        crown={crown}
-                        removeFlexPlayer={removeFlexPlayer}
-                        removeCrownPlayer={removeCrownPlayer}
-                    />
+                        <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"6.5%", letterSpacing:".5px", fontFamily:"Trebuchet MS", backgroundColor:"#61dafb"}}>
+                            OPTIMIZE LINEUP
+                        </Button>
+                        <CaptainLineupHeader
+                            salary={salary}
+                            salaryPerPlayer={salaryPerPlayer}
+                            projection={projection}
+                        />
+                        <CaptainLineup 
+                            flexPlayers={flexPlayers}
+                            crown={crown}
+                            removeFlexPlayer={removeFlexPlayer}
+                            removeCrownPlayer={removeCrownPlayer}
+                        />
                     </Grid.Column>
                     <Grid.Column>
-                        <Label style={{backgroundColor:"#61dafb", marginLeft:"50%"}}>
+                        <Label style={{backgroundColor:"#61dafb", marginLeft:"51.5%"}}>
                             <Icon name="chess queen" color="black"/> 1.5 Points
                         </Label>
                         <CaptainQueue 

@@ -35,22 +35,14 @@ function ClassicQueue(props) {
       
     const playercells = props.players.map (player => 
         <Table.Row>
-            <Table.Cell style={{textAlign:"center"}}>{player.Position}</Table.Cell>
-            <Table.Cell>
-                <b>{player.Name}</b> {player.Team}<br></br>{player.Game}
-            </Table.Cell>
-            <Table.Cell>
-                {player.FFPG}
-            </Table.Cell>
-            <Table.Cell>
-                {player.Projection}
-            </Table.Cell>
-            <Table.Cell>
-                ${player.Salary}
-            </Table.Cell>
-            <Table.Cell>
+            <Table.Cell style={{borderBottom:".2px", borderColor:"grey",textAlign:"center"}}>{player.Position}</Table.Cell>
+            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}><b>{player.Name}</b> {player.Team}<br></br>{player.Game}</Table.Cell>
+            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>{player.FFPG}</Table.Cell>
+            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>{player.Projection}</Table.Cell>
+            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>${player.Salary}</Table.Cell>
+            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>
                 <center>
-                    <Icon onClick={(event) => setPlayer(event, player)} style={{cursor:"pointer"}}  name="add" />
+                    <Icon onClick={(event) => setPlayer(event, player)} style={{cursor:"pointer"}}  size="large" name="plus circle" />
                 </center>
             </Table.Cell>
         </Table.Row>
@@ -58,15 +50,15 @@ function ClassicQueue(props) {
     
     return (
         <div className="dfsClassic" style={{marginLeft:"5.3%"}}>
-            <Table style={{width:"504px", marginTop:"0%",backgroundColor:"#2a2f37", borderColor:"white", color:"white"}}sortable fixed>
+            <Table style={{width:"504px", marginTop:"0%", backgroundColor:"#2a2f37", borderColor:"white", color:"white"}}sortable fixed>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell style={{ backgroundColor:"#333842", color:"white", border:"none", width:"38px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"134px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
-                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"44px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"46px"}}onClick={(e) => sortProjection(e)}>PROJ</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white",  border:"none", width:"60px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
-                        <Table.HeaderCell style={{backgroundColor:"#333842", color:"white", border:"none", width:"42px"}}><center><Icon name="add"/></center></Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", border:"none", backgroundColor:"#333842", color:"white", width:"38px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", border:"none", backgroundColor:"#333842", color:"white", width:"134px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", border:"none", backgroundColor:"#333842", color:"white", width:"44px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", border:"none", backgroundColor:"#333842", color:"white", width:"46px"}}onClick={(e) => sortProjection(e)}>PROJ</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", border:"none", backgroundColor:"#333842", color:"white", width:"60px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",  border:"none", backgroundColor:"#333842", color:"white", width:"42px"}}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

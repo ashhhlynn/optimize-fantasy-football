@@ -196,7 +196,7 @@ function ClassicHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"10%", fontFamily:"Trebuchet MS", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
+                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"6.5%", fontFamily:"Trebuchet MS", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
                             OPTIMIZE LINEUP
                         </Button>
                         <ClassicLineupHeader
@@ -215,14 +215,14 @@ function ClassicHome() {
                         />
                     </Grid.Column>
                     <Grid.Column>
-                        <Label.Group style={{cursor:"pointer", marginLeft:"-14%", marginBottom:"-.5%"}}>
+                        <Label.Group style={{cursor:"pointer", marginLeft:"-14%", marginBottom:"-.9%"}}>
                             <Label onClick={setQPlayers} style={{ backgroundColor:"#61dafb"}}>QB</Label>
-                            <Label onClick={setRPlayers} style={{marginLeft:"-.5%",backgroundColor:"#61dafb"}}>RB</Label>
-                            <Label onClick={setWPlayers} style={{marginLeft:"-.5%",backgroundColor:"#61dafb"}}>WR</Label>
-                            <Label onClick={setTPlayers} style={{marginLeft:"-.5%",backgroundColor:"#61dafb"}}>TE</Label>
-                            <Label onClick={setDPlayers}  style={{marginLeft:"-.5%",backgroundColor:"#61dafb"}}>DST</Label>
-                            <Label onClick={setFPlayers} style={{marginLeft:"-.5%",backgroundColor:"#61dafb"}}>FLEX</Label>
-                            <Label onClick={setAllPlayers} style={{marginLeft:"-.5%",backgroundColor:"#61dafb"}}>ALL</Label>
+                            <Label onClick={setRPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>RB</Label>
+                            <Label onClick={setWPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>WR</Label>
+                            <Label onClick={setTPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>TE</Label>
+                            <Label onClick={setDPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>DST</Label>
+                            <Label onClick={setFPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>FLEX</Label>
+                            <Label onClick={setAllPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>ALL</Label>
                         </Label.Group>
                         <ClassicQueue 
                             sortMoney={sortMoney}

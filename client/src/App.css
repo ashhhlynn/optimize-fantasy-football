@@ -10,7 +10,7 @@
 }
 
 .ui.table {
-  letter-spacing: .25px;
+  letter-spacing: .6px;
 }
 
 .ui.label {
@@ -34,26 +34,31 @@
   scrollbar-color: rgb(221, 227, 221) !important;
 }
 
-.schedulebuttons {
-  margin-top: 12%;
+.schedule {
+  margin-top: -1%;
+  margin-bottom: -.5%;
 }
 
-.schedulebuttons p, h5 {
+.schedule p, h5 {
   color: black; 
 }
 
-.schedulebuttons .label {
+.schedule .label {
   background-color: #f0f0f0 !important;
-  width: 80px;
+  width: 84px;
   border-color: white !important;
+  margin-right: 20px !important;
+  margin-left: 20px !important;
 }
 
-.head h1 {
-  font-family:"gadugi" !important;
-  margin-top: 3% !important;
-  margin-bottom: -1.5% !important;
-  margin-left: 3%;
-  font-size: 2.6em;
-  font-weight: 600;
-  letter-spacing: 2.4px !important;
+.header h1 {
+  font-family: "gadugi" !important;
+  font-size: 27px !important;
+  letter-spacing: 1.4px !important;
+  margin-top: 1.5% !important;
+  margin-left: 2.1% !important;
+  text-align: left
 }
+
+
+
