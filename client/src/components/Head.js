@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function Head(props) {
     
     const alertMessage = () => {
-        window.alert("Coming Soon!")
+        window.alert("Note: Upcoming week unavailable until Wednesday.")
     }
 
     return (
@@ -15,19 +15,19 @@ function Head(props) {
             </Menu>
             <div className="schedule">     
                 <Label.Group>
-                    <Label as={Link} to="/trcaptain" basic size="large" style={{backgroundColor:"#282c34"}}circular>
+                    <Label as={Link} onClick={alertMessage} to="/trcaptain" basic size="large" style={{backgroundColor:"#282c34"}}circular>
                         <h5 style={{marginTop:"23.5%"}}>{props.monday}</h5>
                         <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Captain</p>
                     </Label>
-                    <Label as={Link} onClick={alertMessage}to="/trcaptain" basic size="large" style={{backgroundColor:"#282c34"}} circular>
+                    <Label as={Link} onClick={alertMessage} to="/trcaptain" basic size="large" style={{backgroundColor:"#282c34"}} circular>
                         <h5 style={{marginTop:"23.5%"}}>{props.thursday}</h5>
                         <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Captain</p>
                     </Label>
-                    <Label as={Link} to="/" basic size="large" style={{backgroundColor:"#282c34"}} circular>
+                    <Label as={Link} onClick={alertMessage} to="/" basic size="large" style={{backgroundColor:"#282c34"}} circular>
                         <h5 style={{marginTop:"23.5%"}}>{props.sunday}</h5>
                         <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Classic</p>
                     </Label>
-                    <Label as={Link} to="/" onClick={alertMessage} basic size="large" style={{backgroundColor:"#282c34"}}circular>
+                    <Label as={Link} to="/trcaptain" onClick={alertMessage} basic size="large" style={{backgroundColor:"#282c34"}}circular>
                         <h5 style={{marginTop:"23.5%"}}>{props.sunday}</h5>
                         <p style={{marginBottom:"20.5%", marginTop:"-26%"}}>Captain</p>
                     </Label>

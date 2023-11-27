@@ -10,7 +10,7 @@ const fetch = require("node-fetch")
 const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
 
 async function fetchSleeperProjections() {
-    const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
+    const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
     let responseJson = response.json()
     return responseJson
 }
