@@ -16,7 +16,7 @@ function Head(props) {
             <div className="schedule">     
                 <Label.Group>
                     <Label as={Link} to="/trcaptain" basic size="large" style={{backgroundColor:"#282c34"}}circular>
-                        <h5 style={{marginTop:"23.5%"}}>11-27</h5>
+                        <h5 style={{marginTop:"23.5%"}}>{props.monday}</h5>
                         <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Captain</p>
                     </Label>
                     <Label as={Link} onClick={alertMessage}to="/trcaptain" basic size="large" style={{backgroundColor:"#282c34"}} circular>

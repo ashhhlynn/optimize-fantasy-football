@@ -10,6 +10,7 @@ function App() {
 
   const [thursday, setThursday] = useState('')
   const [sunday, setSunday] = useState('')
+  const [monday, setMonday] = useState('')
 
   useEffect(() => {
     getDates()
@@ -25,12 +26,17 @@ function App() {
     thursdayDate.setDate(thursdayDate.getDate() + (current-1)*7 + 2)
     let tr = String(thursdayDate.getMonth() + 1).padStart(2, '0') + '-' + String(thursdayDate.getDate() + 1).padStart(2, '0')
     setThursday(tr)
+
+    let mondayDate = new Date("2023-09-05")
+    mondayDate.setDate(mondayDate.getDate() + (current-1)*7 - 1)
+    let mon = String(mondayDate.getMonth() + 1).padStart(2, '0') + '-' + String(mondayDate.getDate() + 1).padStart(2, '0')
+    setMonday(mon)
   }
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Head sunday={sunday} thursday={thursday}/>
+        <Head sunday={sunday} thursday={thursday} monday={monday}/>
         <Routes>
 				  <Route exact path="/" element={<ClassicHome/> }/>
           <Route exact path="/trcaptain" element={<CaptainHome/> }/>
