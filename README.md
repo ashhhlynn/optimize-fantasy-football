@@ -24,7 +24,7 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 
 ## To Implement
 - Queue Opponent Rank (and sorting)
-- Sunday night showdown contests
+- Monday and Sunday night showdown contests
 - Injury designations live for queue
 - Data errors
 
