@@ -120,6 +120,17 @@ async function updateCaptain(num) {
 }
 
 app.get("/trcaptainplayers", async (req, res) => { 
+    let num = 96654
+    const queue = await updateCaptain(num)
+    const crownsQueue = queue.crownsQueue
+    const flexesQueue = queue.flexesQueue
+    res.json({
+        crowns: crownsQueue, flexes: flexesQueue
+    });
+    optimizeCaptain(crownsQueue, flexesQueue)
+})
+
+app.get("/moncaptainplayers", async (req, res) => { 
     let num = 96023
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
