@@ -31,7 +31,7 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 ## Media 
 ![Screenshot (145)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/154e8d82-94ac-447d-aced-bd96bbd10cd5)
 
-![Screenshot (144)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/92b4de68-909a-4116-af5c-3b525fa69ace)
+![Screenshot (146)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/7d180b77-a9c2-45b8-8081-389b07a9f96b)
 
 ## Setup
 - ` git clone < this repository > `
