@@ -21,19 +21,19 @@ function CaptainLineup(props) {
         <Table fixed style={{backgroundColor:"#2a2f37", borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
             <Table.Header >
                 <Table.Row >
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"54px", color:"white", backgroundColor:"#333842"}}>POS</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"180px", color:"white", backgroundColor:"#333842"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"56px", color:"white", backgroundColor:"#333842"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"56px", color:"white", backgroundColor:"#333842"}}>PROJ</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"72px", color:"white", backgroundColor:"#333842"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px",width:"35px", color:"white", backgroundColor:"#333842"}}></Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"54px", color:"white", backgroundColor:"#333842"}}>POS</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"180px", color:"white", backgroundColor:"#333842"}}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#333842"}}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#333842"}}>PROJ</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"72px", color:"white", backgroundColor:"#333842"}}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"35px", color:"white", backgroundColor:"#333842"}}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 <Table.Row>
                     <Table.Cell>
                         <Header as='h4' image>
-                            <Header.Content><Icon size="large" style={{marginTop:"6%", color:"white", marginLeft:"8%"}}name="chess queen"/></Header.Content>
+                            <Header.Content><Icon size="large" style={{marginTop:"14%", color:"white", marginLeft:"8%"}}name="chess queen"/></Header.Content>
                         </Header>
                     </Table.Cell>
                     {crown.length !== 0 ?
