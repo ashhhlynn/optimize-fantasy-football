@@ -196,9 +196,6 @@ function ClassicHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"6.5%", fontFamily:"Trebuchet MS", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
-                            OPTIMIZE LINEUP
-                        </Button>
                         <ClassicLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
@@ -213,9 +210,12 @@ function ClassicHome() {
                             dst={dst}
                             removePlayer={removePlayer}
                         />
+                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"5.75%", fontFamily:"Trebuchet MS", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
+                            OPTIMIZE LINEUP
+                        </Button>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label.Group style={{cursor:"pointer", marginLeft:"-14%", marginBottom:"-.9%"}}>
+                        <Label.Group style={{height:"50px",cursor:"pointer", marginLeft:"-14%", marginBottom:"-1.4%"}}>
                             <Label onClick={setQPlayers} style={{ backgroundColor:"#61dafb"}}>QB</Label>
                             <Label onClick={setRPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>RB</Label>
                             <Label onClick={setWPlayers} style={{marginLeft:"-.5%", backgroundColor:"#61dafb"}}>WR</Label>

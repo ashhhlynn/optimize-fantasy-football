@@ -113,9 +113,6 @@ function CaptainHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"6.5%", letterSpacing:".5px", fontFamily:"Trebuchet MS", backgroundColor:"#61dafb"}}>
-                            OPTIMIZE LINEUP
-                        </Button>
                         <CaptainLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
@@ -127,10 +124,13 @@ function CaptainHome() {
                             removeFlexPlayer={removeFlexPlayer}
                             removeCrownPlayer={removeCrownPlayer}
                         />
+                        <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"4%", letterSpacing:".5px", fontFamily:"Trebuchet MS", backgroundColor:"#61dafb"}}>
+                            OPTIMIZE LINEUP
+                        </Button>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label style={{backgroundColor:"#61dafb", marginLeft:"51.5%"}}>
-                            <Icon name="chess queen" color="black"/> 1.5 Points
+                        <Label style={{height:"44px", backgroundColor:"#61dafb", marginLeft:"33.5%"}}>
+                            <p><Icon name="chess queen" color="black"/>x1.5 Fantasy Points & Salary</p>
                         </Label>
                         <CaptainQueue 
                             setCrownPlayer={setCrownPlayer}

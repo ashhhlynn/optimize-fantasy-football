@@ -5,7 +5,7 @@ function CaptainLineupHeader(props) {
 
     return (
         <>
-        <Table fixed style={{marginTop:"4%", marginLeft:"11%", width:"520px", backgroundColor:"#22262c", borderColor:"white"}}>
+        <Table fixed style={{marginTop:".5%", marginLeft:"11%", width:"520px", backgroundColor:"#22262c", borderColor:"white"}}>
             <Table.Row>
                 <Table.Cell style={{color:"white", textAlign:"left", width:"44px"}}>Rem. Salary</Table.Cell>
                 <Table.Cell style={{color:"#80E1FB", fontSize:"16px", textAlign:"left", width:"36px"}}><b>${props.salary}</b></Table.Cell>

@@ -131,7 +131,7 @@ app.get("/trcaptainplayers", async (req, res) => {
 })
 
 app.get("/moncaptainplayers", async (req, res) => { 
-    let num = 96023
+    let num = 96492
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
