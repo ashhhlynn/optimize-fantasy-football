@@ -19,7 +19,7 @@ function Head(props) {
             </Menu>
             <div className="schedule">     
                 <Label.Group>
-                    <Label as={Link} onClick={alertMessage} to="/moncaptain" basic size="large" style={{backgroundColor:"#282c34"}}circular>
+                    <Label as={Link} basic onClick={alertMessage} to="/moncaptain" size="large" style={{backgroundColor:"#282c34"}}circular>
                         <h5 style={{marginTop:"23.5%"}}>{props.monday}</h5>
                         <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Captain</p>
                     </Label>
