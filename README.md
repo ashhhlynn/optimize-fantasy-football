@@ -15,7 +15,7 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - HTML & CSS
 
 ## Features
-- Fetch from DraftKings API to access live TNF Showdown and Sunday Classic contest data
+- Fetch from DraftKings API to access live TNF/MNF Showdown and Sunday Classic contest data
 - Fetch from Sleeper API to access player projections for week (PPR scoring)
 - Sort player queue by position, name, projection, FPPG, and salary
 - Calculate optimal lineup (highest proj. value) given salary and position constraints with lp-solver.js 
@@ -24,7 +24,7 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 
 ## To Implement
 - Queue Opponent Rank (and sorting)
-- Monday and Sunday night showdown contests
+- Sunday night showdown contests
 - Injury designations live for queue
 - Data errors
 
