@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 function Head(props) {
     
     const alertMessage = () => {
-        window.alert("Note: Upcoming week unavailable until Wednesday.")
+        window.alert("Note: TNF and Sunday contests are available by Wednesday, and MNF by Friday!")
     }
 
     const soonMessage = () => {
-        window.alert("Coming soon!")
+        window.alert("Sunday Night Football coming soon!")
     }
 
     return (
