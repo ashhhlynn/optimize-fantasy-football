@@ -131,14 +131,14 @@ app.get("/trcaptainplayers", async (req, res) => {
 })
 
 app.get("/moncaptainplayers", async (req, res) => { 
-    let num = 96492
+    let num = 96023
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
     res.json({
         crowns: crownsQueue, flexes: flexesQueue
     });
-    optimizeCaptain(crownsQueue, flexesQueue)
+    optimizeCaptainMon(crownsQueue, flexesQueue)
 })
 
 function optimizeCaptain(crownsQueue, flexesQueue) {
@@ -179,6 +179,50 @@ function optimizeCaptain(crownsQueue, flexesQueue) {
         }
     }
     app.get("/optimizedcaptain", (req, res) => {
+        res.json({
+            crown: cp[0], fps: fps
+        })
+    })
+}
+
+function optimizeCaptainMon(crownsQueue, flexesQueue) {
+    let all = [...crownsQueue, ...flexesQueue]
+    let objS = Object.assign({}, all)
+    let myObjS = {}
+    let myObjSTwo = {}
+    for (let i = 0; i < all.length; i++) {
+        myObjS[i] = 1      
+    }
+    myObjS['FLEX'] = 1
+    myObjS['CROWN'] = 1
+    for (let i = 0; i < flexesQueue.length; i++) {
+        myObjSTwo[i] = {'max': 1}
+    }
+    myObjSTwo['Salary'] = {'max': 50000}
+    myObjSTwo['CROWN'] = { 'min': 1, 'max': 1 }
+    myObjSTwo['FLEX'] = { 'min': 5, 'max': 5 }
+    const modelS = {
+        optimize: "Projection",
+        opType: "max",
+        ints: myObjS,
+        constraints: myObjSTwo,
+        variables: objS,
+    };
+    const results = solver.Solve(modelS);
+    let cp = []
+    let fps = []
+    for (const [key, value] of Object.entries(results)) {
+        if (value === 1) {
+            if (all[key].CROWN === 1) {
+                let c = flexesQueue.find(p => p.Name === all[key].Name)
+                cp.push(c)
+            }
+            else {
+                fps.push(all[key])
+            }
+        }
+    }
+    app.get("/optimizedcaptainmon", (req, res) => {
         res.json({
             crown: cp[0], fps: fps
         })
