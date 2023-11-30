@@ -29,7 +29,7 @@ function MondayCaptainHome() {
     }
 
     const fetchOptimized = () => {
-        fetch(`${url}/optimizedcaptain`)
+        fetch(`${url}/optimizedcaptainmon`)
         .then((res) => res.json())
         .then((data) => { 
             let ssum = data.crown.Salary * 1.5
