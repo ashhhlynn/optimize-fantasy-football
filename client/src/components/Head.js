@@ -19,10 +19,6 @@ function Head(props) {
             </Menu>
             <div className="schedule">     
                 <Label.Group>
-                    <Label as={Link} basic onClick={alertMessage} to="/moncaptain" size="large" style={{backgroundColor:"#282c34"}}circular>
-                        <h5 style={{marginTop:"23.5%"}}>{props.monday}</h5>
-                        <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Captain</p>
-                    </Label>
                     <Label as={Link} onClick={alertMessage} to="/trcaptain" basic size="large" style={{backgroundColor:"#282c34"}} circular>
                         <h5 style={{marginTop:"23.5%"}}>{props.thursday}</h5>
                         <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Captain</p>
@@ -34,6 +30,10 @@ function Head(props) {
                     <Label as={Link} to="/" onClick={soonMessage} basic size="large" style={{backgroundColor:"#282c34"}}circular>
                         <h5 style={{marginTop:"23.5%"}}>{props.sunday}</h5>
                         <p style={{marginBottom:"20.5%", marginTop:"-26%"}}>Captain</p>
+                    </Label>
+                    <Label as={Link} basic onClick={alertMessage} to="/moncaptain" size="large" style={{backgroundColor:"#282c34"}}circular>
+                        <h5 style={{marginTop:"23.5%"}}>{props.monday}</h5>
+                        <p style={{marginTop:"-26%", marginBottom:"20.5%"}}>Captain</p>
                     </Label>
                 </Label.Group>
             </div>

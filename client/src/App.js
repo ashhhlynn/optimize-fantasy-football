@@ -28,7 +28,7 @@ function App() {
     let tr = String(thursdayDate.getMonth() + 1).padStart(2, '0') + '-' + String(thursdayDate.getDate() + 1).padStart(2, '0')
     setThursday(tr)
     let mondayDate = new Date("2023-09-05")
-    mondayDate.setDate(mondayDate.getDate() + (current-1)*7 - 1)
+    mondayDate.setDate(mondayDate.getDate() + (current-1)*7 + 6)
     let mon = String(mondayDate.getMonth() + 1).padStart(2, '0') + '-' + String(mondayDate.getDate() + 1).padStart(2, '0')
     setMonday(mon)
   }
