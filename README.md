@@ -1,7 +1,7 @@
 # Optimize Daily
 > Fantasy Football lineup builder application created with Node.js and React.js, featuring live DraftKings contest data and projections from Sleeper API. Manually build lineup from player queue or use linear programming optimizer to generate highest projected lineup given salary and position constraints. Front end deployed to Netlify and back end deployed to Render. 
 
-Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/889645641">video</a> demos.
+Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/890967949">video</a> demos.
 
 ## Technologies Used
 - JavaScript
