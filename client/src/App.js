@@ -18,7 +18,7 @@ function App() {
   }, )
 
   const getDates = () => {
-    const current = Math.ceil((new Date() - new Date("2023-09-04"))/604800000)
+    const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
     let sundayDate = new Date("2023-09-05")
     sundayDate.setDate(sundayDate.getDate() + (current-1)*7 + 5)
     let sun = String(sundayDate.getMonth() + 1).padStart(2, '0') + '-' + String(sundayDate.getDate() + 1).padStart(2, '0')

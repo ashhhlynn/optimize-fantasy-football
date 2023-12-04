@@ -100,11 +100,16 @@ function ClassicHome() {
         })
     }
 
-    const setLineupData = (player) => {
+    const setLineupData = (player) => {     
         setProjection(projection + player.Projection)
         setLineupPlayers(lineupPlayers => [...lineupPlayers, player])
         let s = salary - player.Salary
-        setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
+        if (playerCount === 1) {
+            setSalaryPerPlayer(0)
+        }
+        else {
+            setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
+        }
         setSalary(s)
         setPlayerCount(playerCount - 1)
     }

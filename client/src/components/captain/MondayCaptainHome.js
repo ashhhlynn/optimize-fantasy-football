@@ -70,7 +70,12 @@ function MondayCaptainHome() {
     const setCrownPlayer = (player) => {
         if (crown.length === 0 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId)) {
             let s = salary - player.Salary * 1.5
-            setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
+            if (playerCount === 1) {
+                setSalaryPerPlayer(0)
+            }
+            else {
+                setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
+            }
             setSalary(s)
             setPlayerCount(playerCount - 1)
             setProjection(projection + player.Projection * 1.5)
@@ -81,7 +86,12 @@ function MondayCaptainHome() {
     const setFlexPlayer = (player) => {
         if (flexPlayers.length < 5 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId) && crown.DraftTableId !== player.DraftTableId) {
             let s = salary - player.Salary
-            setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
+            if (playerCount === 1) {
+                setSalaryPerPlayer(0)
+            }
+            else {
+                setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
+            }
             setSalary(s)
             setPlayerCount(playerCount - 1)
             setProjection(projection + player.Projection)
