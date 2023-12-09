@@ -5,7 +5,7 @@ function ClassicLineupHeader(props) {
 
     return (
         <>
-        <Table fixed style={{marginTop:"0%", marginLeft:"11%", width:"520px", backgroundColor:"#22262c", borderColor:"white"}}>
+        <Table fixed style={{marginTop:"0%", marginLeft:"11%", width:"520px", backgroundColor:"#181a1f", borderColor:"white"}}>
             <Table.Row>
                 <Table.Cell style={{color:"white", textAlign:"left", width:"44px"}}>Rem. Salary</Table.Cell>
                 <Table.Cell style={{color:"#61dafb", fontSize:"16px", textAlign:"left", width:"36px"}}><b>${props.salary}</b></Table.Cell>

@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300&display=swap');
+
+
 .App {
+  background-color: #181a1f;
   text-align: center;
-  background-color: #282c34;
   font-family:"Poppins", Helvetica, Arial, sans-serif !important;
 }
 
@@ -11,13 +14,14 @@
 
 .ui.table {
   letter-spacing: .6px;
+  background-color: #1D2026 !important;
 }
 
 .ui.label {
   letter-spacing: 1px !important;
   font-weight: normal !important;
   padding: 14px 20px !important;
-  color: black !important;
+  color: black;
 }
 
 .dfs {
@@ -40,22 +44,26 @@
 }
 
 .schedule p, h5 {
-  color: black; 
+  color:  #f0f0f0  !important;
 }
 
 .schedule .label {
-  background-color: #f0f0f0 !important;
+  background-color: inherit !important;
   width: 84px;
-  border-color: white !important;
   margin-right: 20px !important;
   margin-left: 20px !important;
+  border-color: #a0e8fc  !important;
 }
 
 .header h1 {
-  font-family: "gadugi" !important;
+	font: 'raleway' !important;
   font-size: 27px !important;
-  letter-spacing: 1.4px !important;
+  letter-spacing: 1.6px !important;
   margin-top: 1.5% !important;
   margin-left: 2.1% !important;
-  text-align: left
+  text-align: left;
+  font-weight:bold !important;
 }
+
+
+

@@ -134,7 +134,7 @@ function MondayCaptainHome() {
                             removeFlexPlayer={removeFlexPlayer}
                             removeCrownPlayer={removeCrownPlayer}
                         />
-                        <Button onClick={fetchOptimized} size="big" style={{padding:"14px 22px", marginLeft:"4%", letterSpacing:".5px", fontFamily:"Trebuchet MS", backgroundColor:"#61dafb"}}>
+                        <Button onClick={fetchOptimized} size="big" style={{fontFamily:"Calibri", letterSpacing:"2.8px", fontWeight: "bold", marginLeft:"5%", backgroundColor:"#61dafb"}}>
                             OPTIMIZE LINEUP
                         </Button>
                     </Grid.Column>

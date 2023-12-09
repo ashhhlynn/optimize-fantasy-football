@@ -215,7 +215,7 @@ function ClassicHome() {
                             dst={dst}
                             removePlayer={removePlayer}
                         />
-                        <Button onClick={optimizeLineup} size="big" style={{padding:"14px 22px", marginLeft:"5.75%", fontFamily:"Trebuchet MS", letterSpacing:"3px", fontWeight:"bold", backgroundColor:"#61dafb"}}>
+                        <Button onClick={optimizeLineup} size="big" style={{fontFamily:"Calibri", letterSpacing:"2.8px", fontWeight: "bold", marginLeft:"5%", backgroundColor:"#61dafb"}}>
                             OPTIMIZE LINEUP
                         </Button>
                     </Grid.Column>

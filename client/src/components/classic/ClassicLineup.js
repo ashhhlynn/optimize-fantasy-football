@@ -17,15 +17,15 @@ function ClassicLineup(props) {
 
     return (
         <>
-        <Table fixed style={{backgroundColor:"#2a2f37", borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
+        <Table fixed style={{borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"54px", color:"white", backgroundColor:"#333842"}}>POS</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"180px", color:"white", backgroundColor:"#333842"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#333842"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#333842"}}>PROJ</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"72px", color:"white", backgroundColor:"#333842"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"35px", color:"white", backgroundColor:"#333842"}}></Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"54px", color:"white", backgroundColor:"#2e333c"}}>POS</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"180px", color:"white", backgroundColor:"#2e333c"}}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white",backgroundColor:"#2e333c"}}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>PROJ</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"72px", color:"white",backgroundColor:"#2e333c"}}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"35px", color:"white", backgroundColor:"#2e333c"}}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>           
