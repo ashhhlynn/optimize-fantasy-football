@@ -35,9 +35,8 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - Data errors
 
 ## Media 
-![Screenshot (148)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/b382a398-bc6a-40a3-85f0-523dec4d31cd)
-![Screenshot (149)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/cb70b0ba-a46f-4117-aed8-0785583f32cd)
-
+![Screenshot (170)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/64f861fe-d3d1-4f7b-af65-4d75614ca3b9)
+![Screenshot (169)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/dc3ebef8-0167-4dd8-b619-ed918a3f334e)
 
 ## Setup
 - ` git clone < this repository > `
