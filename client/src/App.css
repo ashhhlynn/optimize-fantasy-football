@@ -15,7 +15,7 @@
 	background-color: #181a1f;
 }
 
- ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
 	background-color: #2e333c;
 	background-clip: content-box;
 	border-radius: 20px;
@@ -72,7 +72,7 @@
 .header h1 {
 	font: 'raleway' !important;
   font-size: 27px !important;
-  letter-spacing: 1.6px !important;
+  letter-spacing: 1px !important;
   margin-top: 1.5% !important;
   margin-left: 2.1% !important;
   text-align: left;
