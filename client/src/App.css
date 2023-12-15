@@ -6,6 +6,21 @@
   font-family:"Poppins", Helvetica, Arial, sans-serif !important;
 }
 
+::-webkit-scrollbar {
+	width: 16px;
+	box-shadow: 0;
+}
+
+::-webkit-scrollbar-track {
+	background-color: #181a1f;
+}
+
+ ::-webkit-scrollbar-thumb {
+	background-color: #2e333c;
+	background-clip: content-box;
+	border-radius: 20px;
+}
+
 .ui.button{
   letter-spacing: 1px !important;
   color: #282c34 !important;
