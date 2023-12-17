@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function Head(props) {
     
     const alertMessage = () => {
-        window.alert("Note: Contests are updated Thursday mornings.")
+        window.alert("Contests are updated Thursday mornings.")
     }
 
     const soonMessage = () => {

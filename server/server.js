@@ -120,7 +120,7 @@ async function updateCaptain(num) {
 }
 
 app.get("/trcaptainplayers", async (req, res) => { 
-    let num = 97368
+    let num = 97390
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
@@ -131,7 +131,7 @@ app.get("/trcaptainplayers", async (req, res) => {
 })
 
 app.get("/moncaptainplayers", async (req, res) => { 
-    let num = 96908
+    let num = 97391
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
