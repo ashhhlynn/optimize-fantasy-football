@@ -139,8 +139,8 @@ function MondayCaptainHome() {
                         </Button>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label style={{height:"44px", backgroundColor:"#61dafb", marginLeft:"33.5%"}}>
-                            <p><Icon name="chess queen" color="black"/>x1.5 Fantasy Points & Salary</p>
+                        <Label style={{height:"38px", fontSize:"12px", marginBottom:".5%", backgroundColor:"#61dafb", marginLeft:"39%"}}>
+                            <Icon name="chess queen" color="black"/>x1.5 Fantasy Points & Salary
                         </Label>
                         <CaptainQueue 
                             setCrownPlayer={setCrownPlayer}

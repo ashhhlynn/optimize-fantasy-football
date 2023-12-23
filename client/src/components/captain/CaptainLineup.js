@@ -21,12 +21,12 @@ function CaptainLineup(props) {
         <Table fixed style={{borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
             <Table.Header >
                 <Table.Row >
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"54px", color:"white", backgroundColor:"#2e333c"}}>POS</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"180px", color:"white", backgroundColor:"#2e333c"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>PROJ</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"72px", color:"white", backgroundColor:"#2e333c"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"35px", color:"white", backgroundColor:"#2e333c"}}></Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"54px", color:"white",  backgroundColor:"#2e323c"}}>POS</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"180px", color:"white", backgroundColor:"#2e333c"}}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>PROJ</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"72px", color:"white", backgroundColor:"#2e333c"}}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"35px", color:"white", backgroundColor:"#2e333c"}}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -38,7 +38,7 @@ function CaptainLineup(props) {
                     </Table.Cell>
                     {crown.length !== 0 ?
                         <>
-                        <Table.Cell><b>{crown.Name}</b> {crown.Position}</Table.Cell>
+                        <Table.Cell>{crown.Name} {crown.Position}</Table.Cell>
                         <Table.Cell>{crown.Team}</Table.Cell>
                         <Table.Cell>{(crown.Projection * 1.5).toFixed(2)}</Table.Cell>
                         <Table.Cell>${crown.Salary * 1.5}</Table.Cell>
@@ -57,7 +57,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 0? 
                         <>
-                        <Table.Cell><b>{flexPlayers[0].Name}</b> {flexPlayers[0].Position}</Table.Cell>
+                        <Table.Cell>{flexPlayers[0].Name} {flexPlayers[0].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[0].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[0].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[0].Salary}</Table.Cell>
@@ -76,7 +76,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 1? 
                         <>
-                        <Table.Cell><b>{flexPlayers[1].Name}</b> {flexPlayers[1].Position}</Table.Cell>
+                        <Table.Cell>{flexPlayers[1].Name} {flexPlayers[1].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[1].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[1].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[1].Salary}</Table.Cell>
@@ -95,7 +95,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 2 ? 
                         <>
-                        <Table.Cell><b>{flexPlayers[2].Name}</b> {flexPlayers[2].Position}</Table.Cell>
+                        <Table.Cell>{flexPlayers[2].Name} {flexPlayers[2].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[2].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[2].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[2].Salary}</Table.Cell>
@@ -114,7 +114,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 3? 
                         <>
-                        <Table.Cell><b>{flexPlayers[3].Name}</b> {flexPlayers[3].Position}</Table.Cell>
+                        <Table.Cell>{flexPlayers[3].Name} {flexPlayers[3].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[3].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[3].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[3].Salary}</Table.Cell>
@@ -133,7 +133,7 @@ function CaptainLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flexPlayers.length > 4? 
                         <>
-                        <Table.Cell><b>{flexPlayers[4].Name}</b> {flexPlayers[4].Position}</Table.Cell>
+                        <Table.Cell>{flexPlayers[4].Name} {flexPlayers[4].Position}</Table.Cell>
                         <Table.Cell>{flexPlayers[4].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[4].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[4].Salary}</Table.Cell>

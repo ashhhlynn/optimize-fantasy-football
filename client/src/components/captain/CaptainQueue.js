@@ -40,12 +40,12 @@ function CaptainQueue(props) {
       
     const playercells = props.players.map(player => 
         <Table.Row >
-            <Table.Cell style={{borderBottom:".2px", borderColor:"grey", textAlign:"center"}}>{player.Position}</Table.Cell>
-            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}><b>{player.Name}</b> {player.Team}<br></br>{player.Game}</Table.Cell>         
-            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>{player.FFPG}</Table.Cell>
-            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>{player.Projection}</Table.Cell>
-            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>${player.Salary}</Table.Cell>
-            <Table.Cell style={{borderBottom:".2px", borderColor:"grey"}}>
+            <Table.Cell style={{textAlign:"center", borderBottom:".05px",borderColor:"#fafafa"}}>{player.Position}</Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} <br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Team}</span></Table.Cell>         
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.FFPG}</Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Projection}</Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>${player.Salary}</Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>
                 <center>
                     <Icon onClick={(event) => setFlexPlayer(event, player)} style={{cursor:"pointer"}} name="plus circle"/>
                     <Icon onClick={(event) => setCrownPlayer(event, player)} style={{cursor:"pointer"}} name="chess queen"/>
@@ -56,15 +56,15 @@ function CaptainQueue(props) {
     
     return (
         <div className="dfs" style={{marginLeft:"4.7%"}}>
-            <Table style={{width:"504px", marginTop:"0%", borderColor:"white", color:"white",}}sortable fixed>
+            <Table striped style={{width:"510px", marginTop:"0%", color:"#fafafa"}}sortable fixed>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell style={{border:"none",fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", color:"white", backgroundColor:"#2e333c",  width:"40px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS</Table.HeaderCell>
-                        <Table.HeaderCell style={{border:"none", fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", color:"white", backgroundColor:"#2e333c", width:"126px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", color:"white", backgroundColor:"#2e333c",  border:"none", width:"46px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", color:"white", backgroundColor:"#2e333c",  border:"none", width:"48px"}}onClick={(e) => sortProjection(e)}>PROJ</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", color:"white", backgroundColor:"#2e333c",  border:"none", width:"62px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", color:"white", backgroundColor:"#2e333c",  border:"none", width:"60px"}}></Table.HeaderCell>
+                        <Table.HeaderCell style={{fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", border:"none",fontWeight:"normal", width:"40px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS</Table.HeaderCell>
+                        <Table.HeaderCell style={{border:"none", fontWeight:"normal",  fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", width:"130px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", border:"none", width:"46px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",  border:"none", width:"48px"}}onClick={(e) => sortProjection(e)}>PROJ</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",border:"none", width:"62px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",  border:"none", width:"60px"}}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

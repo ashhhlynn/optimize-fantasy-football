@@ -18,14 +18,14 @@ function ClassicLineup(props) {
     return (
         <>
         <Table fixed style={{borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
-            <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"54px", color:"white", backgroundColor:"#2e333c"}}>POS</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"180px", color:"white", backgroundColor:"#2e333c"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white",backgroundColor:"#2e333c"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>PROJ</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"72px", color:"white",backgroundColor:"#2e333c"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: "1px", width:"35px", color:"white", backgroundColor:"#2e333c"}}></Table.HeaderCell>
+            <Table.Header >
+                <Table.Row >
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"54px", color:"white",  backgroundColor:"#2e323c"}}>POS</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal",  fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"160px", color:"white",  backgroundColor:"#2e323c"}}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal",  fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"56px", color:"white", backgroundColor:"#2e323c"}}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal",  fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"56px", color:"white",  backgroundColor:"#2e323c"}}>PROJ</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"72px", color:"white", backgroundColor:"#2e323c"}}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal",  fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"35px", color:"white", backgroundColor:"#2e323c"}}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>           
@@ -33,7 +33,7 @@ function ClassicLineup(props) {
                     <Table.Cell>QB</Table.Cell>
                     {qb ? 
                         <>
-                        <Table.Cell><b>{qb.Name}</b></Table.Cell>
+                        <Table.Cell>{qb.Name}</Table.Cell>
                         <Table.Cell>{qb.Team}</Table.Cell>
                         <Table.Cell>{qb.Projection}</Table.Cell>
                         <Table.Cell>${qb.Salary}</Table.Cell>
@@ -52,7 +52,7 @@ function ClassicLineup(props) {
                     <Table.Cell>RB</Table.Cell>
                     {rbs.length > 0? 
                         <>
-                        <Table.Cell><b>{rbs[0].Name}</b></Table.Cell>
+                        <Table.Cell>{rbs[0].Name}</Table.Cell>
                         <Table.Cell>{rbs[0].Team}</Table.Cell>
                         <Table.Cell>{rbs[0].Projection}</Table.Cell>
                         <Table.Cell>${rbs[0].Salary}</Table.Cell>
@@ -71,7 +71,7 @@ function ClassicLineup(props) {
                     <Table.Cell>RB</Table.Cell>
                     {rbs.length > 1 ? 
                         <>
-                        <Table.Cell><b>{rbs[1].Name}</b></Table.Cell>
+                        <Table.Cell>{rbs[1].Name}</Table.Cell>
                         <Table.Cell>{rbs[1].Team}</Table.Cell>
                         <Table.Cell>{rbs[1].Projection}</Table.Cell>
                         <Table.Cell>${rbs[1].Salary}</Table.Cell>
@@ -90,7 +90,7 @@ function ClassicLineup(props) {
                     <Table.Cell>WR</Table.Cell>
                     {wrs.length > 0 ? 
                         <>
-                        <Table.Cell><b>{wrs[0].Name}</b></Table.Cell>
+                        <Table.Cell>{wrs[0].Name}</Table.Cell>
                         <Table.Cell>{wrs[0].Team}
                         </Table.Cell>
                         <Table.Cell>{wrs[0].Projection}</Table.Cell>
@@ -110,7 +110,7 @@ function ClassicLineup(props) {
                     <Table.Cell>WR</Table.Cell>
                     {wrs.length > 1? 
                         <>
-                        <Table.Cell><b>{wrs[1].Name}</b></Table.Cell>
+                        <Table.Cell>{wrs[1].Name}</Table.Cell>
                         <Table.Cell>{wrs[1].Team}</Table.Cell>
                         <Table.Cell>{wrs[1].Projection}</Table.Cell>
                         <Table.Cell>${wrs[1].Salary}</Table.Cell>
@@ -129,7 +129,7 @@ function ClassicLineup(props) {
                     <Table.Cell>WR</Table.Cell>
                     {wrs.length > 2? 
                         <>
-                        <Table.Cell><b>{wrs[2].Name}</b></Table.Cell>
+                        <Table.Cell>{wrs[2].Name}</Table.Cell>
                         <Table.Cell>{wrs[2].Team}</Table.Cell>
                         <Table.Cell>{wrs[2].Projection}</Table.Cell>
                         <Table.Cell>${wrs[2].Salary}</Table.Cell>
@@ -148,7 +148,7 @@ function ClassicLineup(props) {
                     <Table.Cell>TE</Table.Cell>
                     {te ? 
                         <>
-                        <Table.Cell><b>{te.Name}</b></Table.Cell>
+                        <Table.Cell>{te.Name}</Table.Cell>
                         <Table.Cell>{te.Team}</Table.Cell>
                         <Table.Cell>{te.Projection}</Table.Cell>
                         <Table.Cell>${te.Salary}</Table.Cell>
@@ -167,7 +167,7 @@ function ClassicLineup(props) {
                     <Table.Cell>FLEX</Table.Cell>
                     {flex ? 
                         <>
-                        <Table.Cell><b>{flex.Name}</b></Table.Cell>
+                        <Table.Cell>{flex.Name}</Table.Cell>
                         <Table.Cell>{flex.Team}</Table.Cell>
                         <Table.Cell>{flex.Projection}</Table.Cell>
                         <Table.Cell>${flex.Salary}</Table.Cell>
@@ -186,7 +186,7 @@ function ClassicLineup(props) {
                     <Table.Cell>DST</Table.Cell>
                     {dst ? 
                         <>
-                        <Table.Cell><b>{dst.Name}</b></Table.Cell>
+                        <Table.Cell>{dst.Name}</Table.Cell>
                         <Table.Cell>{dst.Team}</Table.Cell>
                         <Table.Cell>{dst.Projection}</Table.Cell>
                         <Table.Cell>${dst.Salary}</Table.Cell>

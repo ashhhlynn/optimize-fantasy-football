@@ -3,7 +3,6 @@
 .App {
   background-color: #181a1f;
   text-align: center;
-  font-family:"Poppins", Helvetica, Arial, sans-serif !important;
 }
 
 ::-webkit-scrollbar {
@@ -16,40 +15,53 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #2e333c;
+	background-color: #2e323c;
 	background-clip: content-box;
 	border-radius: 20px;
 }
 
-.ui.button{
-  letter-spacing: 1px !important;
-  color: #282c34 !important;
+.ui.button {
+  letter-spacing: 0.2px !important;
+  color: #181a1f !important;
+  font-family: Helvetica, Arial, sans-serif !important;
+  font-size: 15px  !important;
+  padding: 12px 40px !important;
+}
+
+.ui.tablessss {
+  background-color: #181a1f !important;
+  font-family:"Poppins", Helvetica, Arial, sans-serif !important;
+
 }
 
 .ui.table {
-  letter-spacing: .6px;
-  background-color: #1D2026 !important;
+  background-color: #21232a !important;
+  font-family: Helvetica !important;
+  letter-spacing: .35px !important;
+  color: #fafafa;
+
 }
 
 .ui.label {
-  letter-spacing: 1px !important;
-  font-weight: normal !important;
-  padding: 14px 20px !important;
-  color: black;
+  padding: 11px 12px !important;
+  color: #181a1f !important;
+  letter-spacing: .3px;
+  font-family: 'Helvetica' !important;
 }
+
 
 .dfs {
   height: 460px !important;
   overflow-y: scroll !important; /* or auto */
-  width:516px  !important;
-  scrollbar-color: rgb(221, 227, 221) !important;
+  width:520px  !important;
+  scrollbar-color: #2e323c !important;
 }
 
 .dfsClassic {
-  height: 510px !important;
+  height: 540px !important;
   overflow-y: scroll !important; /* or auto */
-  width:516px  !important;
-  scrollbar-color: rgb(221, 227, 221) !important;
+  width:538px  !important;
+  scrollbar-color: #2e323c !important;
 }
 
 .schedule {
@@ -58,26 +70,50 @@
 }
 
 .schedule p, h5 {
-  color:  #f0f0f0  !important;
+  color:  #fafafa !important;
 }
 
 .schedule .label {
-  background-color: inherit !important;
-  width: 84px;
+  width: 88.5px;
+
   margin-right: 20px !important;
   margin-left: 20px !important;
+  border: 2 !important;
   border-color: #a0e8fc  !important;
+  font-family:"Poppins", Helvetica, Arial, sans-serif !important;
+  padding: 32% !important;
 }
 
-.header h1 {
-	font: 'raleway' !important;
-  font-size: 27px !important;
-  letter-spacing: 1px !important;
+
+
+
+
+.schedule .label h5 {
+  font-size: 16px;
+  font-family: 'Segoe UI';
+}
+
+.schedule .label p {
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-family: 'Segoe UI';
+  font-weight:normal
+}
+
+.header h2 {
+	font-family: 'raleway' !important;
+  font-size: 23px !important;
+  letter-spacing: 1.65px !important;
   margin-top: 1.5% !important;
   margin-left: 2.1% !important;
   text-align: left;
-  font-weight:bold !important;
+  font-weight: 800 !important;
+  color:#a0e8fc 
 }
 
 
-
+html {
+	font-size: 62.5%;
+	-webkit-font-smoothing: antialiased;
+	color:white;
+}

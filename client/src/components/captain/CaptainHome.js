@@ -134,13 +134,13 @@ function CaptainHome() {
                             removeFlexPlayer={removeFlexPlayer}
                             removeCrownPlayer={removeCrownPlayer}
                         />
-                        <Button onClick={fetchOptimized} size="big"  style={{fontFamily:"Calibri", letterSpacing:"2.8px", fontWeight: "bold", marginLeft:"5%", backgroundColor:"#61dafb"}}>
+                        <Button onClick={fetchOptimized} size="big" style={{fontFamily:"Calibri", letterSpacing:"2.8px", fontWeight: "bold", marginLeft:"5%", backgroundColor:"#61dafb"}}>
                             OPTIMIZE LINEUP
                         </Button>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label style={{height:"44px", backgroundColor:"#61dafb", marginLeft:"33.5%"}}>
-                            <p><Icon name="chess queen" color="black"/>x1.5 Fantasy Points & Salary</p>
+                        <Label style={{height:"38px", fontSize:"12px", marginBottom:".5%", backgroundColor:"#61dafb", marginLeft:"39%"}}>
+                            <Icon name="chess queen" color="black"/>x1.5 Fantasy Points & Salary
                         </Label>
                         <CaptainQueue 
                             setCrownPlayer={setCrownPlayer}
