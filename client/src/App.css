@@ -21,17 +21,11 @@
 }
 
 .ui.button {
-  letter-spacing: 0.2px !important;
+  letter-spacing: .25px !important;
   color: #181a1f !important;
   font-family: Helvetica, Arial, sans-serif !important;
-  font-size: 15px  !important;
+  font-size: 16px  !important;
   padding: 12px 40px !important;
-}
-
-.ui.tablessss {
-  background-color: #181a1f !important;
-  font-family:"Poppins", Helvetica, Arial, sans-serif !important;
-
 }
 
 .ui.table {
@@ -39,7 +33,6 @@
   font-family: Helvetica !important;
   letter-spacing: .35px !important;
   color: #fafafa;
-
 }
 
 .ui.label {
@@ -48,7 +41,6 @@
   letter-spacing: .3px;
   font-family: 'Helvetica' !important;
 }
-
 
 .dfs {
   height: 460px !important;
@@ -70,33 +62,27 @@
 }
 
 .schedule p, h5 {
-  color:  #fafafa !important;
+  color:  #181a1f !important;
 }
 
 .schedule .label {
   width: 88.5px;
-
   margin-right: 20px !important;
   margin-left: 20px !important;
   border: 2 !important;
   border-color: #a0e8fc  !important;
-  font-family:"Poppins", Helvetica, Arial, sans-serif !important;
-  padding: 32% !important;
+  padding: 33% !important;
 }
-
-
-
-
 
 .schedule .label h5 {
   font-size: 16px;
-  font-family: 'Segoe UI';
+  font-family: 'Helvetica';
 }
 
 .schedule .label p {
   font-size: 14px;
-  letter-spacing: 1px;
-  font-family: 'Segoe UI';
+  letter-spacing: .5px;
+  font-family: 'Helvetica';
   font-weight:normal
 }
 
@@ -110,7 +96,6 @@
   font-weight: 800 !important;
   color:#a0e8fc 
 }
-
 
 html {
 	font-size: 62.5%;

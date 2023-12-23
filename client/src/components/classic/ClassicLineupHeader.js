@@ -8,10 +8,9 @@ function ClassicLineupHeader(props) {
         <Table fixed style={{marginTop:"0%", marginLeft:"11%", width:"520px", backgroundColor:"#181a1f", borderColor:"white"}}>
             <Table.Row>
                 <Table.Cell style={{color:"#61dafb", fontSize:"16px", textAlign:"left", width:"74px"}}> <b>PROJ. {props.projection.toFixed(2)}</b></Table.Cell>
-                <Table.Cell style={{color:"white", textAlign:"right", width:"58px"}}>Rem. Salary</Table.Cell>
-                <Table.Cell style={{color:"#61dafb", fontSize:"16px", textAlign:"right", width:"52px"}}>${props.salary}</Table.Cell>
-                <Table.Cell style={{color:"white", textAlign:"right", width:"58px"}}>Rem./Player</Table.Cell>
-                <Table.Cell style={{color:"#61dafb", fontSize:"16px", textAlign:"right", width:"50px"}}>${props.salaryPerPlayer}</Table.Cell>
+                <Table.Cell style={{color:"white", textAlign:"right", width:"80px"}}>Rem. Salary: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${props.salary}</span></Table.Cell>
+                <Table.Cell style={{color:"white", textAlign:"right", width:"80px"}}>Rem./Player: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${props.salaryPerPlayer}</span></Table.Cell>
+
             </Table.Row>
         </Table>
         </>

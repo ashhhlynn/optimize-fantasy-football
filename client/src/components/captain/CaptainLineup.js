@@ -21,10 +21,10 @@ function CaptainLineup(props) {
         <Table fixed style={{borderColor:"white", color:"white", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
             <Table.Header >
                 <Table.Row >
-                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"54px", color:"white",  backgroundColor:"#2e323c"}}>POS</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"54px", color:"white",  backgroundColor:"#2e323c"}}>POS.</Table.HeaderCell>
                     <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"180px", color:"white", backgroundColor:"#2e333c"}}>PLAYER</Table.HeaderCell>
                     <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>PROJ</Table.HeaderCell>
+                    <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px", width:"56px", color:"white", backgroundColor:"#2e333c"}}>PROJ.</Table.HeaderCell>
                     <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"72px", color:"white", backgroundColor:"#2e333c"}}>SALARY</Table.HeaderCell>
                     <Table.HeaderCell style={{fontWeight:"normal", fontFamily: "Helvetica", fontSize:"12px", letterSpacing: ".5px",  width:"35px", color:"white", backgroundColor:"#2e333c"}}></Table.HeaderCell>
                 </Table.Row>
