@@ -51,16 +51,16 @@ function ClassicQueue(props) {
     
     return (
         <div className="dfsClassic" style={{marginLeft:"3%"}}>
-            <Table style={{width:"528px", marginTop:"0%",  color:"#fafafa"}} sortable fixed>
+            <Table style={{width:"528px", color:"#fafafa"}} sortable fixed>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell style={{fontSize:"12px", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", width:"36px", textAlign:"center", fontWeight:"normal",fontFamily:'Helvetica'}}onClick={(e) => sortPos(e)}>POS.</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontSize:"12px", letterSpacing: ".5px", border:"none", backgroundColor:"#2e323c", color:"white", width:"100px",  fontFamily:'Helvetica', fontWeight:"normal"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
-                        <Table.HeaderCell style={{fontSize:"12px", letterSpacing: ".5px", border:"none", backgroundColor:"#2e323c", color:"white", width:"40px", fontFamily:'Helvetica', fontWeight:"normal"}}onClick={(e) => sortName(e)}>TEAM</Table.HeaderCell>                    
-                        <Table.HeaderCell style={{fontSize:"12px", letterSpacing: ".5px", border:"none", backgroundColor:"#2e323c", color:"white", width:"42px",  fontFamily:'Helvetica',fontWeight:"normal"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontSize:"12px", letterSpacing: ".5px", border:"none", backgroundColor:"#2e323c", color:"white", width:"44px",fontFamily:'Helvetica', fontWeight:"normal"}}onClick={(e) => sortProjection(e)}>PROJ.</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontSize:"12px", letterSpacing: ".5px", border:"none", backgroundColor:"#2e323c", color:"white", width:"50px", fontFamily:'Helvetica', fontWeight:"normal"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px",   border:"none", backgroundColor:"#2e323c", color:"white", width:"36px"}}></Table.HeaderCell>
+                        <Table.HeaderCell style={{border:"none", fontSize:"12px", letterSpacing: ".5px", backgroundColor:"#2e323c", color:"white", width:"36px", textAlign:"center", fontWeight:"normal"}}onClick={(e) => sortPos(e)}>POS.</Table.HeaderCell>
+                        <Table.HeaderCell style={{border:"none", fontSize:"12px", letterSpacing: ".5px", backgroundColor:"#2e323c", color:"white", width:"100px", fontWeight:"normal"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{border:"none", fontSize:"12px", letterSpacing: ".5px", backgroundColor:"#2e323c", color:"white", width:"40px", fontWeight:"normal"}}onClick={(e) => sortName(e)}>TEAM</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{border:"none", fontSize:"12px", letterSpacing: ".5px", backgroundColor:"#2e323c", color:"white", width:"42px", fontWeight:"normal"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
+                        <Table.HeaderCell style={{border:"none", fontSize:"12px", letterSpacing: ".5px", backgroundColor:"#2e323c", color:"white", width:"44px", fontWeight:"normal"}}onClick={(e) => sortProjection(e)}>PROJ.</Table.HeaderCell>
+                        <Table.HeaderCell style={{border:"none", fontSize:"12px", letterSpacing: ".5px", backgroundColor:"#2e323c", color:"white", width:"50px",  fontWeight:"normal"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
+                        <Table.HeaderCell style={{border:"none", fontWeight:"normal", fontSize:"12px",   backgroundColor:"#2e323c", color:"white", width:"36px"}}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

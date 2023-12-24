@@ -21,25 +21,33 @@
 }
 
 .ui.button {
-  letter-spacing: .25px !important;
   color: #181a1f !important;
-  font-family: Helvetica, Arial, sans-serif !important;
+  font-family: Helvetica !important;
+  padding: 0 52px !important;
   font-size: 16px  !important;
-  padding: 12px 40px !important;
+  font-weight: bold !important;
+  line-height: 43px !important;
+  height: 43px !important;
+  display: inline-block;
+  outline: 0;
+  border: none;
+  letter-spacing: -.2px !important;
+  border-radius: 4px !important;
 }
 
 .ui.table {
   background-color: #21232a !important;
   font-family: Helvetica !important;
-  letter-spacing: .35px !important;
   color: #fafafa;
+  letter-spacing: .35px !important;
 }
 
 .ui.label {
-  padding: 11px 12px !important;
+  padding: 9.5px 12px !important;
   color: #181a1f !important;
-  letter-spacing: .3px;
+  letter-spacing: 0px;
   font-family: 'Helvetica' !important;
+  font-weight: bold !important;
 }
 
 .dfs {
@@ -71,18 +79,19 @@
   margin-left: 20px !important;
   border: 2 !important;
   border-color: #a0e8fc  !important;
-  padding: 33% !important;
+  padding: 20% !important;
+  background-color: #d1d4db !important;
 }
 
 .schedule .label h5 {
   font-size: 16px;
-  font-family: 'Helvetica';
+  font-family: 'Helvetica' !important;
 }
 
 .schedule .label p {
   font-size: 14px;
-  letter-spacing: .5px;
-  font-family: 'Helvetica';
+  letter-spacing: .2px;
+  font-family: 'Helvetica' !important;
   font-weight:normal
 }
 

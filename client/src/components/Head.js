@@ -20,21 +20,21 @@ function Head(props) {
             <div className="schedule"> 
             <br></br>    
                 <Label.Group>
-                    <Label as={Link} onClick={alertMessage} to="/trcaptain"  basic size="large" style={{backgroundColor:"#dcdee4"}} circular>
-                        <h5 style={{marginTop:"22%"}}>{props.thursday}</h5>
-                        <p style={{marginTop:"-22%", marginBottom:"20.5%"}}>Captain</p>
+                    <Label as={Link} onClick={alertMessage} to="/trcaptain" basic size="large" circular>
+                        <h5 style={{marginTop:"22.5%"}}>{props.thursday}</h5>
+                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Captain</p>
                     </Label>
-                    <Label as={Link} onClick={alertMessage} to="/" basic size="large" style={{backgroundColor:"#dcdee4"}} circular>
-                        <h5 style={{marginTop:"23.5%"}}>{props.sunday}</h5>
-                        <p style={{marginTop:"-22%", marginBottom:"21.5%"}}>Classic</p>
-                    </Label>
-                    <Label as={Link} to="/" onClick={soonMessage} basic size="large" style={{backgroundColor:"#dcdee4"}} circular>
+                    <Label as={Link} onClick={alertMessage} to="/" basic size="large" circular>
                         <h5 style={{marginTop:"22.5%"}}>{props.sunday}</h5>
-                        <p style={{marginTop:"-22%", marginBottom:"20.5%"}}>Captain</p>
+                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Classic</p>
                     </Label>
-                    <Label as={Link} basic onClick={alertMessage}  to="/moncaptain" size="large" style={{backgroundColor:"#dcdee4"}}circular>
+                    <Label as={Link} to="/" onClick={soonMessage} basic size="large" circular>
+                        <h5 style={{marginTop:"22.5%"}}>{props.sunday}</h5>
+                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Captain</p>
+                    </Label>
+                    <Label as={Link} basic onClick={alertMessage} to="/moncaptain" size="large" circular>
                         <h5 style={{marginTop:"22.5%"}}>{props.monday}</h5>
-                        <p style={{marginTop:"-22%", marginBottom:"20.5%"}}>Captain</p>
+                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Captain</p>
                     </Label>
                 </Label.Group>
                 <br></br>

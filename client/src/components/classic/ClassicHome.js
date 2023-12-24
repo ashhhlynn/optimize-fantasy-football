@@ -216,18 +216,18 @@ function ClassicHome() {
                             removePlayer={removePlayer}
                         />
                         <Button onClick={optimizeLineup} style={{marginLeft:"5%", backgroundColor:"#61dafb"}}>
-                         OPTIMIZE LINEUP
+                            Optimize
                         </Button>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label.Group style={{height:"50px",cursor:"pointer", marginLeft:"22%", marginBottom:"-2.1%"}}>
-                            <Label onClick={setQPlayers} style={{fontSize:"12px", backgroundColor:"#61dafb"}}>QB</Label>
-                            <Label onClick={setRPlayers} style={{fontSize:"12px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>RB</Label>
-                            <Label onClick={setWPlayers} style={{fontSize:"12px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>WR</Label>
-                            <Label onClick={setTPlayers} style={{fontSize:"12px",marginLeft:"-.5%", backgroundColor:"#61dafb"}}>TE</Label>
-                            <Label onClick={setDPlayers} style={{fontSize:"12px",marginLeft:"-.5%", backgroundColor:"#61dafb"}}>DST</Label>
-                            <Label onClick={setFPlayers} style={{fontSize:"12px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>FLEX</Label>
-                            <Label onClick={setAllPlayers} style={{fontSize:"12px",marginLeft:"-.5%", backgroundColor:"#61dafb"}}>ALL</Label>
+                        <Label.Group style={{height:"46px",cursor:"pointer", marginLeft:"24%", marginBottom:"-2.3%"}}>
+                            <Label onClick={setQPlayers} style={{fontSize:"11.5px", backgroundColor:"#61dafb"}}>QB</Label>
+                            <Label onClick={setRPlayers} style={{fontSize:"11.5px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>RB</Label>
+                            <Label onClick={setWPlayers} style={{fontSize:"11.5px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>WR</Label>
+                            <Label onClick={setTPlayers} style={{fontSize:"11.5px",marginLeft:"-.5%", backgroundColor:"#61dafb"}}>TE</Label>
+                            <Label onClick={setDPlayers} style={{fontSize:"11.5px",marginLeft:"-.5%", backgroundColor:"#61dafb"}}>DST</Label>
+                            <Label onClick={setFPlayers} style={{fontSize:"11.5px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>FLEX</Label>
+                            <Label onClick={setAllPlayers} style={{fontSize:"11.5px",marginLeft:"-.5%", backgroundColor:"#61dafb"}}>ALL</Label>
                         </Label.Group>
                         <ClassicQueue 
                             sortMoney={sortMoney}

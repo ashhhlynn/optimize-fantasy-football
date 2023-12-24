@@ -59,12 +59,12 @@ function CaptainQueue(props) {
             <Table striped style={{width:"510px", marginTop:"0%", color:"#fafafa"}}sortable fixed>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell style={{fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", border:"none",fontWeight:"normal", width:"40px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS.</Table.HeaderCell>
-                        <Table.HeaderCell style={{border:"none", fontWeight:"normal",  fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", width:"130px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", border:"none", width:"46px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",  border:"none", width:"48px"}}onClick={(e) => sortProjection(e)}>PROJ.</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",border:"none", width:"62px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
-                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", fontFamily: "Helvetica", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",  border:"none", width:"60px"}}></Table.HeaderCell>
+                        <Table.HeaderCell style={{fontSize:"12px", letterSpacing: ".5px", backgroundColor:"#2e323c", color:"white", border:"none",fontWeight:"normal", width:"40px", textAlign:"center"}}onClick={(e) => sortPos(e)}>POS.</Table.HeaderCell>
+                        <Table.HeaderCell style={{border:"none", fontWeight:"normal",  fontSize:"12px", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", width:"130px"}}onClick={(e) => sortName(e)}>PLAYER</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white", border:"none", width:"46px"}}onClick={(e) => sortFFPG(e)}>FFPG</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",  border:"none", width:"48px"}}onClick={(e) => sortProjection(e)}>PROJ.</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",border:"none", width:"62px"}}onClick={(e) => sortMoney(e)}>SALARY</Table.HeaderCell>
+                        <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px",  backgroundColor:"#2e323c", color:"white",  border:"none", width:"60px"}}></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
