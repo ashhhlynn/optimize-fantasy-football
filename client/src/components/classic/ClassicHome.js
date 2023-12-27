@@ -201,6 +201,9 @@ function ClassicHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
+                        <Button onClick={optimizeLineup} style={{marginRight:"57%", backgroundColor:"#61dafb"}}>
+                            OPTIMIZE 
+                        </Button>
                         <ClassicLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
@@ -215,9 +218,6 @@ function ClassicHome() {
                             dst={dst}
                             removePlayer={removePlayer}
                         />
-                        <Button onClick={optimizeLineup} style={{marginLeft:"5%", backgroundColor:"#61dafb"}}>
-                            Optimize
-                        </Button>
                     </Grid.Column>
                     <Grid.Column>
                         <Label.Group style={{height:"46px",cursor:"pointer", marginLeft:"24%", marginBottom:"-2.3%"}}>

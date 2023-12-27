@@ -123,6 +123,9 @@ function MondayCaptainHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
+                        <Button onClick={fetchOptimized} style={{marginRight:"57%", marginBottom:"1.75%",backgroundColor:"#61dafb"}}>
+                            OPTIMIZE 
+                        </Button>
                         <CaptainLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
@@ -134,9 +137,6 @@ function MondayCaptainHome() {
                             removeFlexPlayer={removeFlexPlayer}
                             removeCrownPlayer={removeCrownPlayer}
                         />
-                        <Button circular onClick={fetchOptimized} size="big" style={{marginLeft:"5%", backgroundColor:"#61dafb"}}>
-                            Optimize
-                        </Button>
                     </Grid.Column>
                     <Grid.Column>
                         <Label style={{fontSize:"11.5px", marginBottom:".2%",backgroundColor:"#61dafb", marginLeft:"46%"}}>
