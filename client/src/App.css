@@ -20,13 +20,19 @@
 	border-radius: 20px;
 }
 
+.contestButtons .ui.button {
+  height:55px;
+  width: 180px !important;
+  padding-top: 12px
+}
+
 .ui.button {
   color: #181a1f !important;
   font-family: Helvetica !important;
   font-size: 15.5px  !important;
   font-weight: bold !important;
   padding: 0 50;
-  letter-spacing: 1px !important;
+  letter-spacing: .95px !important;
   height:38px;
 }
 

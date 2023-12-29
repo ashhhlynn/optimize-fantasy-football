@@ -1,44 +1,41 @@
 import React from 'react'
-import { Menu, Label } from 'semantic-ui-react'
+import { Menu, Icon, Button, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 function Head(props) {
-    
-    const alertMessage = () => {
-        window.alert("Contests are updated Thursday mornings.")
-    }
-
-    const soonMessage = () => {
-        window.alert("Sunday Night contests coming soon.")
-    }
 
     return (
         <div className="header">
             <Menu style={{background:"inherit", borderBottom:"0", boxShadow:"none", color:"#dcf4fb"}}>
                 <h2>Optimize Daily</h2>
+                <Menu.Menu position="right">
+                    <Menu.Item style={{marginLeft:"0%"}}> 
+                        <Popup
+                            content={`Sun ${props.sunday} (updated Thursday)`}
+                            key={1}
+                            header={"Classic Contest"}
+                            trigger={
+                            <Button as={Link} to="/" style={{width: "40px",background:"inherit"}}>
+                                <Icon name="football ball" size="big" style={{cursor:"pointer", fontSize:"170%",color:"#61dafb"}}/>
+                            </Button>
+                            }
+                        />
+                    </Menu.Item>
+                    <Menu.Item style={{marginLeft:"-14%"}}>
+                        <Popup
+                            content={`Thurs ${props.thursday} and Mon 01-01 (updated Thursdays)`}
+                            key={1}
+                            header={"Showdown Contest"}
+                            trigger={
+                            <Button style={{width: "40px",background:"inherit"}} as={Link} to="/trcaptain">
+                                <Icon name="chess queen" size="big" style={{cursor:"pointer", fontSize:"180%",color:"#61dafb"}}/>
+                            </Button>
+                            }
+                        />
+                    </Menu.Item>
+                </Menu.Menu>
             </Menu>
-            <div className="schedule"> 
-            <br></br>    
-                <Label.Group>
-                    <Label as={Link} onClick={alertMessage} to="/trcaptain" basic size="large" circular>
-                        <h5 style={{marginTop:"22.5%"}}>{props.thursday}</h5>
-                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Captain</p>
-                    </Label>
-                    <Label as={Link} onClick={alertMessage} to="/" basic size="large" circular>
-                        <h5 style={{marginTop:"22.5%"}}>{props.sunday}</h5>
-                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Classic</p>
-                    </Label>
-                    <Label as={Link} to="/" onClick={soonMessage} basic size="large" circular>
-                        <h5 style={{marginTop:"22.5%"}}>{props.sunday}</h5>
-                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Captain</p>
-                    </Label>
-                    <Label as={Link} basic onClick={alertMessage} to="/moncaptain" size="large" circular>
-                        <h5 style={{marginTop:"22.5%"}}>{props.monday}</h5>
-                        <p style={{marginTop:"-24%", marginBottom:"20.5%"}}>Captain</p>
-                    </Label>
-                </Label.Group>
-                <br></br>
-            </div>
+            <br></br>
         </div>
     )
 }

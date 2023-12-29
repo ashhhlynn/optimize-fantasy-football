@@ -38,9 +38,9 @@ function App() {
       <div className="App">
         <Head sunday={sunday} thursday={thursday} monday={monday} />
         <Routes>
-				  <Route exact path="/" element={<ClassicHome/>}/>
-          <Route exact path="/trcaptain" element={<CaptainHome/>}/>
-          <Route exact path="/moncaptain" element={<MondayCaptainHome/>}/>
+				  <Route exact path="/" element={<ClassicHome />}/>
+          <Route exact path="/trcaptain" element={<CaptainHome thursday={thursday} monday={monday}/>}/>
+          <Route exact path="/moncaptain" element={<MondayCaptainHome thursday={thursday} monday={monday}/>}/>
         </Routes>
         <br></br><br></br>
       </div>

@@ -3,8 +3,9 @@ import { Button, Grid, Label, Icon } from 'semantic-ui-react'
 import CaptainLineupHeader from './CaptainLineupHeader.js'
 import CaptainLineup from './CaptainLineup.js'
 import CaptainQueue from './CaptainQueue.js'
+import { Link } from 'react-router-dom'
 
-function CaptainHome() {
+function CaptainHome(props) {
 
     const [players, setPlayers] = useState([])
     const [salary, setSalary] = useState(50000)
@@ -120,6 +121,14 @@ function CaptainHome() {
 
     return (
         <div>
+            <div class="contestButtons">
+                <Button color="white" circular basic as={Link} to="/trcaptain" inverted style={{marginRight:"5%", backgroundColor:"inherit"}}>
+                <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>Thursday {props.thursday} Showdown</span>
+                </Button>
+                <Button circular color="white" as={Link} basic to="/moncaptain" inverted style={{marginRight:"3%", backgroundColor:"inherit"}}>
+                    <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>Monday 01-01 Showdown</span>
+                </Button>
+            </div>
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
