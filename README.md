@@ -30,13 +30,11 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 
 ## To Implement
 - Queue Opponent Rank (and sorting)
-- Sunday night showdown contests
 - Injury designations live for queue
-- Data errors
 
 ## Media 
-![Screenshot (172)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/b892c9d2-fd56-4a02-95ff-e513d550c061)
-![Screenshot (171)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/47e16135-eb44-41fa-b4ea-807702fc555e)
+![Screenshot (174)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/2755d16d-f177-42ba-85fc-de752f5782ba)
+![Screenshot (173)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/d170dce2-076f-4f5f-a37d-8b3dfbd3e0ee)
 
 ## Setup
 - ` git clone < this repository > `
