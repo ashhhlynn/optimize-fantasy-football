@@ -290,7 +290,7 @@ async function updateClassic(num) {
 }
 
 app.get("/classicplayers", async (req, res) => { 
-    let num = 97764
+    let num = 98246
     const uniques = await updateClassic(num)
     let q = uniques.filter(d => d.Position === "QB")
     let r = uniques.filter(d => d.Position === "RB")

@@ -23,7 +23,8 @@
 .contestButtons .ui.button {
   height:55px;
   width: 180px !important;
-  padding-top: 12px
+  padding-top: 12px;
+  font-weight: normal !important;
 }
 
 .ui.button {
@@ -63,37 +64,6 @@
   overflow-y: scroll !important; /* or auto */
   width:538px  !important;
   scrollbar-color: #2e323c !important;
-}
-
-.schedule {
-  margin-top: -.2%;
-  margin-bottom: -.5%;
-}
-
-.schedule p, h5 {
-  color:  #181a1f !important;
-}
-
-.schedule .label {
-  width: 88.5px;
-  margin-right: 20px !important;
-  margin-left: 20px !important;
-  border: 2 !important;
-  border-color: #a0e8fc  !important;
-  padding: 20% !important;
-  background-color: #dcdfe4 !important;
-}
-
-.schedule .label h5 {
-  font-size: 16px;
-  font-family: 'Helvetica' !important;
-}
-
-.schedule .label p {
-  font-size: 14px;
-  letter-spacing: .2px;
-  font-family: 'Helvetica' !important;
-  font-weight:normal
 }
 
 .header h2 {
