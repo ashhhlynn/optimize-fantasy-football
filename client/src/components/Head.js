@@ -11,7 +11,7 @@ function Head(props) {
                 <Menu.Menu position="right">
                     <Menu.Item style={{marginLeft:"0%"}}> 
                         <Popup
-                            content={`Sun ${props.sunday} (updated Thursday)`}
+                            content={`Sun ${props.sunday} (updated Thursdays)`}
                             key={1}
                             header={"Classic Contest"}
                             trigger={
@@ -27,7 +27,7 @@ function Head(props) {
                             key={1}
                             header={"Showdown Contest"}
                             trigger={
-                            <Button style={{width: "40px",background:"inherit"}} as={Link} to="/trcaptain">
+                            <Button style={{width: "40px",background:"inherit"}} as={Link} to="/moncaptain">
                                 <Icon name="chess queen" size="big" style={{cursor:"pointer", fontSize:"180%",color:"#61dafb"}}/>
                             </Button>
                             }
