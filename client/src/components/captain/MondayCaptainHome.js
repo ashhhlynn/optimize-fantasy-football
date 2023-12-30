@@ -126,7 +126,7 @@ function MondayCaptainHome(props) {
                     <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>Thursday {props.thursday} Showdown</span>
                 </Button>
                 <Button circular color="white" as={Link} basic to="/moncaptain" inverted style={{marginRight:"3%", backgroundColor:"inherit"}}>
-                    <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>Monday 01-01 Showdown</span>
+                    <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>Saturday 12-30 Showdown</span>
                 </Button>
             </div>
             <Grid divider vert style={{marginTop:"2%"}}>
