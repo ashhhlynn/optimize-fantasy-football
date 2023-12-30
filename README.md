@@ -7,7 +7,7 @@ Fantasy Football lineup builder application created with Node.js and React.js, f
   </tr>
 </table> 
 
-Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/891037624">video</a> demos.
+Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/898677863">video</a> demos.
 
 ## Technologies Used
 - JavaScript
