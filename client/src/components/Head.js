@@ -23,11 +23,11 @@ function Head(props) {
                     </Menu.Item>
                     <Menu.Item style={{marginLeft:"-14%"}}>
                         <Popup
-                            content={`Thurs ${props.thursday} and Sat 12-30 (updated Thursdays)`}
+                            content={`Thurs ${props.thursday} and ${props.sdDow2} ${props.sdDate2} (updated Thursdays)`}
                             key={1}
                             header={"Showdown Contest"}
                             trigger={
-                            <Button style={{width: "40px",background:"inherit"}} as={Link} to="/moncaptain">
+                            <Button style={{width: "40px",background:"inherit"}} as={Link} to="/showdown2">
                                 <Icon name="chess queen" size="big" style={{cursor:"pointer", fontSize:"180%",color:"#61dafb"}}/>
                             </Button>
                             }

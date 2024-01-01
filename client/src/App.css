@@ -56,14 +56,14 @@
   height: 460px !important;
   overflow-y: scroll !important; /* or auto */
   width:520px  !important;
-  scrollbar-color: #2e323c !important;
+  scrollbar-color: #15151b !important;
 }
 
 .dfsClassic {
   height: 540px !important;
   overflow-y: scroll !important; /* or auto */
   width:538px  !important;
-  scrollbar-color: #2e323c !important;
+  scrollbar-color: #15151b!important;
 }
 
 .header h2 {

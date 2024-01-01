@@ -9,6 +9,26 @@ const fetch = require("node-fetch")
 
 const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
 
+app.get("/gameschedule", (req, res) => { 
+    fetch('https://www.draftkings.com/lobby/getcontests?sport=NFL')
+    .then(response => response.json())
+    .then(data => {
+        let contests = data.Contests
+        let contest = contests.find(c => c.sdstring === "Sun 1:00PM")
+        let sdcontests = contests.filter(c => c.gameType === "Madden Showdown Captain Mode")
+
+
+        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98255/draftables')
+        .then(response => response.json())
+        .then(datas => {
+            let sd2 = datas.draftables[0].competition
+            res.json({
+                classicDG: contest.dg, sdcontests: sdcontests, sd2: sd2
+            });
+        })
+    })
+})
+
 async function fetchSleeperProjections() {
     const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
     let responseJson = response.json()

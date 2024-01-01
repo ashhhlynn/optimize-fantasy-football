@@ -122,11 +122,11 @@ function CaptainHome(props) {
     return (
         <div>
             <div class="contestButtons">
-                <Button color="white" circular basic as={Link} to="/trcaptain" inverted style={{marginRight:"5%", backgroundColor:"inherit"}}>
-                <span style={{fontSize:"12.5px",color:"white"}}>Thursday {props.thursday} Showdown</span>
+                <Button color="white" circular basic as={Link} to="/showdown1" inverted style={{marginRight:"5%", backgroundColor:"inherit"}}>
+                    <span style={{fontSize:"12.5px",color:"white"}}>Thurs {props.thursday}<br></br>BUF @ LAC</span>
                 </Button>
-                <Button circular color="white" as={Link} basic to="/moncaptain" inverted style={{marginRight:"3%", backgroundColor:"inherit"}}>
-                    <span style={{fontSize:"12.5px",color:"white"}}>Saturday 12-30 Showdown</span>
+                <Button circular color="white" as={Link} basic to="/showdown2" inverted style={{marginRight:"3%", backgroundColor:"inherit"}}>
+                    <span style={{fontSize:"12.5px",color:"white"}}>{props.sdDow2} {props.sdDate2}<br></br>{props.sdTeams2}</span>
                 </Button>
             </div>
             <Grid divider vert style={{marginTop:"2%"}}>
