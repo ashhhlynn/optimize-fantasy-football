@@ -125,7 +125,7 @@ async function updateCaptain(num) {
                 CROWN: 1,
                 Projection: 0,
 
-                Injury: injury
+                Injury: null
 
             }
         }
@@ -142,6 +142,7 @@ async function updateCaptain(num) {
                 [flexes.indexOf(element)]: 1,
                 FLEX: 1,
                 Projection: pro,
+
                 Injury: injury
 
             }
@@ -153,7 +154,7 @@ async function updateCaptain(num) {
                 FLEX: 1,
                 Projection: 0,
 
-                Injury: injury
+                Injury: null
             }
         }
     })  
