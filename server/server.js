@@ -16,9 +16,7 @@ app.get("/gameschedule", (req, res) => {
         let contests = data.Contests
         let contest = contests.find(c => c.sdstring === "Sun 1:00PM")
         let sdcontests = contests.filter(c => c.gameType === "Madden Showdown Captain Mode")
-
-
-        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98255/draftables')
+        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
         .then(response => response.json())
         .then(datas => {
             let sd2 = datas.draftables[0].competition
@@ -140,7 +138,7 @@ async function updateCaptain(num) {
 }
 
 app.get("/trcaptainplayers", async (req, res) => { 
-    let num = 97779
+    let num = 98585
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
@@ -151,7 +149,7 @@ app.get("/trcaptainplayers", async (req, res) => {
 })
 
 app.get("/moncaptainplayers", async (req, res) => { 
-    let num = 98255
+    let num = 98584
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
@@ -310,7 +308,7 @@ async function updateClassic(num) {
 }
 
 app.get("/classicplayers", async (req, res) => { 
-    let num = 98246
+    let num = 98582
     const uniques = await updateClassic(num)
     let q = uniques.filter(d => d.Position === "QB")
     let r = uniques.filter(d => d.Position === "RB")
