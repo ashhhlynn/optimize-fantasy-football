@@ -29,8 +29,8 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - View lineup total projection and remaining salary data
 
 ## To Implement
-- Queue Opponent Rank (and sorting)
-- Injury designations live for queue
+- Queue opponent rank (and sorting)
+- Queue injury status
 
 ## Media 
 ![Screenshot (174)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/2755d16d-f177-42ba-85fc-de752f5782ba)
