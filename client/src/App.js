@@ -9,8 +9,7 @@ import MondayCaptainHome from './components/captain/MondayCaptainHome.js'
 
 function App() {
 
-  const [sunday, setSunday] = useState('')
-
+  const [clDate, setClDate] = useState('')
   const [sdTeams1, setSdTeams1] = useState('')
   const [sdDate1, setSdDate1] = useState('')
   const [sdDow1, setSdDow1] = useState('')
@@ -23,12 +22,6 @@ function App() {
   }, )
 
   const getDates = () => {
-    const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
-    let sundayDate = new Date("2023-09-05")
-    sundayDate.setDate(sundayDate.getDate() + (current-1)*7 + 5)
-    let sun = String(sundayDate.getMonth() + 1).padStart(2, '0') + '-' + String(sundayDate.getDate() + 1).padStart(2, '0')
-    setSunday(sun)
-
     fetch("https://optimize-daily.onrender.com/gameschedule")
     .then((res)=> res.json())
     .then(data => {
@@ -47,13 +40,15 @@ function App() {
       const dayNames = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
       setSdDow1(dayNames[dow1])
       setSdDow2(dayNames[dow2])
+      let cldate = data.cl.startTime.substr(5,5)
+      setClDate(cldate)
     })
   }
 
   return (
     <BrowserRouter>
       <div className="App">
-        <Head sdDate2={sdDate2} sdDow2={sdDow2} sdDate1={sdDate1} sdDow1={sdDow1} sunday={sunday} />
+        <Head sdDate2={sdDate2} sdDow2={sdDow2} sdDate1={sdDate1} sdDow1={sdDow1} clDate={clDate} />
         <Routes>
 				  <Route exact path="/" element={<ClassicHome />}/>
           <Route exact path="/showdown1" element={<CaptainHome sdTeams1={sdTeams1} sdDate1={sdDate1} sdDow1={sdDow1} sdDate2={sdDate2} sdDow2={sdDow2} sdTeams2={sdTeams2} />}/>

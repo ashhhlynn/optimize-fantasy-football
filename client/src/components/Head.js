@@ -11,7 +11,7 @@ function Head(props) {
                 <Menu.Menu position="right">
                     <Menu.Item style={{marginLeft:"0%"}}> 
                         <Popup
-                            content={`Sun ${props.sunday} (updated Thursdays)`}
+                            content={`Sun ${props.clDate} (updated Thursdays)`}
                             key={1}
                             header={"Classic Contest"}
                             trigger={
