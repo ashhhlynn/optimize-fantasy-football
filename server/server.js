@@ -10,26 +10,17 @@ const fetch = require("node-fetch")
 const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
 
 app.get("/gameschedule", (req, res) => { 
-    fetch('https://www.draftkings.com/lobby/getcontests?sport=NFL')
+    fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
     .then(response => response.json())
-    .then(data => {
-        let contests = data.Contests
-        let contest = contests.find(c => c.sdstring === "Sun 1:00PM")
-        let sdcontests = contests.filter(c => c.gameType === "Showdown Captain Mode")
-
-
-        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
+    .then(data2 => {
+        let sd2 = data2.draftables[0].competition
+        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
         .then(response => response.json())
-        .then(data2 => {
-            let sd2 = data2.draftables[0].competition
-            fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
-            .then(response => response.json())
-            .then(data1 => {
-                let sd1 = data1.draftables[0].competition
-                res.json({
-                    classicDG: contest.dg, sdcontests: sdcontests, sd2: sd2, sd1: sd1
-                });
-            })
+        .then(data1 => {
+            let sd1 = data1.draftables[0].competition
+            res.json({
+                sd2: sd2, sd1: sd1
+            });
         })
     })
 })
