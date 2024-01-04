@@ -30,7 +30,6 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 
 ## To Implement
 - Queue opponent rank (and sorting)
-- Queue injury status
 
 ## Media 
 ![Screenshot (174)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/2755d16d-f177-42ba-85fc-de752f5782ba)
