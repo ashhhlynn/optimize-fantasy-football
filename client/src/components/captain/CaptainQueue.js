@@ -41,7 +41,13 @@ function CaptainQueue(props) {
     const playercells = props.players.map(player => 
         <Table.Row >
             <Table.Cell style={{textAlign:"center", borderBottom:".05px",borderColor:"#fafafa"}}>{player.Position}</Table.Cell>
-            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} <br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Team}</span></Table.Cell>         
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} 
+            {player.Injury !== null ?
+                <> <span style={{color:"#61dafb", fontWeight:"700"}}>{player.Injury.substr(0,1)}</span></> 
+            : 
+                <></>
+            }
+            <br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Team}</span></Table.Cell>         
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.FFPG}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Projection}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>${player.Salary}</Table.Cell>
