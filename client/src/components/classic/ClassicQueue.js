@@ -36,7 +36,7 @@ function ClassicQueue(props) {
     const playercells = props.players.map (player => 
         <Table.Row>
             <Table.Cell style={{textAlign:"center",borderBottom:".05px", borderColor:"#fafafa"}}>{player.Position}</Table.Cell>
-            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} <br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Game}</span></Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} {player.Injury}<br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Game}</span></Table.Cell>
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Team}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.FFPG}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",  borderColor:"#fafafa"}}>{player.Projection}</Table.Cell>
