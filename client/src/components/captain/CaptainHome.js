@@ -123,7 +123,7 @@ function CaptainHome(props) {
         <div>
             <div class="contestButtons">
                 <Button color="white" circular basic as={Link} to="/showdown1" inverted style={{marginRight:"5%", backgroundColor:"inherit"}}>
-                    <span style={{fontSize:"12.5px",color:"white"}}>Thurs {props.thursday}<br></br>BUF @ LAC</span>
+                    <span style={{fontSize:"12.5px",color:"white"}}>{props.sdDow1} {props.sdDate1}<br></br>{props.sdTeams1}</span>
                 </Button>
                 <Button circular color="white" as={Link} basic to="/showdown2" inverted style={{marginRight:"3%", backgroundColor:"inherit"}}>
                     <span style={{fontSize:"12.5px",color:"white"}}>{props.sdDow2} {props.sdDate2}<br></br>{props.sdTeams2}</span>

@@ -17,12 +17,12 @@ app.get("/gameschedule", (req, res) => {
         let contest = contests.find(c => c.sdstring === "Sun 1:00PM")
         let sdcontests = contests.filter(c => c.gameType === "Showdown Captain Mode")
 
-        
-        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
+
+        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
         .then(response => response.json())
         .then(data2 => {
             let sd2 = data2.draftables[0].competition
-            fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
+            fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
             .then(response => response.json())
             .then(data1 => {
                 let sd1 = data1.draftables[0].competition
@@ -145,7 +145,7 @@ async function updateCaptain(num) {
 }
 
 app.get("/trcaptainplayers", async (req, res) => { 
-    let num = 98585
+    let num = 98584
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
@@ -156,7 +156,7 @@ app.get("/trcaptainplayers", async (req, res) => {
 })
 
 app.get("/moncaptainplayers", async (req, res) => { 
-    let num = 98584
+    let num = 98585
     const queue = await updateCaptain(num)
     const crownsQueue = queue.crownsQueue
     const flexesQueue = queue.flexesQueue
