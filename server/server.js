@@ -7,28 +7,39 @@ app.use(cors());
 app.use(express.json());
 const fetch = require("node-fetch")
 
-const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
-
 app.get("/gameschedule", (req, res) => { 
-    fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
+    fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables')
     .then(response => response.json())
-    .then(data2 => {
-        let sd2 = data2.draftables[0].competition
-        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
+    .then(data => {
+        let cl = data.draftables[0].competition
+        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
         .then(response => response.json())
-        .then(data1 => {
-            let sd1 = data1.draftables[0].competition
-            res.json({
-                sd2: sd2, sd1: sd1
-            });
+        .then(data2 => {
+            let sd2 = data2.draftables[0].competition
+            fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
+            .then(response => response.json())
+            .then(data1 => {
+                let sd1 = data1.draftables[0].competition
+                res.json({
+                    sd2: sd2, sd1: sd1, cl: cl
+                });
+            })
         })
     })
 })
 
 async function fetchSleeperProjections() {
-    const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
-    let responseJson = response.json()
-    return responseJson
+    const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
+    if (current <= 18) {
+        const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
+        let responseJson = response.json()
+        return responseJson
+    }
+    else {
+        const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/18?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
+        let responseJson = response.json()
+        return responseJson
+    }
 }
    
 async function getSleeperProjections() {  
