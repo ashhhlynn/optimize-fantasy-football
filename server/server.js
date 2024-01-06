@@ -49,14 +49,12 @@ async function getSleeperProjections() {
             return {
                 Name: element.player.last_name,
                 Projection: element.stats.pts_ppr,
-                Injury: element.player.injury_status
             }
         }
         else {
             return {
                 Name: element.player.first_name + ' ' + element.player.last_name,
                 Projection: element.stats.pts_ppr,
-                Injury: element.player.injury_status
             }
         }
     })
@@ -108,13 +106,11 @@ async function updateCaptain(num) {
         if (sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))) {
             let p = sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))
             let pro = p.Projection * 1.5
-            let injury = p.Injury
             return {
                 ...element,
                 [i]: 1,
                 CROWN: 1,
                 Projection: pro,
-                Injury: injury
             }
         }
         else {
@@ -123,7 +119,6 @@ async function updateCaptain(num) {
                 [i]: 1,
                 CROWN: 1,
                 Projection: 0,
-                Injury: null
             }
         }
     })
@@ -131,13 +126,11 @@ async function updateCaptain(num) {
         if (sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))) {
             let p = sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))
             let pro = p.Projection
-            let injury = p.Injury 
             return {
                 ...element,
                 [flexes.indexOf(element)]: 1,
                 FLEX: 1,
                 Projection: pro,
-                Injury: injury
             }
         }
         else {
@@ -146,7 +139,6 @@ async function updateCaptain(num) {
                 [flexes.indexOf(element)]: 1,
                 FLEX: 1,
                 Projection: 0,
-                Injury: null
             }
         }
     })  
@@ -282,7 +274,6 @@ async function updateClassic(num) {
         if (sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
             let p = sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
             let pro = p.Projection
-            let injury = p.Injury
             return {
                 Name: element.displayName,
                 Position: element.position,
@@ -293,7 +284,6 @@ async function updateClassic(num) {
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
                 Projection: pro,
-                Injury: injury,
                 Status: element.status
             }
         }
@@ -308,7 +298,6 @@ async function updateClassic(num) {
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
                 Projection: 0,
-                Injury: null,
                 Status: element.status
             }
         }

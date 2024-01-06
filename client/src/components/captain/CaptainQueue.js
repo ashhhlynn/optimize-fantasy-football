@@ -42,8 +42,8 @@ function CaptainQueue(props) {
         <Table.Row >
             <Table.Cell style={{textAlign:"center", borderBottom:".05px",borderColor:"#fafafa"}}>{player.Position}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} 
-            {player.Injury !== null ?
-                <> <span style={{color:"#61dafb", fontWeight:"700"}}>{player.Injury.substr(0,1)}</span></> 
+            {player.Status !== "None" ?
+                <> <span style={{color:"#61dafb", fontWeight:"700"}}>{player.Status.substr(0,1)}</span></> 
             : 
                 <></>
             }
