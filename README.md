@@ -2,7 +2,7 @@
 <table>
   <tr>
     <td>
-Fantasy Football lineup builder application created with Node.js and React.js, featuring live DraftKings contest data and projections from Sleeper API. Manually build lineup from player queue or use linear programming optimizer to generate highest projected lineup given salary and position constraints. Front end deployed to Netlify and back end deployed to Render. 
+Fantasy Football lineup builder application created with Node.js and React.js, featuring live DraftKings contest data and projections from Sleeper. Manually build lineup from player queue or use linear programming optimizer to generate highest projected lineup given salary and position constraints. Front end deployed to Netlify and back end deployed to Render. 
     </td>
   </tr>
 </table> 
@@ -30,7 +30,6 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 
 ## To Implement
 - Queue opponent rank (and sorting)
-- Queue injury status
 
 ## Media 
 ![Screenshot (174)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/2755d16d-f177-42ba-85fc-de752f5782ba)
