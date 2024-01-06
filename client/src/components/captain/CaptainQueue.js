@@ -42,10 +42,13 @@ function CaptainQueue(props) {
         <Table.Row >
             <Table.Cell style={{textAlign:"center", borderBottom:".05px",borderColor:"#fafafa"}}>{player.Position}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} 
-            {player.Status !== "None" ?
-                <> <span style={{color:"#61dafb", fontWeight:"700"}}>{player.Status.substr(0,1)}</span></> 
-            : 
+            {player.Status === "None" ?
                 <></>
+            : 
+            player.Status === "IR" ? 
+                <><span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,2)}</span></> 
+            : 
+                <><span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,1)}</span></> 
             }
             <br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Team}</span></Table.Cell>         
             <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.FFPG}</Table.Cell>
