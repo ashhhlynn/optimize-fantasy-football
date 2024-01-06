@@ -89,6 +89,7 @@ async function updateCaptain(num) {
             Test: element.draftStatAttributes[0].id,
             Team: element.teamAbbreviation,
             DraftTableId: element.playerId,
+            Status: element.status
         }
     })
     let z = y.filter(y => y.Test === 90)
@@ -292,7 +293,8 @@ async function updateClassic(num) {
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
                 Projection: pro,
-                Injury: injury
+                Injury: injury,
+                Status: element.status
             }
         }
         else { 
@@ -306,7 +308,8 @@ async function updateClassic(num) {
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
                 Projection: 0,
-                Injury: null
+                Injury: null,
+                Status: element.status
             }
         }
     })
