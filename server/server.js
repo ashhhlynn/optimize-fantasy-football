@@ -437,7 +437,72 @@ app.post("/optimizedcaptain", async (req, res) => {
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (all[key].CROWN === 1) {
-                console.log(all[key])
+                let c = flexesQueue.find(p => p.Name === all[key].Name)
+                cp.push(c)
+            }
+            else {
+                fps.push(all[key])
+            }
+        }
+    }
+    res.json({
+        crown: cp, fps: fps
+    })
+});
+
+app.post("/optimizedcaptainmon", async (req, res) => {
+    const queue = await captainTwoData()
+    const cq = queue.crownsQueue
+    const fq = queue.flexesQueue
+    let lineupP = req.body.fp
+    let crownP = req.body.cp
+    var cQueue = cq.filter(function(objFromA) {
+        return !lineupP.find(function(objFromB) {
+            return objFromA.DraftTableId === objFromB.DraftTableId
+        })
+    })
+    var fQueue = fq.filter(function(objFromA) {
+        return !lineupP.find(function(objFromB) {
+            return objFromA.DraftTableId === objFromB.DraftTableId
+        })
+    })
+    var crownsQueue = cQueue.filter(function(objFromC) {
+        return !crownP.find(function(objFromD) {
+            return objFromC.DraftTableId === objFromD.DraftTableId
+        })
+    })
+    var flexesQueue = fQueue.filter(function(objFromC) {
+        return !crownP.find(function(objFromD) {
+            return objFromC.DraftTableId === objFromD.DraftTableId
+        })
+    })
+    let all = [...crownsQueue, ...flexesQueue]
+    let myObjSTwo = {}
+    for (let i = 0; i < flexesQueue.length; i++) {
+        myObjSTwo[i] = {'max': 1}
+    }
+    myObjSTwo['Salary'] = {'max': 50000}
+    myObjSTwo['CROWN'] = { 'min': 1, 'max': 1 }
+    myObjSTwo['FLEX'] = { 'min': 5, 'max': 5 }
+    let sal = 50000 
+    let cp = []
+    let fps = []
+    if (crownP.length !== 0){
+        cp.push(crownP[0])
+        myObjSTwo['CROWN'] = { 'min': 0, 'max': 0 }
+        sal -= crownP[0].Salary * 1.5
+    }
+    for (let i = 0; i < lineupP.length; i++) {
+        sal -= lineupP[i].Salary
+        let x = myObjSTwo['FLEX']['min'] - 1
+        myObjSTwo['FLEX'] = {'min' : x, 'max': x}
+        fps.push(lineupP[i])
+    }
+    myObjSTwo['Salary'] = {'max': sal}
+    let results = optimizeCaptain(all, myObjSTwo)
+    for (const [key, value] of Object.entries(results)) {
+        if (value === 1) {
+            if (all[key].CROWN === 1) {
                 let c = flexesQueue.find(p => p.Name === all[key].Name)
                 cp.push(c)
             }
@@ -469,51 +534,6 @@ function optimizeCaptain(all, myObjSTwo) {
     const results = solver.Solve(modelS);
     return(results)
 }
-
-app.get("/optimizedcaptainmon", async (req, res) => { 
-    const queue = await captainTwoData()
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
-    let all = [...crownsQueue, ...flexesQueue]
-    let objS = Object.assign({}, all)
-    let myObjS = {}
-    let myObjSTwo = {}
-    for (let i = 0; i < all.length; i++) {
-        myObjS[i] = 1      
-    }
-    myObjS['FLEX'] = 1
-    myObjS['CROWN'] = 1
-    for (let i = 0; i < flexesQueue.length; i++) {
-        myObjSTwo[i] = {'max': 1}
-    }
-    myObjSTwo['Salary'] = {'max': 50000}
-    myObjSTwo['CROWN'] = { 'min': 1, 'max': 1 }
-    myObjSTwo['FLEX'] = { 'min': 5, 'max': 5 }
-    const modelS = {
-        optimize: "Projection",
-        opType: "max",
-        ints: myObjS,
-        constraints: myObjSTwo,
-        variables: objS,
-    };
-    const results = solver.Solve(modelS);
-    let cp = []
-    let fps = []
-    for (const [key, value] of Object.entries(results)) {
-        if (value === 1) {
-            if (all[key].CROWN === 1) {
-                let c = flexesQueue.find(p => p.Name === all[key].Name)
-                cp.push(c)
-            }
-            else {
-                fps.push(all[key])
-            }
-        }
-    }
-    res.json({
-        crown: cp, fps: fps
-    })
-})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);

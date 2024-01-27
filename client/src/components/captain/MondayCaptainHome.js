@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Label, Icon } from 'semantic-ui-react'
+import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions } from 'semantic-ui-react'
 import CaptainLineupHeader from './CaptainLineupHeader.js'
 import CaptainLineup from './CaptainLineup.js'
 import CaptainQueue from './CaptainQueue.js'
@@ -14,7 +14,8 @@ function MondayCaptainHome(props) {
     const [playerCount, setPlayerCount] = useState(6)
     const [crown, setCrown] = useState([])
     const [flexPlayers, setFlexPlayers] = useState([])
-   
+    const [open, setOpen] = useState(false)
+
     const url = "https://optimize-daily.onrender.com"
     const urlz = "http://localhost:8000"
 
@@ -30,10 +31,32 @@ function MondayCaptainHome(props) {
         })
     }
 
-    const fetchOptimized = () => {
-        fetch(`${url}/optimizedcaptainmon`)
-        .then((res) => res.json())
-        .then((data) => { 
+    const optimizeWithout = () => {
+        setOpen(false)
+        let fp = []
+        let cp = []
+        optimizePlayers(fp, cp)
+    }
+
+    const optimizeWith = () => {
+        setOpen(false)
+        let fp = flexPlayers
+        let cp = crown
+        optimizePlayers(fp, cp)
+    }
+
+    const optimizePlayers = (fp, cp) => {
+        fetch(`${url}/optimizedcaptainmon`, {
+            method: "POST",
+            body: JSON.stringify({
+                fp, cp
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
             let ssum = data.crown[0].Salary * 1.5
             let psum = data.crown[0].Projection * 1.5
             setCrown(data.crown)
@@ -133,9 +156,26 @@ function MondayCaptainHome(props) {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Button onClick={fetchOptimized} style={{marginRight:"57%", marginBottom:"1.75%",backgroundColor:"#61dafb"}}>
-                            OPTIMIZE 
-                        </Button>
+                        <Modal
+                        style={{width:"300px"}}
+                        onClose={() => setOpen(false)}
+                        onOpen={() => setOpen(true)}
+                        open={open}
+                        trigger={<Button style={{marginRight:"57%", marginBottom:"1.75%",backgroundColor:"#61dafb"}}>OPTIMIZE</Button>}
+                        >
+                            <ModalContent style={{textAlign:"center"}}>
+                                <p style={{fontSize:"15px", fontWeight:"bold"}}>Keep selected players in lineup?</p>
+                                <ModalActions>
+                                    <Button basic color='green' onClick={optimizeWith}>
+                                        <Icon name='checkmark' /> Yes
+                                    </Button>
+                                    <Button basic color='red' onClick={optimizeWithout}>
+                                        <Icon name='remove' /> No
+                                    </Button>
+                                </ModalActions>
+                            </ModalContent>
+                        </Modal>
+
                         <CaptainLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
