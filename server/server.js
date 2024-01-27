@@ -256,7 +256,6 @@ function optimizeClassic(players, myObjTwo) {
     myObj['TE'] = 1
     myObj['DST'] = 1
     myObj['FLEX'] = 1
-
     const model = {
         optimize: "Projection",
         opType: "max",
@@ -264,7 +263,6 @@ function optimizeClassic(players, myObjTwo) {
         constraints: myObjTwo,   
         variables: obj,
     };        
-
     const results = solver.Solve(model);
     return (results)   
 }
@@ -390,7 +388,6 @@ app.post("/optimizedcaptain", async (req, res) => {
     const queue = await captainOneData()
     const cq = queue.crownsQueue
     const fq = queue.flexesQueue
-
     let lineupP = req.body.fp
     let crownP = req.body.cp
     var cQueue = cq.filter(function(objFromA) {
@@ -414,7 +411,6 @@ app.post("/optimizedcaptain", async (req, res) => {
         })
     })
     let all = [...crownsQueue, ...flexesQueue]
-  
     let myObjSTwo = {}
     for (let i = 0; i < flexesQueue.length; i++) {
         myObjSTwo[i] = {'max': 1}
@@ -422,17 +418,14 @@ app.post("/optimizedcaptain", async (req, res) => {
     myObjSTwo['Salary'] = {'max': 50000}
     myObjSTwo['CROWN'] = { 'min': 1, 'max': 1 }
     myObjSTwo['FLEX'] = { 'min': 5, 'max': 5 }
-    
     let sal = 50000 
     let cp = []
     let fps = []
-
     if (crownP.length !== 0){
         cp.push(crownP[0])
         myObjSTwo['CROWN'] = { 'min': 0, 'max': 0 }
         sal -= crownP[0].Salary * 1.5
     }
-
     for (let i = 0; i < lineupP.length; i++) {
         sal -= lineupP[i].Salary
         let x = myObjSTwo['FLEX']['min'] - 1
@@ -440,7 +433,6 @@ app.post("/optimizedcaptain", async (req, res) => {
         fps.push(lineupP[i])
     }
     myObjSTwo['Salary'] = {'max': sal}
-
     let results = optimizeCaptain(all, myObjSTwo)
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
@@ -467,7 +459,6 @@ function optimizeCaptain(all, myObjSTwo) {
     }
     myObjS['FLEX'] = 1
     myObjS['CROWN'] = 1
-    
     const modelS = {
         optimize: "Projection",
         opType: "max",
