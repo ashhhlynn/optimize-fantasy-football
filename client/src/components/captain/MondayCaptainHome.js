@@ -16,6 +16,7 @@ function MondayCaptainHome(props) {
     const [flexPlayers, setFlexPlayers] = useState([])
    
     const url = "https://optimize-daily.onrender.com"
+    const urlz = "http://localhost:8000"
 
     useEffect(() => {
         fetchPlayerQueue()
@@ -33,8 +34,8 @@ function MondayCaptainHome(props) {
         fetch(`${url}/optimizedcaptainmon`)
         .then((res) => res.json())
         .then((data) => { 
-            let ssum = data.crown.Salary * 1.5
-            let psum = data.crown.Projection * 1.5
+            let ssum = data.crown[0].Salary * 1.5
+            let psum = data.crown[0].Projection * 1.5
             setCrown(data.crown)
             setFlexPlayers(data.fps)
             data.fps.forEach(value => {
@@ -80,7 +81,7 @@ function MondayCaptainHome(props) {
             setSalary(s)
             setPlayerCount(playerCount - 1)
             setProjection(projection + player.Projection * 1.5)
-            setCrown(player)
+            setCrown([player])
         }
     }
 

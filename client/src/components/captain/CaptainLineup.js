@@ -38,11 +38,11 @@ function CaptainLineup(props) {
                     </Table.Cell>
                     {crown.length !== 0 ?
                         <>
-                        <Table.Cell>{crown.Name} {crown.Position}</Table.Cell>
-                        <Table.Cell>{crown.Team}</Table.Cell>
-                        <Table.Cell>{(crown.Projection * 1.5).toFixed(2)}</Table.Cell>
-                        <Table.Cell>${crown.Salary * 1.5}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeCrownPlayer(event, crown)}/></center></Table.Cell>
+                        <Table.Cell>{crown[0].Name} {crown[0].Position}</Table.Cell>
+                        <Table.Cell>{crown[0].Team}</Table.Cell>
+                        <Table.Cell>{(crown[0].Projection * 1.5).toFixed(2)}</Table.Cell>
+                        <Table.Cell>${crown[0].Salary * 1.5}</Table.Cell>
+                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeCrownPlayer(event, crown[0])}/></center></Table.Cell>
                         </>
                     :
                         <> 

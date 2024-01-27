@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Label } from 'semantic-ui-react'
+import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions } from 'semantic-ui-react'
 import ClassicQueue from './ClassicQueue.js'
 import ClassicLineupHeader from './ClassicLineupHeader.js'
 import ClassicLineup from './ClassicLineup.js'
@@ -15,7 +15,6 @@ function ClassicHome() {
     const [qdsts, setQDsts] = useState([])
     const [qflexs, setQFlexs] = useState([])
     const [qall, setQAll] = useState([])
-
     const [qb, setQb] = useState()
     const [rbs, setRbs] = useState([])
     const [wrs, setWrs] = useState([])
@@ -27,8 +26,10 @@ function ClassicHome() {
     const [salaryPerPlayer, setSalaryPerPlayer] = useState(5555)
     const [playerCount, setPlayerCount] = useState(9)
     const [projection, setProjection] = useState(0)
+    const [open, setOpen] = useState(false)
 
     const url = "https://optimize-daily.onrender.com"
+    const urlz = "http://localhost:8000"
 
     useEffect(() => {
         fetchPlayerQueue()
@@ -78,9 +79,29 @@ function ClassicHome() {
         }
     }
 
-    const optimizeLineup = () => {
-        fetch(`${url}/optimizedclassic`)
-        .then((res)=> res.json())
+    const optimizeWithout = () => {
+        setOpen(false)
+        let lp = []
+        optimizePlayers(lp)
+    }
+
+    const optimizeWith = () => {
+        setOpen(false)
+        let lp = lineupPlayers
+        optimizePlayers(lp)
+    }
+
+    const optimizePlayers = (lp) => {
+        fetch(`${url}/classicoptimize`, {
+            method: "POST",
+            body: JSON.stringify({
+                lp
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+        })
+        .then(response => response.json())
         .then(data => {
             let s = 0
             for (let i = 0; i < data.lineup.length; i++ ) {
@@ -201,9 +222,25 @@ function ClassicHome() {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Button onClick={optimizeLineup} style={{marginRight:"57%", backgroundColor:"#61dafb"}}>
-                            OPTIMIZE 
-                        </Button>
+                        <Modal
+                        style={{width:"300px"}}
+                        onClose={() => setOpen(false)}
+                        onOpen={() => setOpen(true)}
+                        open={open}
+                        trigger={<Button style={{marginRight:"57%", backgroundColor:"#61dafb"}}>OPTIMIZE</Button>}
+                        >
+                            <ModalContent style={{textAlign:"center"}}>
+                                <p style={{fontSize:"15px", fontWeight:"bold"}}>Keep selected players in lineup?</p>
+                                <ModalActions>
+                                    <Button basic color='green' onClick={optimizeWith}>
+                                        <Icon name='checkmark' /> Yes
+                                    </Button>
+                                    <Button basic color='red' onClick={optimizeWithout}>
+                                        <Icon name='remove' /> No
+                                    </Button>
+                                </ModalActions>
+                            </ModalContent>
+                        </Modal>
                         <ClassicLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
