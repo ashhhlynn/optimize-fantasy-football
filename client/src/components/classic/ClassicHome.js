@@ -29,7 +29,6 @@ function ClassicHome() {
     const [open, setOpen] = useState(false)
 
     const url = "https://optimize-daily.onrender.com"
-    const urlz = "http://localhost:8000"
 
     useEffect(() => {
         fetchPlayerQueue()
