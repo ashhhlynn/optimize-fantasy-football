@@ -139,7 +139,7 @@ async function classicData() {
             [element.Position]: 0,
         }
     })
-    return {uniques, duplicates, f}
+    return {uniques, duplicates}
 }
 
 app.get("/classicplayers", async (req, res) => { 
@@ -150,20 +150,33 @@ app.get("/classicplayers", async (req, res) => {
     let w = uniques.filter(d => d.Position === "WR")
     let t = uniques.filter(d => d.Position === "TE")
     let d = uniques.filter(d => d.Position === "DST")
-    res.json({unique: uniques, qqb: q, qrb: r, qwr: w, qte: t, qdst: d, qflex: cd.f});
+    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
+    res.json({unique: uniques, qqb: q, qrb: r, qwr: w, qte: t, qdst: d, qflex: f});
 })
 
 app.post("/classicoptimize", async (req, res) => {
     const cd = await classicData()
     const unique = cd.uniques
-    const duplicate = cd.duplicates
     let lineupPlayers = req.body.lp
     var uniques = unique.filter(function(objFromA) {
         return !lineupPlayers.find(function(objFromB) {
             return objFromA.DraftTableId === objFromB.DraftTableId
         })
     })
-    var duplicates = duplicate.filter(function(objFromA) {
+
+    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
+    let duplicates = f.map((element) => {
+        let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
+        return {
+            ...element,
+            FLEX: 1,
+            [i]: 1,
+            [element.Position]: 0,
+        }
+    })
+
+    const duplicatez = cd.duplicates
+    var duplicatesz = duplicatez.filter(function(objFromA) {
         return !lineupPlayers.find(function(objFromB) {
             return objFromA.DraftTableId === objFromB.DraftTableId
         })
