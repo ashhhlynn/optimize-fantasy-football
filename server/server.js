@@ -129,22 +129,11 @@ async function updateClassic(num) {
 async function classicData() {
     let num = 98582
     const uniques = await updateClassic(num)
-    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
-    let duplicates = f.map((element) => {
-        let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
-        return {
-            ...element,
-            FLEX: 1,
-            [i]: 1,
-            [element.Position]: 0,
-        }
-    })
-    return {uniques, duplicates}
+    return uniques
 }
 
 app.get("/classicplayers", async (req, res) => { 
-    const cd = await classicData()
-    const uniques = cd.uniques
+    const uniques = await classicData()
     let q = uniques.filter(d => d.Position === "QB")
     let r = uniques.filter(d => d.Position === "RB")
     let w = uniques.filter(d => d.Position === "WR")
@@ -155,15 +144,13 @@ app.get("/classicplayers", async (req, res) => {
 })
 
 app.post("/classicoptimize", async (req, res) => {
-    const cd = await classicData()
-    const unique = cd.uniques
+    const unique = await classicData()
     let lineupPlayers = req.body.lp
     var uniques = unique.filter(function(objFromA) {
         return !lineupPlayers.find(function(objFromB) {
             return objFromA.DraftTableId === objFromB.DraftTableId
         })
     })
-
     let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
     let duplicates = f.map((element) => {
         let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
@@ -173,13 +160,6 @@ app.post("/classicoptimize", async (req, res) => {
             [i]: 1,
             [element.Position]: 0,
         }
-    })
-
-    const duplicatez = cd.duplicates
-    var duplicatesz = duplicatez.filter(function(objFromA) {
-        return !lineupPlayers.find(function(objFromB) {
-            return objFromA.DraftTableId === objFromB.DraftTableId
-        })
     })
     const players = [...uniques, ...duplicates]
     let myObjTwo = {}

@@ -234,7 +234,7 @@ function ClassicHome() {
                                     <Button basic color='green' style={{width:"110px"}} onClick={optimizeWith}>
                                         <Icon name='checkmark' /> Yes
                                     </Button>
-                                    <Button basic color='red'  style={{width:"110px"}}onClick={optimizeWithout}>
+                                    <Button basic color='red' style={{width:"110px"}} onClick={optimizeWithout}>
                                         <Icon name='remove' /> No
                                     </Button>
                                 </ModalActions>
