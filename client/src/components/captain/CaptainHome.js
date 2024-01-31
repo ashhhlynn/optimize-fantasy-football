@@ -163,12 +163,12 @@ function CaptainHome(props) {
                         trigger={<Button style={{marginRight:"57%", marginBottom:"1.75%",backgroundColor:"#61dafb"}}>OPTIMIZE</Button>}
                         >
                             <ModalContent style={{textAlign:"center"}}>
-                                <p style={{fontSize:"15px", fontWeight:"bold"}}>Keep selected players in lineup?</p>
+                            <p style={{fontFamily:"Helvetica", fontSize:"16px", fontWeight:"bold"}}>Optimize with selected players?</p>
                                 <ModalActions>
-                                    <Button basic color='green' onClick={optimizeWith}>
+                                    <Button basic color='green' style={{width:"110px"}} onClick={optimizeWith}>
                                         <Icon name='checkmark' /> Yes
                                     </Button>
-                                    <Button basic color='red' onClick={optimizeWithout}>
+                                    <Button basic color='red' style={{width:"110px"}} onClick={optimizeWithout}>
                                         <Icon name='remove' /> No
                                     </Button>
                                 </ModalActions>

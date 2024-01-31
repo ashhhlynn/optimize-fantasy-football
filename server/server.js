@@ -139,7 +139,7 @@ async function classicData() {
             [element.Position]: 0,
         }
     })
-    return {uniques, duplicates}
+    return {uniques, duplicates, f}
 }
 
 app.get("/classicplayers", async (req, res) => { 
@@ -150,8 +150,7 @@ app.get("/classicplayers", async (req, res) => {
     let w = uniques.filter(d => d.Position === "WR")
     let t = uniques.filter(d => d.Position === "TE")
     let d = uniques.filter(d => d.Position === "DST")
-    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
-    res.json({unique: uniques, qqb: q, qrb: r, qwr: w, qte: t, qdst: d, qflex: f});
+    res.json({unique: uniques, qqb: q, qrb: r, qwr: w, qte: t, qdst: d, qflex: cd.f});
 })
 
 app.post("/classicoptimize", async (req, res) => {
