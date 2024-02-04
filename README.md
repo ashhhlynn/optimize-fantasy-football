@@ -26,6 +26,7 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - Sort player queue by position, name, projection, FPPG, and salary
 - Calculate optimal lineup (highest proj. value) given salary and position constraints with lp-solver.js 
 - Manually add (or remove) players to lineup from player queue
+- Option to include selected players in optimization calculation
 - View lineup total projection and remaining salary data
 
 ## To Implement
