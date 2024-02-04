@@ -165,13 +165,13 @@ function ClassicLineup(props) {
                 </Table.Row>
                 <Table.Row>
                     <Table.Cell>FLEX</Table.Cell>
-                    {flex ? 
+                    {flex.length !== 0 ? 
                         <>
-                        <Table.Cell>{flex.Name}</Table.Cell>
-                        <Table.Cell>{flex.Team}</Table.Cell>
-                        <Table.Cell>{flex.Projection}</Table.Cell>
-                        <Table.Cell>${flex.Salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, flex)}/></center></Table.Cell>
+                        <Table.Cell>{flex[0].Name}</Table.Cell>
+                        <Table.Cell>{flex[0].Team}</Table.Cell>
+                        <Table.Cell>{flex[0].Projection}</Table.Cell>
+                        <Table.Cell>${flex[0].Salary}</Table.Cell>
+                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, flex[0])}/></center></Table.Cell>
                         </>
                     :
                         <> 

@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions } from 'semantic-ui-react'
+import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions, Loader } from 'semantic-ui-react'
 import ClassicQueue from './ClassicQueue.js'
 import ClassicLineupHeader from './ClassicLineupHeader.js'
 import ClassicLineup from './ClassicLineup.js'
@@ -20,13 +19,14 @@ function ClassicHome() {
     const [wrs, setWrs] = useState([])
     const [te, setTe] = useState()
     const [dst, setDst] = useState()
-    const [flex, setFlex] = useState()
+    const [flex, setFlex] = useState([])
     const [lineupPlayers, setLineupPlayers] = useState([])
     const [salary, setSalary] = useState(50000)
     const [salaryPerPlayer, setSalaryPerPlayer] = useState(5555)
     const [playerCount, setPlayerCount] = useState(9)
     const [projection, setProjection] = useState(0)
     const [open, setOpen] = useState(false)
+    const [isLoading, setLoading] = useState(false);
 
     const url = "https://optimize-daily.onrender.com"
 
@@ -71,8 +71,8 @@ function ClassicHome() {
               setDst(player)
               setLineupData(player)
             }
-            else if (!flex && (player.Position === "RB" || player.Position === "WR"  || player.Position === "TE")) {
-              setFlex(player)
+            else if (flex.length < 1 && (player.Position === "RB" || player.Position === "WR"  || player.Position === "TE")) {
+              setFlex([player])
               setLineupData(player)
             }
         }
@@ -81,20 +81,29 @@ function ClassicHome() {
     const optimizeWithout = () => {
         setOpen(false)
         let lp = []
-        optimizePlayers(lp)
+        let fl = []
+        optimizePlayers(lp, fl)
     }
 
     const optimizeWith = () => {
         setOpen(false)
-        let lp = lineupPlayers
-        optimizePlayers(lp)
+        let fl = flex
+        if (fl.length > 0 ) {
+            let lp = lineupPlayers.filter(p => p.DraftTableId !== flex[0].DraftTableId)
+            optimizePlayers(lp, fl)
+        } 
+        else {
+            let lp = lineupPlayers 
+            optimizePlayers(lp, fl)
+        }
     }
 
-    const optimizePlayers = (lp) => {
+    const optimizePlayers = (lp, fl) => {
+        setLoading(true)
         fetch(`${url}/classicoptimize`, {
             method: "POST",
             body: JSON.stringify({
-                lp
+                lp, fl
             }),
             headers: {
               "Content-type": "application/json; charset=UTF-8",
@@ -106,17 +115,18 @@ function ClassicHome() {
             for (let i = 0; i < data.lineup.length; i++ ) {
                 s += data.lineup[i].Salary;
             } 
-            setSalary(50000-s)
-            setProjection(data.result)
-            setSalaryPerPlayer(0)
-            setPlayerCount(0)
-            setLineupPlayers(data.lineup)
             setQb(data.qb[0])
             setRbs(data.rb)
             setWrs(data.wr)
             setDst(data.dst[0])
             setTe(data.te[0])
-            setFlex(data.flex[0])
+            setFlex(data.flex)
+            setSalary(50000-s)
+            setProjection(data.result)
+            setSalaryPerPlayer(0)
+            setPlayerCount(0)
+            setLineupPlayers(data.lineup)
+            setLoading(false)
         })
     }
 
@@ -136,8 +146,8 @@ function ClassicHome() {
 
     const removePlayer = (player) => {
         removeLineupData(player)
-        if (player === flex) {
-          setFlex()
+        if (player === flex[0]) {
+          setFlex([])
         }  
         else if (player.Position === "QB") {
           setQb()
@@ -240,6 +250,9 @@ function ClassicHome() {
                                 </ModalActions>
                             </ModalContent>
                         </Modal>
+                        {isLoading ? 
+                            <Loader active /> : <Loader />
+                        }
                         <ClassicLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}

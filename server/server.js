@@ -5,7 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
-const fetch = require("node-fetch")
+const fetch = require("node-fetch");
 
 app.get("/gameschedule", (req, res) => { 
     fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables')
@@ -146,26 +146,8 @@ app.get("/classicplayers", async (req, res) => {
 app.post("/classicoptimize", async (req, res) => {
     const unique = await classicData()
     let lineupPlayers = req.body.lp
-    var uniques = unique.filter(function(objFromA) {
-        return !lineupPlayers.find(function(objFromB) {
-            return objFromA.DraftTableId === objFromB.DraftTableId
-        })
-    })
-    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
-    let duplicates = f.map((element) => {
-        let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
-        return {
-            ...element,
-            FLEX: 1,
-            [i]: 1,
-            [element.Position]: 0,
-        }
-    })
-    const players = [...uniques, ...duplicates]
+    let fl = req.body.fl 
     let myObjTwo = {}
-    for (let i = 0; i < uniques.length; i++) {
-        myObjTwo[i] = {'max': 1}
-    }
     myObjTwo['QB'] = { 'min': 1, 'max': 1 }
     myObjTwo['RB'] = { 'min': 2, 'max': 2 }
     myObjTwo['WR'] = { 'min': 3, 'max': 3 }
@@ -181,29 +163,61 @@ app.post("/classicoptimize", async (req, res) => {
     let lineup = []
     let sal = 50000 
     let val = 0
-    for (let i = 0; i < lineupPlayers.length; i++) {
-        sal -= lineupPlayers[i].Salary
-        let x = myObjTwo[`${lineupPlayers[i].Position}`]['min'] - 1
-        myObjTwo[`${lineupPlayers[i].Position}`] = {'min' : x, 'max': x}
-        lineup.push(lineupPlayers[i])
-        val += lineupPlayers[i].Projection
-        if (lineup[i].Position === 'QB'){
-            QB.push(lineup[i])
+    if (lineupPlayers.length !== 0 || fl.length !== 0 ) {
+        for (let i = 0; i < lineupPlayers.length; i++) {
+            sal -= lineupPlayers[i].Salary
+            let x = myObjTwo[`${lineupPlayers[i].Position}`]['min'] - 1
+            myObjTwo[`${lineupPlayers[i].Position}`] = {'min' : x, 'max': x}
+            lineup.push(lineupPlayers[i])
+            val += lineupPlayers[i].Projection
+            if (lineup[i].Position === 'QB'){
+                QB.push(lineup[i])
+            }
+            else if (lineup[i].Position === 'RB'){
+                RB.push(lineup[i])
+            }
+            else if (lineup[i].Position === 'WR'){
+                WR.push(lineup[i])
+            }
+            else if (lineup[i].Position === 'TE'){
+                TE.push(lineup[i])
+            }
+            else if (lineup[i].Position === 'DST'){
+                DST.push(lineup[i])
+            }
         }
-        else if (lineup[i].Position === 'RB'){
-            RB.push(lineup[i])
+        if (fl.length !== 0 ) {
+            FLEX.push(fl[0])
+            sal -= fl[0].Salary
+            myObjTwo['FLEX'] = { 'min': 0, 'max': 0 }
+            val += fl[0].Projection
+            lineup.push(fl[0])
         }
-        else if (lineup[i].Position === 'WR'){
-            WR.push(lineup[i])
-        }
-        else if (lineup[i].Position === 'TE'){
-            TE.push(lineup[i])
-        }
-        else if (lineup[i].Position === 'DST'){
-            DST.push(lineup[i])
-        }
+        let newLineupPlayers = [...lineupPlayers, ...fl]
+        var uniques = unique.filter(function(objFromA) {
+            return !newLineupPlayers.find(function(objFromB) {
+                return objFromA.DraftTableId === objFromB.DraftTableId
+            })
+        })
+    } 
+    else {
+        var uniques = unique
     }
     myObjTwo['Salary'] = {'max': sal}
+    for (let i = 0; i < uniques.length; i++) {
+        myObjTwo[i] = {'max': 1}
+    }
+    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
+    let duplicates = f.map((element) => {
+        let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
+        return {
+            ...element,
+            FLEX: 1,
+            [i]: 1,
+            [element.Position]: 0,
+        }
+    })
+    const players = [...uniques, ...duplicates]
     let results = optimizeClassic(players, myObjTwo) 
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
@@ -234,7 +248,7 @@ app.post("/classicoptimize", async (req, res) => {
     res.json({
         lineup: lineup, qb: QB, rb: RB, wr: WR, te: TE, dst: DST, flex: FLEX, result: results.result + val
     })
-});
+})
 
 function optimizeClassic(players, myObjTwo) {
     let obj = Object.assign({}, players)

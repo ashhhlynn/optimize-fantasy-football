@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions } from 'semantic-ui-react'
+import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions, Loader } from 'semantic-ui-react'
 import CaptainLineupHeader from './CaptainLineupHeader.js'
 import CaptainLineup from './CaptainLineup.js'
 import CaptainQueue from './CaptainQueue.js'
 import { Link } from 'react-router-dom'
+
 
 function CaptainHome(props) {
 
@@ -15,6 +16,7 @@ function CaptainHome(props) {
     const [crown, setCrown] = useState([])
     const [flexPlayers, setFlexPlayers] = useState([])
     const [open, setOpen] = useState(false)
+    const [isLoading, setLoading] = useState(false);
 
     const url = "https://optimize-daily.onrender.com"
 
@@ -45,6 +47,7 @@ function CaptainHome(props) {
     }
 
     const optimizePlayers = (fp, cp) => {
+        setLoading(true)
         fetch(`${url}/optimizedcaptain`, {
             method: "POST",
             body: JSON.stringify({
@@ -68,6 +71,7 @@ function CaptainHome(props) {
             setProjection(psum)      
             setSalaryPerPlayer(0)
             setPlayerCount(0)
+            setLoading(false)
         })
     }
 
@@ -174,6 +178,9 @@ function CaptainHome(props) {
                                 </ModalActions>
                             </ModalContent>
                         </Modal>
+                        {isLoading ? 
+                            <Loader active /> : <Loader />
+                        }
                         <CaptainLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
