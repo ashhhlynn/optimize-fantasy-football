@@ -82,28 +82,30 @@ function ClassicHome() {
         setOpen(false)
         let lp = []
         let fl = []
-        optimizePlayers(lp, fl)
+        let answer = 'no'
+        optimizePlayers(lp, fl, answer)
     }
 
     const optimizeWith = () => {
         setOpen(false)
         let fl = flex
+        let answer = 'yes'
         if (fl.length > 0 ) {
             let lp = lineupPlayers.filter(p => p.DraftTableId !== flex[0].DraftTableId)
-            optimizePlayers(lp, fl)
+            optimizePlayers(lp, fl, answer)
         } 
         else {
             let lp = lineupPlayers 
-            optimizePlayers(lp, fl)
+            optimizePlayers(lp, fl, answer)
         }
     }
 
-    const optimizePlayers = (lp, fl) => {
+    const optimizePlayers = (lp, fl, answer) => {
         setLoading(true)
         fetch(`${url}/classicoptimize`, {
             method: "POST",
             body: JSON.stringify({
-                lp, fl
+                lp, fl, answer
             }),
             headers: {
               "Content-type": "application/json; charset=UTF-8",

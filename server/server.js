@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 const fetch = require("node-fetch");
+const e = require("express");
 
 app.get("/gameschedule", (req, res) => { 
     fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables')
@@ -145,8 +146,6 @@ app.get("/classicplayers", async (req, res) => {
 
 app.post("/classicoptimize", async (req, res) => {
     const unique = await classicData()
-    let lineupPlayers = req.body.lp
-    let fl = req.body.fl 
     let myObjTwo = {}
     myObjTwo['QB'] = { 'min': 1, 'max': 1 }
     myObjTwo['RB'] = { 'min': 2, 'max': 2 }
@@ -154,6 +153,10 @@ app.post("/classicoptimize", async (req, res) => {
     myObjTwo['TE'] = { 'min': 1, 'max': 1 }
     myObjTwo['DST'] = { 'min': 1, 'max': 1 }
     myObjTwo['FLEX'] = { 'min': 1, 'max': 1 }
+    myObjTwo['Salary'] = { 'max': 50000 }
+    for (let i = 0; i < unique.length; i++) {
+        myObjTwo[i] = {'max': 1}
+    }
     let QB = []
     let RB = []
     let WR = []
@@ -161,15 +164,18 @@ app.post("/classicoptimize", async (req, res) => {
     let FLEX = []
     let DST = []
     let lineup = []
-    let sal = 50000 
     let val = 0
-    if (lineupPlayers.length !== 0 || fl.length !== 0 ) {
+    let lineupPlayers = req.body.lp
+    let fl = req.body.fl 
+    if (req.body.answer === 'yes' && lineupPlayers.length !== 0 || fl.length !== 0 ) {
+        let sal = 50000 
         for (let i = 0; i < lineupPlayers.length; i++) {
             sal -= lineupPlayers[i].Salary
             let x = myObjTwo[`${lineupPlayers[i].Position}`]['min'] - 1
             myObjTwo[`${lineupPlayers[i].Position}`] = {'min' : x, 'max': x}
             lineup.push(lineupPlayers[i])
             val += lineupPlayers[i].Projection
+            myObjTwo['Salary'] = { 'max': sal }
             if (lineup[i].Position === 'QB'){
                 QB.push(lineup[i])
             }
@@ -189,6 +195,7 @@ app.post("/classicoptimize", async (req, res) => {
         if (fl.length !== 0 ) {
             FLEX.push(fl[0])
             sal -= fl[0].Salary
+            myObjTwo['Salary'] = { 'max': sal }
             myObjTwo['FLEX'] = { 'min': 0, 'max': 0 }
             val += fl[0].Projection
             lineup.push(fl[0])
@@ -202,10 +209,6 @@ app.post("/classicoptimize", async (req, res) => {
     } 
     else {
         var uniques = unique
-    }
-    myObjTwo['Salary'] = {'max': sal}
-    for (let i = 0; i < uniques.length; i++) {
-        myObjTwo[i] = {'max': 1}
     }
     let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
     let duplicates = f.map((element) => {
@@ -392,53 +395,15 @@ app.get("/moncaptainplayers", async (req, res) => {
 
 app.post("/optimizedcaptain", async (req, res) => {
     const queue = await captainOneData()
-    const cq = queue.crownsQueue
-    const fq = queue.flexesQueue
     let lineupP = req.body.fp
     let crownP = req.body.cp
-    var cQueue = cq.filter(function(objFromA) {
-        return !lineupP.find(function(objFromB) {
-            return objFromA.DraftTableId === objFromB.DraftTableId
-        })
-    })
-    var fQueue = fq.filter(function(objFromA) {
-        return !lineupP.find(function(objFromB) {
-            return objFromA.DraftTableId === objFromB.DraftTableId
-        })
-    })
-    var crownsQueue = cQueue.filter(function(objFromC) {
-        return !crownP.find(function(objFromD) {
-            return objFromC.DraftTableId === objFromD.DraftTableId
-        })
-    })
-    var flexesQueue = fQueue.filter(function(objFromC) {
-        return !crownP.find(function(objFromD) {
-            return objFromC.DraftTableId === objFromD.DraftTableId
-        })
-    })
+    let optData = captainOptData(queue, lineupP, crownP)
+    let crownsQueue = optData.crownsQueue
+    let flexesQueue = optData.flexesQueue
+    let myObjSTwo = optData.myObjSTwo
+    let cp = optData.cp
+    let fps = optData.fps
     let all = [...crownsQueue, ...flexesQueue]
-    let myObjSTwo = {}
-    for (let i = 0; i < flexesQueue.length; i++) {
-        myObjSTwo[i] = {'max': 1}
-    }
-    myObjSTwo['Salary'] = {'max': 50000}
-    myObjSTwo['CROWN'] = { 'min': 1, 'max': 1 }
-    myObjSTwo['FLEX'] = { 'min': 5, 'max': 5 }
-    let sal = 50000 
-    let cp = []
-    let fps = []
-    if (crownP.length !== 0){
-        cp.push(crownP[0])
-        myObjSTwo['CROWN'] = { 'min': 0, 'max': 0 }
-        sal -= crownP[0].Salary * 1.5
-    }
-    for (let i = 0; i < lineupP.length; i++) {
-        sal -= lineupP[i].Salary
-        let x = myObjSTwo['FLEX']['min'] - 1
-        myObjSTwo['FLEX'] = {'min' : x, 'max': x}
-        fps.push(lineupP[i])
-    }
-    myObjSTwo['Salary'] = {'max': sal}
     let results = optimizeCaptain(all, myObjSTwo)
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
@@ -458,10 +423,35 @@ app.post("/optimizedcaptain", async (req, res) => {
 
 app.post("/optimizedcaptainmon", async (req, res) => {
     const queue = await captainTwoData()
-    const cq = queue.crownsQueue
-    const fq = queue.flexesQueue
     let lineupP = req.body.fp
     let crownP = req.body.cp
+    let optData = captainOptData(queue, lineupP, crownP)
+    let crownsQueue = optData.crownsQueue
+    let flexesQueue = optData.flexesQueue
+    let myObjSTwo = optData.myObjSTwo
+    let cp = optData.cp
+    let fps = optData.fps
+    let all = [...crownsQueue, ...flexesQueue]
+    let results = optimizeCaptain(all, myObjSTwo)
+    for (const [key, value] of Object.entries(results)) {
+        if (value === 1) {
+            if (all[key].CROWN === 1) {
+                let c = flexesQueue.find(p => p.Name === all[key].Name)
+                cp.push(c)
+            }
+            else {
+                fps.push(all[key])
+            }
+        }
+    }
+    res.json({
+        crown: cp, fps: fps
+    })
+});
+
+function captainOptData(queue, lineupP, crownP) {
+    const cq = queue.crownsQueue
+    const fq = queue.flexesQueue
     var cQueue = cq.filter(function(objFromA) {
         return !lineupP.find(function(objFromB) {
             return objFromA.DraftTableId === objFromB.DraftTableId
@@ -482,7 +472,6 @@ app.post("/optimizedcaptainmon", async (req, res) => {
             return objFromC.DraftTableId === objFromD.DraftTableId
         })
     })
-    let all = [...crownsQueue, ...flexesQueue]
     let myObjSTwo = {}
     for (let i = 0; i < flexesQueue.length; i++) {
         myObjSTwo[i] = {'max': 1}
@@ -505,22 +494,8 @@ app.post("/optimizedcaptainmon", async (req, res) => {
         fps.push(lineupP[i])
     }
     myObjSTwo['Salary'] = {'max': sal}
-    let results = optimizeCaptain(all, myObjSTwo)
-    for (const [key, value] of Object.entries(results)) {
-        if (value === 1) {
-            if (all[key].CROWN === 1) {
-                let c = flexesQueue.find(p => p.Name === all[key].Name)
-                cp.push(c)
-            }
-            else {
-                fps.push(all[key])
-            }
-        }
-    }
-    res.json({
-        crown: cp, fps: fps
-    })
-});
+    return {crownsQueue, flexesQueue, myObjSTwo, cp, fps}
+}
 
 function optimizeCaptain(all, myObjSTwo) {
     let objS = Object.assign({}, all)

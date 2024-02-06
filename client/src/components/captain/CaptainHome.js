@@ -5,7 +5,6 @@ import CaptainLineup from './CaptainLineup.js'
 import CaptainQueue from './CaptainQueue.js'
 import { Link } from 'react-router-dom'
 
-
 function CaptainHome(props) {
 
     const [players, setPlayers] = useState([])
