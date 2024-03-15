@@ -26,11 +26,8 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - Sort player queue by position, name, projection, FPPG, and salary
 - Calculate optimal lineup (highest proj. value) given salary and position constraints with lp-solver.js 
 - Manually add (or remove) players to lineup from player queue
-- Option to include selected players in optimization calculation
+- Option to include manually selected players in optimization calculation
 - View lineup total projection and remaining salary data
-
-## To Implement
-- Queue opponent rank (and sorting)
 
 ## Media 
 ![Screenshot (174)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/2755d16d-f177-42ba-85fc-de752f5782ba)
