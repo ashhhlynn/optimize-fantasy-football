@@ -8,45 +8,14 @@ app.use(express.json());
 const fetch = require("node-fetch");
 const e = require("express");
 
-app.get("/gameschedule", (req, res) => { 
-    fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables')
-    .then(response => response.json())
-    .then(data => {
-        let cl = data.draftables[0].competition
-        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
-        .then(response => response.json())
-        .then(data2 => {
-            let sd2 = data2.draftables[0].competition
-            fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
-            .then(response => response.json())
-            .then(data1 => {
-                let sd1 = data1.draftables[0].competition
-                res.json({
-                    sd2: sd2, sd1: sd1, cl: cl
-                });
-            })
-        })
-    })
-})
-
 async function fetchSleeperProjections() {
-    const current = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
-    if (current <= 18) {
-        const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
-        let responseJson = response.json()
-        return responseJson
-    }
-    else {
-        const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/18?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
-        let responseJson = response.json()
-        return responseJson
-    }
-}
-   
-async function getSleeperProjections() {  
-    let response = await fetchSleeperProjections()
-    let s = response.map((element) => {
-        if (element.player.position === "DEF") {
+    const currentWeek = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
+    if (currentWeek <= 18) { var current = currentWeek } 
+    else { var current = 18 }
+    const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
+    let responseJson = await response.json()
+    let s = responseJson.map((element) => {
+        if (element.player.position === "DEF" ) {
             return {
                 Name: element.player.last_name,
                 Projection: element.stats.pts_ppr,
@@ -60,29 +29,25 @@ async function getSleeperProjections() {
         }
     })
     let sleeper = s.filter(s => s.Projection > 0)
-    return (
-        sleeper
-    ) 
+    return sleeper 
 }
 
-async function fetchClassic(num) {
-    let sleeperData = await getSleeperProjections()
-    let response = await fetch(`https://api.draftkings.com/draftgroups/v1/draftgroups/${num}/draftables`)
-    let dkData = await response.json()
-    return {
-        sleeperData, dkData
-    }    
-}
-
-async function updateClassic(num) {
-    let d = await fetchClassic(num)
-    let data = d.dkData
-    let sleeperdata = d.sleeperData
-    let z = data.draftables.map((element) => {
-        if (sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
-            let p = sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
-            let pro = p.Projection
-            return {
+async function fetchClassic(){
+    let sleeperData = await fetchSleeperProjections()
+    let response = await fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables')
+    let responseData = await response.json()
+    let responseTables = responseData.draftables
+    let classicPlayers = []
+    responseTables.map((element) => {
+        if (sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
+            let p = sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
+            var proj = p.Projection
+        }
+        else {
+            var proj = 0
+        }
+        if (element.draftStatAttributes[0].id === 90 && !classicPlayers.find(item => item.DraftTableId === element.playerId)){
+            let details = {
                 Name: element.displayName,
                 Position: element.position,
                 Salary: element.salary,
@@ -91,61 +56,108 @@ async function updateClassic(num) {
                 Test: element.draftStatAttributes[0].id,
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
-                Projection: pro,
-                Status: element.status
+                Projection: proj,
+                Status: element.status,
+                [classicPlayers.length]: 1,
+                [element.position]: 1,
             }
-        }
-        else { 
-            return {
-                Name: element.displayName,
-                Position: element.position,
-                Salary: element.salary,
-                Game: element.competition['name'],
-                FFPG: element.draftStatAttributes[0].value,
-                Test: element.draftStatAttributes[0].id,
-                Team: element.teamAbbreviation,
-                DraftTableId: element.playerId,
-                Projection: 0,
-                Status: element.status
-            }
-        }
+            classicPlayers.push(details)
+        }        
     })
-    let x = z.filter(y => y.Test === 90)
-    const u = x.reduce((accumulator, current) => {
-        if (!accumulator.find((item) => item.DraftTableId === current.DraftTableId)) {
-            accumulator.push(current);
-        }
-        return accumulator;
-    }, []);
-    let uniques = u.map((element) => {
-        return {
-            ...element,
-            [u.indexOf(element)]: 1,
-            [element.Position]: 1,
-        }
-    })
-    return uniques
-}
-
-async function classicData() {
-    let num = 98582
-    const uniques = await updateClassic(num)
-    return uniques
+    return classicPlayers
 }
 
 app.get("/classicplayers", async (req, res) => { 
-    const uniques = await classicData()
-    let q = uniques.filter(d => d.Position === "QB")
-    let r = uniques.filter(d => d.Position === "RB")
-    let w = uniques.filter(d => d.Position === "WR")
-    let t = uniques.filter(d => d.Position === "TE")
-    let d = uniques.filter(d => d.Position === "DST")
-    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
-    res.json({unique: uniques, qqb: q, qrb: r, qwr: w, qte: t, qdst: d, qflex: f});
+    let classicPlayers =  await fetchClassic()
+    let qqb = []
+    let qrb = []
+    let qwr = []
+    let qte = []
+    let qdst = []
+    let qflex = []
+    for (let i=0; i < classicPlayers.length; i++){
+        if (classicPlayers[i].Position === "QB"){
+            qqb.push(classicPlayers[i])
+        }
+        else if (classicPlayers[i].Position === "RB"){
+            qrb.push(classicPlayers[i])
+            qflex.push(classicPlayers[i])
+        }
+        else if (classicPlayers[i].Position === "WR"){
+            qwr.push(classicPlayers[i])
+            qflex.push(classicPlayers[i])
+        }
+        else if (classicPlayers[i].Position === "TE"){
+            qte.push(classicPlayers[i])
+            qflex.push(classicPlayers[i])
+        }
+        else if (classicPlayers[i].Position === "DST"){
+            qdst.push(classicPlayers[i])
+        }
+    } 
+    res.json({ unique: classicPlayers, qqb: qqb, qrb: qrb, qwr: qwr, qte: qte, qdst: qdst, qflex: qflex})
+})
+
+app.get("/classicoptimizer", async (req, res) => { 
+    let uniques = await fetchClassic()
+    let mod = optimizeClassicModel(uniques)
+    let flexPre = []
+    let lineupPre = []
+    let resultz = optimizeClassic(mod.players, mod.myObjTwo, uniques, flexPre, lineupPre)
+    res.json({
+        lineup: resultz.lineup, qb: resultz.QB, rb: resultz.RB, wr: resultz.WR, te: resultz.TE, dst: resultz.DST, flex: resultz.FLEX, result: resultz.result, usedSal: resultz.usedSal
+    })
 })
 
 app.post("/classicoptimize", async (req, res) => {
-    const unique = await classicData()
+    let unique =  await fetchClassic()
+    let lineupPlayers = req.body.lp
+    let fl = req.body.fl 
+    let newLineupPlayers = [...lineupPlayers, ...fl]
+    var uniques = unique.filter(function(objFromA) {
+        return !newLineupPlayers.find(function(objFromB) {
+            return objFromA.DraftTableId === objFromB.DraftTableId
+        })
+    })
+    let mod = optimizeClassicModel(uniques)
+    let myObjTwo = mod.myObjTwo
+    let flexPre = []
+    let lineupPre = []
+    let val = 0
+    let sal = 50000      
+    for (let i = 0; i < lineupPlayers.length; i++) {
+        val += lineupPlayers[i].Projection
+        sal -= lineupPlayers[i].Salary
+        let x = myObjTwo[`${lineupPlayers[i].Position}`]['min'] - 1
+        myObjTwo[`${lineupPlayers[i].Position}`] = {'min' : x, 'max': x}
+        myObjTwo['Salary'] = { 'max': sal }
+        lineupPre.push(lineupPlayers[i])
+    }
+    if (fl.length !== 0 ) {
+        val += fl[0].Projection
+        sal -= fl[0].Salary
+        myObjTwo['Salary'] = { 'max': sal }
+        myObjTwo['FLEX'] = { 'min': 0, 'max': 0 }
+        flexPre.push(fl[0])
+    }
+    let resultz = optimizeClassic(mod.players, myObjTwo, uniques, lineupPre, flexPre) 
+    res.json({
+        lineup: resultz.lineup, qb: resultz.QB, rb: resultz.RB, wr: resultz.WR, te: resultz.TE, dst: resultz.DST, flex: resultz.FLEX, result: resultz.result + val, usedSal: resultz.usedSal
+    })
+})
+
+function optimizeClassicModel(uniques){
+    let flexes = uniques.filter(element => element.Position === "RB" || element.Position === "TE" || element.Position === "WR")
+    let duplicates = flexes.map((element) => {
+        let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
+            return {
+                ...element,
+                FLEX: 1,
+                [i]: 1,
+                [element.Position]: 0,
+            }
+    })  
+    const players = [...uniques, ...duplicates]
     let myObjTwo = {}
     myObjTwo['QB'] = { 'min': 1, 'max': 1 }
     myObjTwo['RB'] = { 'min': 2, 'max': 2 }
@@ -154,9 +166,32 @@ app.post("/classicoptimize", async (req, res) => {
     myObjTwo['DST'] = { 'min': 1, 'max': 1 }
     myObjTwo['FLEX'] = { 'min': 1, 'max': 1 }
     myObjTwo['Salary'] = { 'max': 50000 }
-    for (let i = 0; i < unique.length; i++) {
+    for (let i = 0; i < uniques.length; i++) {
         myObjTwo[i] = {'max': 1}
     }
+    return {players, myObjTwo}
+}
+
+function optimizeClassic(players, myObjTwo, uniques, lineupPre, flexPre) {
+    let obj = Object.assign({}, players)
+    let myObj = {}
+    for (let i = 0; i < players.length; i++) {
+        myObj[i] = 1      
+    }
+    myObj['QB'] = 1
+    myObj['RB'] = 1
+    myObj['WR'] = 1
+    myObj['TE'] = 1
+    myObj['DST'] = 1
+    myObj['FLEX'] = 1
+    const model = {
+        optimize: "Projection",
+        opType: "max",
+        ints: myObj,
+        constraints: myObjTwo,   
+        variables: obj,
+    };        
+    const results = solver.Solve(model);
     let QB = []
     let RB = []
     let WR = []
@@ -164,64 +199,8 @@ app.post("/classicoptimize", async (req, res) => {
     let FLEX = []
     let DST = []
     let lineup = []
-    let val = 0
-    let lineupPlayers = req.body.lp
-    let fl = req.body.fl 
-    if (req.body.answer === 'yes' && lineupPlayers.length !== 0 || fl.length !== 0 ) {
-        let sal = 50000 
-        for (let i = 0; i < lineupPlayers.length; i++) {
-            sal -= lineupPlayers[i].Salary
-            let x = myObjTwo[`${lineupPlayers[i].Position}`]['min'] - 1
-            myObjTwo[`${lineupPlayers[i].Position}`] = {'min' : x, 'max': x}
-            lineup.push(lineupPlayers[i])
-            val += lineupPlayers[i].Projection
-            myObjTwo['Salary'] = { 'max': sal }
-            if (lineup[i].Position === 'QB'){
-                QB.push(lineup[i])
-            }
-            else if (lineup[i].Position === 'RB'){
-                RB.push(lineup[i])
-            }
-            else if (lineup[i].Position === 'WR'){
-                WR.push(lineup[i])
-            }
-            else if (lineup[i].Position === 'TE'){
-                TE.push(lineup[i])
-            }
-            else if (lineup[i].Position === 'DST'){
-                DST.push(lineup[i])
-            }
-        }
-        if (fl.length !== 0 ) {
-            FLEX.push(fl[0])
-            sal -= fl[0].Salary
-            myObjTwo['Salary'] = { 'max': sal }
-            myObjTwo['FLEX'] = { 'min': 0, 'max': 0 }
-            val += fl[0].Projection
-            lineup.push(fl[0])
-        }
-        let newLineupPlayers = [...lineupPlayers, ...fl]
-        var uniques = unique.filter(function(objFromA) {
-            return !newLineupPlayers.find(function(objFromB) {
-                return objFromA.DraftTableId === objFromB.DraftTableId
-            })
-        })
-    } 
-    else {
-        var uniques = unique
-    }
-    let f = uniques.filter(d=> d.Position === "RB" || d.Position === "TE" || d.Position === "WR")
-    let duplicates = f.map((element) => {
-        let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
-        return {
-            ...element,
-            FLEX: 1,
-            [i]: 1,
-            [element.Position]: 0,
-        }
-    })
-    const players = [...uniques, ...duplicates]
-    let results = optimizeClassic(players, myObjTwo) 
+    let result = results.result
+    let usedSal = 0
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (players[key].FLEX === 1) {    
@@ -246,38 +225,36 @@ app.post("/classicoptimize", async (req, res) => {
                 }
             }
             lineup.push(players[key])
+            usedSal += players[key].Salary
         }
     }
-    res.json({
-        lineup: lineup, qb: QB, rb: RB, wr: WR, te: TE, dst: DST, flex: FLEX, result: results.result + val
-    })
-})
-
-function optimizeClassic(players, myObjTwo) {
-    let obj = Object.assign({}, players)
-    let myObj = {}
-    for (let i = 0; i < players.length; i++) {
-        myObj[i] = 1      
+    for (let i=0; i < lineupPre.length; i++) {
+        if (lineupPre[i].Position === 'QB'){
+            QB.push(lineupPre[i])
+        }
+        else if (lineupPre[i].Position === 'RB'){
+            RB.push(lineupPre[i])
+        }
+        else if (lineupPre[i].Position === 'WR'){
+            WR.push(lineupPre[i])
+        }
+        else if (lineupPre[i].Position === 'TE'){
+            TE.push(lineupPre[i])
+        }
+        else if (lineupPre[i].Position === 'DST'){
+            DST.push(lineupPre[i])
+        }
     }
-    myObj['QB'] = 1
-    myObj['RB'] = 1
-    myObj['WR'] = 1
-    myObj['TE'] = 1
-    myObj['DST'] = 1
-    myObj['FLEX'] = 1
-    const model = {
-        optimize: "Projection",
-        opType: "max",
-        ints: myObj,
-        constraints: myObjTwo,   
-        variables: obj,
-    };        
-    const results = solver.Solve(model);
-    return (results)   
+    if (flexPre.length !== 0){
+        FLEX.push(flexPre[0])
+        lineup.push(flexPre[0])
+    }
+    lineup.concat(lineupPre)
+    return {QB, RB, WR, TE, DST, FLEX, lineup, result, usedSal}   
 }
 
 async function fetchCaptain(num) {
-    let sleeperData = await getSleeperProjections()
+    let sleeperData = await fetchSleeperProjections()
     let response = await fetch(`https://api.draftkings.com/draftgroups/v1/draftgroups/${num}/draftables`)
     let dkData = await response.json()
     return {
@@ -289,71 +266,49 @@ async function updateCaptain(num) {
     let x = await fetchCaptain(num)
     let data = x.dkData
     let sleeperdata = x.sleeperData
-    let y = data.draftables.map((element) => {
-        return {
-            Name: element.displayName,
-            Position: element.position,
-            Salary: element.salary,
-            Game: element.competition['name'],
-            FFPG: element.draftStatAttributes[0].value,
-            Test: element.draftStatAttributes[0].id,
-            Team: element.teamAbbreviation,
-            DraftTableId: element.playerId,
-            Status: element.status
-        }
-    })
-    let z = y.filter(y => y.Test === 90)
-    let flexes = []
-    const crowns = z.reduce((accumulator, current) => {
-        if (!accumulator.find((item) => item.DraftTableId === current.DraftTableId)) {
-            accumulator.push(current);
-        }
-        else {
-            flexes.push(current)
-        }
-        return accumulator;
-    }, []);
-    let crownsQueue = crowns.map((element) => {
-        let i = flexes.indexOf(flexes.find(e => e.DraftTableId === element.DraftTableId))
-        if (sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))) {
-            let p = sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))
-            let pro = p.Projection * 1.5
-            return {
-                ...element,
-                [i]: 1,
-                CROWN: 1,
-                Projection: pro,
+    let flexesQueue = []
+    let crownsQueue = []
+    data.draftables.map((element) => {
+        if (element.draftStatAttributes[0].id === 90){
+            if (sleeperdata.find(i => i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
+                let p = sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
+                var proj = p.Projection
             }
-        }
-        else {
-            return {
-                ...element,
-                [i]: 1,
-                CROWN: 1,
-                Projection: 0,
+            else {
+                var proj = 0    
+            }
+            let details = {
+                Name: element.displayName,
+                Position: element.position,
+                Salary: element.salary,
+                Game: element.competition['name'],
+                FFPG: element.draftStatAttributes[0].value,
+                Test: element.draftStatAttributes[0].id,
+                Team: element.teamAbbreviation,
+                DraftTableId: element.playerId,
+                Status: element.status,
+            }
+            if (!flexesQueue.find(p => p.DraftTableId === element.playerId )){
+                let newElement = {
+                    ...details,
+                    FLEX: 1,
+                    [flexesQueue.length]: 1,
+                    Projection: proj
+                }
+                flexesQueue.push(newElement)
+            }
+            else {
+                var ind = flexesQueue.findIndex(p => p.DraftTableId === element.playerId )
+                let newElement = {
+                    ...details,
+                    CROWN: 1,
+                    [ind]: 1,
+                    Projection: proj * 1.5
+                }
+                crownsQueue.push(newElement)
             }
         }
     })
-    let flexesQueue = flexes.map((element) => {
-        if (sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))) {
-            let p = sleeperdata.find(i=> i.Name === element.Name || i.Name.slice(0,10) === element.Name.slice(0,10))
-            let pro = p.Projection
-            return {
-                ...element,
-                [flexes.indexOf(element)]: 1,
-                FLEX: 1,
-                Projection: pro,
-            }
-        }
-        else {
-            return {
-                ...element,
-                [flexes.indexOf(element)]: 1,
-                FLEX: 1,
-                Projection: 0,
-            }
-        }
-    })  
     return {
         crownsQueue, flexesQueue
     }
@@ -362,17 +317,13 @@ async function updateCaptain(num) {
 async function captainOneData() {
     let num = 98584
     const queue = await updateCaptain(num)
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
-    return {crownsQueue, flexesQueue}
+    return queue
 }
 
 async function captainTwoData() {
     let num = 98585
     const queue = await updateCaptain(num)
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
-    return {crownsQueue, flexesQueue}
+    return queue
 }
 
 app.get("/trcaptainplayers", async (req, res) => { 
@@ -381,7 +332,7 @@ app.get("/trcaptainplayers", async (req, res) => {
     const flexesQueue = queue.flexesQueue
     res.json({
         crowns: crownsQueue, flexes: flexesQueue
-    });
+    })
 })
 
 app.get("/moncaptainplayers", async (req, res) => { 
@@ -395,59 +346,21 @@ app.get("/moncaptainplayers", async (req, res) => {
 
 app.post("/optimizedcaptain", async (req, res) => {
     const queue = await captainOneData()
-    let lineupP = req.body.fp
-    let crownP = req.body.cp
-    let optData = captainOptData(queue, lineupP, crownP)
-    let crownsQueue = optData.crownsQueue
-    let flexesQueue = optData.flexesQueue
-    let myObjSTwo = optData.myObjSTwo
-    let cp = optData.cp
-    let fps = optData.fps
-    let all = [...crownsQueue, ...flexesQueue]
-    let results = optimizeCaptain(all, myObjSTwo)
-    for (const [key, value] of Object.entries(results)) {
-        if (value === 1) {
-            if (all[key].CROWN === 1) {
-                let c = flexesQueue.find(p => p.Name === all[key].Name)
-                cp.push(c)
-            }
-            else {
-                fps.push(all[key])
-            }
-        }
-    }
+    let optData = captainOptData(queue, req.body.fp, req.body.cp)
+    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue,  optData.myObjSTwo, optData.cp, optData.myObjSTwo)
     res.json({
-        crown: cp, fps: fps
+        crown: results.cp, fps: results.fps
     })
 });
 
 app.post("/optimizedcaptainmon", async (req, res) => {
     const queue = await captainTwoData()
-    let lineupP = req.body.fp
-    let crownP = req.body.cp
-    let optData = captainOptData(queue, lineupP, crownP)
-    let crownsQueue = optData.crownsQueue
-    let flexesQueue = optData.flexesQueue
-    let myObjSTwo = optData.myObjSTwo
-    let cp = optData.cp
-    let fps = optData.fps
-    let all = [...crownsQueue, ...flexesQueue]
-    let results = optimizeCaptain(all, myObjSTwo)
-    for (const [key, value] of Object.entries(results)) {
-        if (value === 1) {
-            if (all[key].CROWN === 1) {
-                let c = flexesQueue.find(p => p.Name === all[key].Name)
-                cp.push(c)
-            }
-            else {
-                fps.push(all[key])
-            }
-        }
-    }
+    let optData = captainOptData(queue, req.body.fp, req.body.cp)
+    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue,  optData.myObjSTwo, optData.cp, optData.myObjSTwo)
     res.json({
-        crown: cp, fps: fps
+        crown: results.cp, fps: results.fps
     })
-});
+})
 
 function captainOptData(queue, lineupP, crownP) {
     const cq = queue.crownsQueue
@@ -497,7 +410,8 @@ function captainOptData(queue, lineupP, crownP) {
     return {crownsQueue, flexesQueue, myObjSTwo, cp, fps}
 }
 
-function optimizeCaptain(all, myObjSTwo) {
+function optimizeCaptain(crownsQueue, flexesQueue, myObjSTwo, cp, fps) {
+    let all = [...crownsQueue, ...flexesQueue]
     let objS = Object.assign({}, all)
     let myObjS = {}
     for (let i = 0; i < all.length; i++) {
@@ -513,7 +427,18 @@ function optimizeCaptain(all, myObjSTwo) {
         variables: objS,
     };
     const results = solver.Solve(modelS);
-    return(results)
+    for (const [key, value] of Object.entries(results)) {
+        if (value === 1) {
+            if (all[key].CROWN === 1) {
+                let c = flexesQueue.find(p => p.Name === all[key].Name)
+                cp.push(c)
+            }
+            else {
+                fps.push(all[key])
+            }
+        }
+    }
+    return {cp, fps}
 }
 
 app.listen(PORT, () => {

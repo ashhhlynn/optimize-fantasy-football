@@ -28,7 +28,7 @@
 }
 
 .ui.button {
-  color: #181a1f !important;
+  color: #181a1f;
   font-family: Helvetica !important;
   font-size: 15.5px  !important;
   font-weight: bold !important;
@@ -55,7 +55,7 @@
 .dfs {
   height: 460px !important;
   overflow-y: scroll !important; /* or auto */
-  width:520px  !important;
+  width:530px  !important;
   scrollbar-color: #15151b !important;
 }
 
