@@ -2,7 +2,7 @@
 <table>
   <tr>
     <td>
-Fantasy Football lineup builder application created with Node.js and React.js, featuring live DraftKings contest data and projections from Sleeper. Manually build lineup from player queue or use linear programming optimizer to generate highest projected lineup given salary and position constraints. Front end deployed to Netlify and back end deployed to Render. 
+Daily Fantasy Football lineup builder and optimizer application created with Node.js and React.js, featuring live DraftKings contest data and projections from Sleeper. Build DraftKings contest lineups manually from player queue or optimize with linear programming for the highest projected lineup given salary and position constraints. Updated weekly during the NFL season for the Sunday Classic and two Showdown contests.  
     </td>
   </tr>
 </table> 
@@ -19,6 +19,7 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - lp-solver.js
 - Semantic UI React
 - HTML & CSS
+- Netlify & Render
 
 ## Features
 - Fetch from DraftKings API to access live TNF/MNF Showdown and Sunday Classic contest data
@@ -26,11 +27,8 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - Sort player queue by position, name, projection, FPPG, and salary
 - Calculate optimal lineup (highest proj. value) given salary and position constraints with lp-solver.js 
 - Manually add (or remove) players to lineup from player queue
-- Option to include selected players in optimization calculation
+- Option to include manually selected players in optimization calculation
 - View lineup total projection and remaining salary data
-
-## To Implement
-- Queue opponent rank (and sorting)
 
 ## Media 
 ![Screenshot (174)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/2755d16d-f177-42ba-85fc-de752f5782ba)
