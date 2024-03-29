@@ -149,10 +149,10 @@ function MondayCaptainHome(props) {
         <div>
             <div class="contestButtons">
                 <Button circular color="white" basic as={Link} to="/showdown1" inverted style={{marginRight:"5%", backgroundColor:"inherit"}}>
-                    <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>{props.sdDow1} {props.sdDate1}<br></br>{props.sdTeams1}</span>
+                    <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>{props.sdDow1} {props.sdDate1}<br></br><b>{props.sdTeams1}</b></span>
                 </Button>
                 <Button circular color="white" as={Link} basic to="/showdown2" inverted style={{marginRight:"3%", backgroundColor:"inherit"}}>
-                    <span style={{fontSize:"12.5px",color:"white"}}>{props.sdDow2} {props.sdDate2}<br></br>{props.sdTeams2}</span>
+                    <span style={{fontSize:"12.5px",color:"white"}}>{props.sdDow2} {props.sdDate2}<br></br><b>{props.sdTeams2}</b></span>
                 </Button>
             </div>
             <Grid divider vert style={{marginTop:"2%"}}>
@@ -180,9 +180,9 @@ function MondayCaptainHome(props) {
                         trigger={<Button style={{width: "230px", marginLeft:"6%", marginBottom:"1.75%",color:"#181a1f", backgroundColor:"#61dafb"}}>OPTIMIZE</Button>}
                         >
                             <ModalContent style={{textAlign:"center"}}>
-                                <p style={{fontFamily:"Helvetica", fontSize:"16px", fontWeight:"bold"}}>Optimize with selected players?</p>
+                                <p style={{fontFamily:"Helvetica", fontSize:"15px", fontWeight:"bold"}}>Include selected players?</p>
                                 <ModalActions>
-                                    <Button basic color="teal"  style={{width:"110px"}} onClick={optimizeWith}>
+                                    <Button basic color="teal"  style={{marginLeft:"1.5%", width:"110px"}} onClick={optimizeWith}>
                                         <Icon name='checkmark' /> Yes
                                     </Button>
                                     <Button basic color='grey' style={{width:"110px"}} onClick={optimizeWithout}>

@@ -270,9 +270,9 @@ function ClassicHome() {
                         trigger={<Button style={{width: "230px", marginLeft:"6%",backgroundColor:"#61dafb", color:"#181a1f"}}>OPTIMIZE LINEUP</Button>}
                         >
                             <ModalContent style={{textAlign:"center"}}>
-                                <p style={{fontFamily:"Helvetica", fontSize:"16px", fontWeight:"bold"}}>Optimize with selected players?</p>
+                                <p style={{fontFamily:"Helvetica", fontSize:"15px", fontWeight:"bold"}}>Include selected players?</p>
                                 <ModalActions>
-                                    <Button basic color="teal" style={{width:"110px"}} onClick={optimizeWith}>
+                                    <Button basic color="teal" style={{marginLeft:"1.5%", width:"110px"}} onClick={optimizeWith}>
                                         <Icon name='checkmark' /> Yes
                                     </Button>
                                     <Button basic color='grey' style={{width:"110px"}} onClick={optimizeWithout}>
