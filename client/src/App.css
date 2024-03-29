@@ -55,7 +55,7 @@
 .dfs {
   height: 460px !important;
   overflow-y: scroll !important; /* or auto */
-  width:530px  !important;
+  width:520px  !important;
   scrollbar-color: #15151b !important;
 }
 

@@ -107,9 +107,12 @@ function ClassicHome() {
             let lp = lineupPlayers.filter(p => p.DraftTableId !== flex[0].DraftTableId)
             optimizePlayers(lp, fl, answer)
         } 
-        else {
+        else if (lineupPlayers.length > 0){
             let lp = lineupPlayers 
             optimizePlayers(lp, fl, answer)
+        }
+        else {
+            optimizeWithout()
         }
     }
 
@@ -239,28 +242,9 @@ function ClassicHome() {
 
     return (
         <div>
-            <Grid divider vert style={{marginTop:"2%"}}>
+            <Grid divider vert style={{marginTop:".5%"}}>
                 <Grid.Row columns={2}>
-                    <Grid.Column>
-                        <Modal
-                        style={{width:"300px"}}
-                        onClose={() => setOpen(false)}
-                        onOpen={() => setOpen(true)}
-                        open={open}
-                        trigger={<Button style={{width: "518px", marginLeft:"6%",backgroundColor:"#61dafb", color:"#181a1f"}}>OPTIMIZE LINEUP</Button>}
-                        >
-                            <ModalContent style={{textAlign:"center"}}>
-                                <p style={{fontFamily:"Helvetica", fontSize:"16px", fontWeight:"bold"}}>Optimize with selected players?</p>
-                                <ModalActions>
-                                    <Button basic color="teal" style={{width:"110px"}} onClick={optimizeWith}>
-                                        <Icon name='checkmark' /> Yes
-                                    </Button>
-                                    <Button basic color='grey' style={{width:"110px"}} onClick={optimizeWithout}>
-                                        <Icon name='remove' /> No
-                                    </Button>
-                                </ModalActions>
-                            </ModalContent>
-                        </Modal>
+                    <Grid.Column> 
                         {isLoading ? 
                             <Loader active /> : <Loader />
                         }
@@ -278,9 +262,28 @@ function ClassicHome() {
                             dst={dst}
                             removePlayer={removePlayer}
                         />
+                        <Modal
+                        style={{width:"300px"}}
+                        onClose={() => setOpen(false)}
+                        onOpen={() => setOpen(true)}
+                        open={open}
+                        trigger={<Button style={{width: "230px", marginLeft:"6%",backgroundColor:"#61dafb", color:"#181a1f"}}>OPTIMIZE LINEUP</Button>}
+                        >
+                            <ModalContent style={{textAlign:"center"}}>
+                                <p style={{fontFamily:"Helvetica", fontSize:"16px", fontWeight:"bold"}}>Optimize with selected players?</p>
+                                <ModalActions>
+                                    <Button basic color="teal" style={{width:"110px"}} onClick={optimizeWith}>
+                                        <Icon name='checkmark' /> Yes
+                                    </Button>
+                                    <Button basic color='grey' style={{width:"110px"}} onClick={optimizeWithout}>
+                                        <Icon name='remove' /> No
+                                    </Button>
+                                </ModalActions>
+                            </ModalContent>
+                        </Modal>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label.Group style={{height:"46px",cursor:"pointer", marginLeft:"24%", marginBottom:"-2.3%"}}>
+                        <Label.Group style={{height:"46px",cursor:"pointer", marginLeft:"24%", marginTop:"1.85%",marginBottom:"-2.3%"}}>
                             <Label onClick={setQPlayers} style={{fontSize:"11.5px", backgroundColor:"#61dafb"}}>QB</Label>
                             <Label onClick={setRPlayers} style={{fontSize:"11.5px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>RB</Label>
                             <Label onClick={setWPlayers} style={{fontSize:"11.5px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>WR</Label>

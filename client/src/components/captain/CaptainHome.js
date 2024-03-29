@@ -158,25 +158,7 @@ function CaptainHome(props) {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        <Modal
-                        style={{width:"300px"}}
-                        onClose={() => setOpen(false)}
-                        onOpen={() => setOpen(true)}
-                        open={open}
-                        trigger={<Button style={{width: "518px", marginLeft:"6%", marginBottom:"1.75%",color:"#181a1f", backgroundColor:"#61dafb"}}>OPTIMIZE</Button>}
-                        >
-                            <ModalContent style={{textAlign:"center"}}>
-                            <p style={{fontFamily:"Helvetica", fontSize:"16px", fontWeight:"bold"}}>Optimize with selected players?</p>
-                                <ModalActions>
-                                    <Button basic color="teal" style={{width:"110px"}} onClick={optimizeWith}>
-                                        <Icon name='checkmark' /> Yes
-                                    </Button>
-                                    <Button basic color='grey' style={{width:"110px"}} onClick={optimizeWithout}>
-                                        <Icon name='remove' /> No
-                                    </Button>
-                                </ModalActions>
-                            </ModalContent>
-                        </Modal>
+                        
                         {isLoading ? 
                             <Loader active /> : <Loader />
                         }
@@ -191,6 +173,25 @@ function CaptainHome(props) {
                             removeFlexPlayer={removeFlexPlayer}
                             removeCrownPlayer={removeCrownPlayer}
                         />
+                        <Modal
+                        style={{width:"300px"}}
+                        onClose={() => setOpen(false)}
+                        onOpen={() => setOpen(true)}
+                        open={open}
+                        trigger={<Button style={{width: "230px", marginLeft:"6%", marginBottom:"1.75%",color:"#181a1f", backgroundColor:"#61dafb"}}>OPTIMIZE</Button>}
+                        >
+                            <ModalContent style={{textAlign:"center"}}>
+                            <p style={{fontFamily:"Helvetica", fontSize:"16px", fontWeight:"bold"}}>Optimize with selected players?</p>
+                                <ModalActions>
+                                    <Button basic color="teal" style={{width:"110px"}} onClick={optimizeWith}>
+                                        <Icon name='checkmark' /> Yes
+                                    </Button>
+                                    <Button basic color='grey' style={{width:"110px"}} onClick={optimizeWithout}>
+                                        <Icon name='remove' /> No
+                                    </Button>
+                                </ModalActions>
+                            </ModalContent>
+                        </Modal>
                     </Grid.Column>
                     <Grid.Column>
                         <Label style={{fontSize:"11.5px", marginBottom:".2%", backgroundColor:"#61dafb", marginLeft:"46%"}}>
