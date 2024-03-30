@@ -14,21 +14,22 @@ async function fetchSleeperProjections() {
     else { var current = 18 }
     const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
     let responseJson = await response.json()
-    let s = responseJson.map((element) => {
-        if (element.player.position === "DEF" ) {
-            return {
-                Name: element.player.last_name,
+    let sleeper = []
+    responseJson.map((element) => {
+        if (element.stats.pts_ppr > 0){  
+            if (element.player.position === "DEF" ) {
+                var name = element.player.last_name
+            }
+            else {
+                var name = element.player.first_name + ' ' + element.player.last_name
+            }
+            let details = {
+                Name: name,
                 Projection: element.stats.pts_ppr,
             }
-        }
-        else {
-            return {
-                Name: element.player.first_name + ' ' + element.player.last_name,
-                Projection: element.stats.pts_ppr,
-            }
+            sleeper.push(details)
         }
     })
-    let sleeper = s.filter(s => s.Projection > 0)
     return sleeper 
 }
 
@@ -38,6 +39,8 @@ async function fetchClassic(){
     let responseData = await response.json()
     let responseTables = responseData.draftables
     let classicPlayers = []
+    let flexPlayers = []
+    let counter = 0
     responseTables.map((element) => {
         if (sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
             let p = sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
@@ -46,8 +49,8 @@ async function fetchClassic(){
         else {
             var proj = 0
         }
-        if (element.draftStatAttributes[0].id === 90 && !classicPlayers.find(item => item.DraftTableId === element.playerId)){
-            let details = {
+        if (element.draftStatAttributes[0].id === 90){
+            var playerDetails = {
                 Name: element.displayName,
                 Position: element.position,
                 Salary: element.salary,
@@ -58,17 +61,40 @@ async function fetchClassic(){
                 DraftTableId: element.playerId,
                 Projection: proj,
                 Status: element.status,
-                [classicPlayers.length]: 1,
                 [element.position]: 1,
+            }        
+            if (counter === 0){
+                let details = {
+                    ...playerDetails,
+                    0: 1
+                }
+                classicPlayers.push(details)
+                counter += 1
             }
-            classicPlayers.push(details)
-        }        
+            else if (classicPlayers[counter-1].DraftTableId !== element.playerId){
+                let details = {
+                    ...playerDetails,
+                    [counter]: 1,
+                }
+                classicPlayers.push(details)
+                counter += 1
+            }
+            else {
+                let details = {
+                    ...classicPlayers[counter-1],
+                    FLEX: 1,
+                    [element.position]: 0,
+                }
+                flexPlayers.push(details)
+            }
+        }
     })
-    return classicPlayers
+    return {classicPlayers, flexPlayers}
 }
 
 app.get("/classicplayers", async (req, res) => { 
-    let classicPlayers =  await fetchClassic()
+    let classicPlayersData =  await fetchClassic()
+    let classicPlayers = classicPlayersData.classicPlayers
     let qqb = []
     let qrb = []
     let qwr = []
@@ -99,65 +125,103 @@ app.get("/classicplayers", async (req, res) => {
 })
 
 app.get("/classicoptimizer", async (req, res) => { 
-    let uniques = await fetchClassic()
-    let mod = optimizeClassicModel(uniques)
-    let flexPre = []
-    let lineupPre = []
-    let resultz = optimizeClassic(mod.players, mod.myObjTwo, uniques, flexPre, lineupPre)
+    let classicPlayersData =  await fetchClassic()
+    let uniques = classicPlayersData.classicPlayers
+    const players = [...uniques, ...classicPlayersData.flexPlayers]
+    let myObjTwo = optimizeClassicModelTwo()
+    let QB = []
+    let RB = []
+    let WR = []
+    let TE = []
+    let DST = []
+    let results = optimizeClassicTest(players, uniques, myObjTwo)
+    let FLEX = results.FLEX
+    let lineup = results.lineup
+    for (let i=0; i<lineup.length;i++){
+        if (lineup[i].Position === 'QB') {
+            QB.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'RB') {
+            RB.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'WR') {
+            WR.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'TE') {
+            TE.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'DST') {
+            DST.push(lineup[i])
+        }
+    }
+    lineup.push(FLEX[0])
+    let usedSalData = results.usedSal + FLEX[0].Salary
     res.json({
-        lineup: resultz.lineup, qb: resultz.QB, rb: resultz.RB, wr: resultz.WR, te: resultz.TE, dst: resultz.DST, flex: resultz.FLEX, result: resultz.result, usedSal: resultz.usedSal
+        lineup: lineup, qb: QB, rb: RB, wr: WR, te: TE, dst: DST, flex: FLEX, result: results.result, usedSal: usedSalData
     })
 })
 
 app.post("/classicoptimize", async (req, res) => {
-    let unique =  await fetchClassic()
+    let classicPlayersData =  await fetchClassic()
+    let unique = classicPlayersData.classicPlayers
+    let duplicate = classicPlayersData.flexPlayers
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
-    let newLineupPlayers = [...lineupPlayers, ...fl]
-    var uniques = unique.filter(function(objFromA) {
-        return !newLineupPlayers.find(function(objFromB) {
-            return objFromA.DraftTableId === objFromB.DraftTableId
-        })
-    })
-    let mod = optimizeClassicModel(uniques)
-    let myObjTwo = mod.myObjTwo
-    let flexPre = []
-    let lineupPre = []
+    let myObjTwo = optimizeClassicModelTwo()
+    let lineup = []
+    let FLEX = []
     let val = 0
-    let sal = 50000      
+    let sal = 50000
     for (let i = 0; i < lineupPlayers.length; i++) {
+        var uniques = unique.filter(p => p.DraftTableId !== lineupPlayers[i].DraftTableId)
+        var duplicates = duplicate.filter(p => p.DraftTableId !== lineupPlayers[i].DraftTableId)
         val += lineupPlayers[i].Projection
         sal -= lineupPlayers[i].Salary
         let x = myObjTwo[`${lineupPlayers[i].Position}`]['min'] - 1
         myObjTwo[`${lineupPlayers[i].Position}`] = {'min' : x, 'max': x}
-        myObjTwo['Salary'] = { 'max': sal }
-        lineupPre.push(lineupPlayers[i])
+        lineup.push(lineupPlayers[i])
     }
     if (fl.length !== 0 ) {
         val += fl[0].Projection
         sal -= fl[0].Salary
-        myObjTwo['Salary'] = { 'max': sal }
         myObjTwo['FLEX'] = { 'min': 0, 'max': 0 }
-        flexPre.push(fl[0])
+        FLEX.push(fl[0])
     }
-    let resultz = optimizeClassic(mod.players, myObjTwo, uniques, lineupPre, flexPre) 
+    myObjTwo['Salary'] = { 'max': sal }
+    const players = [...uniques, ...duplicates]
+    let QB = []
+    let RB = []
+    let WR = []
+    let TE = []
+    let DST = []
+    let results = optimizeClassicTest(players, uniques, myObjTwo)
+    FLEX.push(...results.FLEX)
+    lineup.push(...results.lineup)
+    for (let i=0; i<lineup.length;i++){
+        if (lineup[i].Position === 'QB') {
+            QB.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'RB') {
+            RB.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'WR') {
+            WR.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'TE') {
+            TE.push(lineup[i])
+        }
+        else if (lineup[i].Position === 'DST') {
+            DST.push(lineup[i])
+        }
+    }
+    lineup.push(FLEX[0])
+    let usedSalData = results.usedSal + (50000 - sal) + FLEX[0].Salary
     res.json({
-        lineup: resultz.lineup, qb: resultz.QB, rb: resultz.RB, wr: resultz.WR, te: resultz.TE, dst: resultz.DST, flex: resultz.FLEX, result: resultz.result + val, usedSal: resultz.usedSal
+        lineup: lineup, qb: QB, rb: RB, wr: WR, te: TE, dst: DST, flex: FLEX, result: results.result + val, usedSal: usedSalData
     })
 })
 
-function optimizeClassicModel(uniques){
-    let flexes = uniques.filter(element => element.Position === "RB" || element.Position === "TE" || element.Position === "WR")
-    let duplicates = flexes.map((element) => {
-        let i = uniques.indexOf(uniques.find(e => e.DraftTableId === element.DraftTableId))
-            return {
-                ...element,
-                FLEX: 1,
-                [i]: 1,
-                [element.Position]: 0,
-            }
-    })  
-    const players = [...uniques, ...duplicates]
+function optimizeClassicModelTwo() {
     let myObjTwo = {}
     myObjTwo['QB'] = { 'min': 1, 'max': 1 }
     myObjTwo['RB'] = { 'min': 2, 'max': 2 }
@@ -166,13 +230,10 @@ function optimizeClassicModel(uniques){
     myObjTwo['DST'] = { 'min': 1, 'max': 1 }
     myObjTwo['FLEX'] = { 'min': 1, 'max': 1 }
     myObjTwo['Salary'] = { 'max': 50000 }
-    for (let i = 0; i < uniques.length; i++) {
-        myObjTwo[i] = {'max': 1}
-    }
-    return {players, myObjTwo}
+    return myObjTwo
 }
 
-function optimizeClassic(players, myObjTwo, uniques, lineupPre, flexPre) {
+function optimizeClassicTest(players, uniques, myObjTwo) {
     let obj = Object.assign({}, players)
     let myObj = {}
     for (let i = 0; i < players.length; i++) {
@@ -184,74 +245,37 @@ function optimizeClassic(players, myObjTwo, uniques, lineupPre, flexPre) {
     myObj['TE'] = 1
     myObj['DST'] = 1
     myObj['FLEX'] = 1
+    for (let i = 0; i < uniques.length; i++) {
+        myObjTwo[i] = {'max': 1}
+    }
     const model = {
         optimize: "Projection",
         opType: "max",
         ints: myObj,
         constraints: myObjTwo,   
         variables: obj,
-    };        
+    }    
     const results = solver.Solve(model);
-    let QB = []
-    let RB = []
-    let WR = []
-    let TE = []
-    let FLEX = []
-    let DST = []
-    let lineup = []
     let result = results.result
     let usedSal = 0
+    let lineup = []
+    let FLEX = []
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (players[key].FLEX === 1) {    
-                let f = uniques.find(p => p.Name === players[key].Name)
-                FLEX.push(f)
+                let flexPlayer = uniques.find(p => p.DraftTableId === players[key].DraftTableId)
+                FLEX.push(flexPlayer)
             }
             else {
-                if (players[key].QB === 1) {
-                    QB.push(players[key])
-                }
-                else if (players[key].RB === 1) {
-                    RB.push(players[key])
-                }
-                else if (players[key].WR === 1) {
-                    WR.push(players[key])
-                }
-                else if (players[key].TE === 1) {
-                    TE.push(players[key])
-                }
-                else if (players[key].DST === 1) {
-                    DST.push(players[key])
-                }
+                lineup.push(players[key])
+                usedSal += players[key].Salary
             }
-            lineup.push(players[key])
-            usedSal += players[key].Salary
         }
     }
-    for (let i=0; i < lineupPre.length; i++) {
-        if (lineupPre[i].Position === 'QB'){
-            QB.push(lineupPre[i])
-        }
-        else if (lineupPre[i].Position === 'RB'){
-            RB.push(lineupPre[i])
-        }
-        else if (lineupPre[i].Position === 'WR'){
-            WR.push(lineupPre[i])
-        }
-        else if (lineupPre[i].Position === 'TE'){
-            TE.push(lineupPre[i])
-        }
-        else if (lineupPre[i].Position === 'DST'){
-            DST.push(lineupPre[i])
-        }
-    }
-    if (flexPre.length !== 0){
-        FLEX.push(flexPre[0])
-        lineup.push(flexPre[0])
-    }
-    lineup.concat(lineupPre)
-    return {QB, RB, WR, TE, DST, FLEX, lineup, result, usedSal}   
+    return {FLEX, lineup, result, usedSal}   
 }
+
+
 
 async function fetchCaptain(num) {
     let sleeperData = await fetchSleeperProjections()
