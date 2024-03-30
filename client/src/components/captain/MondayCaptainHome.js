@@ -173,7 +173,7 @@ function MondayCaptainHome(props) {
                             removeCrownPlayer={removeCrownPlayer}
                         />
                         <Modal
-                        style={{width:"300px"}}
+                        style={{width:"305px"}}
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}
                         open={open}
