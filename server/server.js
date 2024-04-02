@@ -153,6 +153,7 @@ app.post("/classicoptimize", async (req, res) => {
     )
 })
 
+
 function classicConstraintModel(constraintObj) {
     constraintObj['QB'] = { 'min': 1, 'max': 1 }
     constraintObj['RB'] = { 'min': 2, 'max': 2 }
