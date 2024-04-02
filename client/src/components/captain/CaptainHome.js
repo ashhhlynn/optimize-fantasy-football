@@ -17,7 +17,7 @@ function CaptainHome(props) {
     const [open, setOpen] = useState(false)
     const [isLoading, setLoading] = useState(false);
 
-    const url = "https://optimize-daily.onrender.com"
+    const url = "http://localhost:8000"
 
     useEffect(() => {
         fetchPlayerQueue()
@@ -178,7 +178,7 @@ function CaptainHome(props) {
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}
                         open={open}
-                        trigger={<Button style={{width: "230px", marginLeft:"6%", marginBottom:"1.75%",color:"#181a1f", backgroundColor:"#61dafb"}}>OPTIMIZE</Button>}
+                        trigger={<Button style={{width: "230px", marginLeft:"6%", marginBottom:"1.75%",color:"#181a1f", backgroundColor:"#61dafb"}}>OPTIMIZE LINEUP</Button>}
                         >
                             <ModalContent style={{textAlign:"center"}}>
                             <p style={{fontFamily:"Helvetica", fontSize:"15px", fontWeight:"bold"}}>Include selected players?</p>

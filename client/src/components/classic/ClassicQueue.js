@@ -35,21 +35,21 @@ function ClassicQueue(props) {
       
     const playercells = props.players.map (player => 
         <Table.Row>
-            <Table.Cell style={{textAlign:"center",borderBottom:".05px", borderColor:"#fafafa"}}>{player.Position}</Table.Cell>
-            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Name} 
-            {player.Status === "None" ?
+            <Table.Cell style={{textAlign:"center",borderBottom:".05px", borderColor:"#fafafa"}}>{player.position}</Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.displayName} 
+            {player.status === "None" ?
                 <></>
             : 
-            player.Status === "IR" ? 
-                <><span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,2)}</span></> 
+            player.status === "IR" ? 
+                <><span style={{color:"#61dafb", fontWeight:"700"}}> {player.status.substr(0,2)}</span></> 
             : 
                 <><span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,1)}</span></> 
             }
-            <br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Game}</span></Table.Cell>
-            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.Team}</Table.Cell>
-            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.FFPG}</Table.Cell>
+            <br></br><span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.competition['name']}</span></Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.teamAbbreviation}</Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",borderColor:"#fafafa"}}>{player.draftStatAttributes[0].value}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",  borderColor:"#fafafa"}}>{player.Projection}</Table.Cell>
-            <Table.Cell style={{borderBottom:".05px",  borderColor:"#fafafa"}}>${player.Salary}</Table.Cell>
+            <Table.Cell style={{borderBottom:".05px",  borderColor:"#fafafa"}}>${player.salary}</Table.Cell>
             <Table.Cell style={{borderBottom:".05px",  borderColor:"#fafafa"}}>
                 <center>
                     <Icon onClick={(event) => setPlayer(event, player)} style={{cursor:"pointer"}}  size="large" name="plus circle" />

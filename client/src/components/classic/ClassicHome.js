@@ -50,28 +50,28 @@ function ClassicHome() {
     }
 
     const setPlayer = (player) => {
-        if (!lineupPlayers.find(p => p.DraftTableId === player.DraftTableId)) { 
-            if (player.Position === "QB" && !qb ) {
+        if (!lineupPlayers.find(p => p.playerId === player.playerId)) { 
+            if (player.position === "QB" && !qb ) {
               setLineupData(player)
               setQb(player)
             }
-            else if (player.Position === "RB" && rbs.length < 2) {
+            else if (player.position === "RB" && rbs.length < 2) {
               setRbs(rbs => [...rbs, player])
               setLineupData(player)
             }
-            else if (player.Position === "WR" && wrs.length < 3) {
+            else if (player.position === "WR" && wrs.length < 3) {
               setWrs(wrs => [...wrs, player])
               setLineupData(player)
             }
-            else if (player.Position === "TE" && !te) {
+            else if (player.position === "TE" && !te) {
               setTe(player)
               setLineupData(player)
             }
-            else if (player.Position === "DST" && !dst) {
+            else if (player.position === "DST" && !dst) {
               setDst(player)
               setLineupData(player)
             }
-            else if (flex.length < 1 && (player.Position === "RB" || player.Position === "WR"  || player.Position === "TE")) {
+            else if (flex.length < 1 && (player.position === "RB" || player.position === "WR"  || player.position === "TE")) {
               setFlex([player])
               setLineupData(player)
             }
@@ -104,7 +104,7 @@ function ClassicHome() {
         let fl = flex
         let answer = 'yes'
         if (fl.length > 0 ) {
-            let lp = lineupPlayers.filter(p => p.DraftTableId !== flex[0].DraftTableId)
+            let lp = lineupPlayers.filter(p => p.playerId !== flex[0].playerId)
             optimizePlayers(lp, fl, answer)
         } 
         else if (lineupPlayers.length > 0){
@@ -147,7 +147,7 @@ function ClassicHome() {
     const setLineupData = (player) => {     
         setProjection(projection + player.Projection)
         setLineupPlayers(lineupPlayers => [...lineupPlayers, player])
-        let s = salary - player.Salary
+        let s = salary - player.salary
         if (playerCount === 1) {
             setSalaryPerPlayer(0)
         }
@@ -163,37 +163,37 @@ function ClassicHome() {
         if (player === flex[0]) {
           setFlex([])
         }  
-        else if (player.Position === "QB") {
+        else if (player.position === "QB") {
           setQb()
         }
-        else if (player.Position === "RB") {
+        else if (player.position === "RB") {
           let z = rbs.filter(f => f !== player)
           setRbs(z)
         }
-        else if (player.Position === "WR") {
+        else if (player.position === "WR") {
           let z = wrs.filter(f => f !== player)
           setWrs(z)
         }
-        else if (player.Position === "TE") {
+        else if (player.position === "TE") {
           setTe()
         }
-        else if (player.Position ==="DST" ) {
+        else if (player.position ==="DST" ) {
           setDst()
         }
     }
 
     const removeLineupData = (player) => {
         setProjection(projection - player.Projection)
-        let s = salary + player.Salary
+        let s = salary + player.salary
         setSalaryPerPlayer(parseInt(s/(playerCount + 1)))
         setSalary(s)
         setPlayerCount(playerCount + 1)
-        let x = lineupPlayers.filter(f => f.DraftTableId !== player.DraftTableId)
+        let x = lineupPlayers.filter(f => f.playerId !== player.playerId)
         setLineupPlayers(x)
     }
 
     const sortPos = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Position < item1.Position ? -1 : 1)])
+        setPlayers([...players.slice().sort((item1, item2) => item2.position < item1.position ? -1 : 1)])
     }
 
     const sortProjection = () => {
@@ -201,15 +201,15 @@ function ClassicHome() {
     }
 
     const sortFFPG = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.FFPG < item1.FFPG ? -1 : 1)])
+        setPlayers([...players.slice().sort((item1, item2) => item2.draftStatAttributes[0].value < item1.draftStatAttributes[0].value ? -1 : 1)])
     }
 
     const sortMoney = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Salary < item1.Salary ? -1 : 1)])
+        setPlayers([...players.slice().sort((item1, item2) => item2.salary < item1.salary ? -1 : 1)])
     }
 
     const sortName = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Name < item1.Name ? 1 : -1)])
+        setPlayers([...players.slice().sort((item1, item2) => item2.displayName < item1.displayName ? 1 : -1)])
     }
  
     const setQPlayers = () => {

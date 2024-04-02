@@ -44,48 +44,40 @@ async function fetchClassic(){
     let intCounter = 0
     let constraintObj = {}
     let intObj = {}
-    responseTables.map((element) => {
-        if (sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
-            let p = sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
-            var proj = p.Projection
-        }
-        else {
-            var proj = 0
-        }
-        if (element.draftStatAttributes[0].id === 90){
-            var playerDetails = {
-                Name: element.displayName,
-                Position: element.position,
-                Salary: element.salary,
-                Game: element.competition['name'],
-                FFPG: element.draftStatAttributes[0].value,
-                Test: element.draftStatAttributes[0].id,
-                Team: element.teamAbbreviation,
-                DraftTableId: element.playerId,
-                Projection: proj,
-                Status: element.status,
-                [element.position]: 1,
-            }        
-            if (counter === 0){
-                constraintObj[0] = {'max': 1}
-                var details = {...playerDetails, 0: 1}
-                classicPlayers.push(details)
-                counter += 1
-            }
-            else if (classicPlayers[counter-1].DraftTableId !== element.playerId){
-                constraintObj[counter] = {'max': 1}
-                var details = {...playerDetails, [counter]: 1}
-                classicPlayers.push(details)
-                counter += 1
+    for (let z=0; z < responseTables.length; z++){
+        if (responseTables[z].draftStatAttributes[0].id === 90){
+            let element = responseTables[z]
+            let sleeperPlayer = sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
+            if (sleeperPlayer !== undefined){
+                var proj = sleeperPlayer.Projection
             }
             else {
-                var details = {...classicPlayers[counter-1], FLEX: 1, [element.position]: 0}
-                flexPlayers.push(details)
+                var proj = 0 
             }
             intObj[intCounter] = {'max': 1}
+            constraintObj[counter] = {'max': 1}
+            var details = {
+                ...element, 
+                Projection: proj,
+                [element.position]: 1,
+                [counter]: 1
+            }    
+            classicPlayers.push(details)
+            if (z !== responseTables.length - 1 && element.playerId === responseTables[z+1].playerId){
+                var detailsTwo = {
+                    ...details, 
+                    [element.position]: 0,
+                    FLEX: 1, 
+                }
+                flexPlayers.push(detailsTwo)
+                intCounter += 1
+                intObj[intCounter] = {'max': 1}
+                z++
+            }
+            counter += 1
             intCounter += 1
-        }
-    })
+        }   
+    }    
     return {classicPlayers, flexPlayers, constraintObj, intObj}
 }
 
@@ -99,22 +91,22 @@ app.get("/classicplayers", async (req, res) => {
     let qdst = []
     let qflex = []
     for (let i=0; i < classicPlayers.length; i++){
-        if (classicPlayers[i].Position === "QB"){
+        if (classicPlayers[i].position === "QB"){
             qqb.push(classicPlayers[i])
         }
-        else if (classicPlayers[i].Position === "RB"){
+        else if (classicPlayers[i].position === "RB"){
             qrb.push(classicPlayers[i])
             qflex.push(classicPlayers[i])
         }
-        else if (classicPlayers[i].Position === "WR"){
+        else if (classicPlayers[i].position === "WR"){
             qwr.push(classicPlayers[i])
             qflex.push(classicPlayers[i])
         }
-        else if (classicPlayers[i].Position === "TE"){
+        else if (classicPlayers[i].position === "TE"){
             qte.push(classicPlayers[i])
             qflex.push(classicPlayers[i])
         }
-        else if (classicPlayers[i].Position === "DST"){
+        else if (classicPlayers[i].position === "DST"){
             qdst.push(classicPlayers[i])
         }
     } 
@@ -125,8 +117,8 @@ app.get("/classicoptimizer", async (req, res) => {
     let classicPlayersData =  await fetchClassic()
     let uniques = classicPlayersData.classicPlayers
     const players = [...uniques, ...classicPlayersData.flexPlayers]
-    let constraintObj = optimizeClassicModelTwo(classicPlayersData.constraintObj)
-    let results = sortOptimize(players, constraintObj, classicPlayersData.intObj)
+    let constraintObj = classicConstraintModel(classicPlayersData.constraintObj)
+    let results = optimizeClassic(players, constraintObj, classicPlayersData.intObj)
     let endResult = sortResults(results, uniques, players)
     res.json(
         endResult
@@ -139,40 +131,40 @@ app.post("/classicoptimize", async (req, res) => {
     let duplicate = classicPlayersData.flexPlayers
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
-    let constraintObj = optimizeClassicModelTwo(classicPlayersData.constraintObj)
+    let constraintObj = classicConstraintModel(classicPlayersData.constraintObj)
     let sal = 50000
     for (let i = 0; i < lineupPlayers.length; i++) {
-        var uniques = unique.filter(p => p.DraftTableId !== lineupPlayers[i].DraftTableId)
-        var duplicates = duplicate.filter(p => p.DraftTableId !== lineupPlayers[i].DraftTableId)
-        sal -= lineupPlayers[i].Salary
-        let x = constraintObj[`${lineupPlayers[i].Position}`]['min'] - 1
-        constraintObj[`${lineupPlayers[i].Position}`] = {'min' : x, 'max': x}
+        var uniques = unique.filter(p => p.playerId !== lineupPlayers[i].playerId)
+        var duplicates = duplicate.filter(p => p.playerId !== lineupPlayers[i].playerId)
+        sal -= lineupPlayers[i].salary
+        let x = constraintObj[`${lineupPlayers[i].position}`]['min'] - 1
+        constraintObj[`${lineupPlayers[i].position}`] = {'min' : x, 'max': x}
     }
     if (fl.length !== 0 ) {
-        sal -= fl[0].Salary
+        sal -= fl[0].salary
         constraintObj['FLEX'] = { 'min': 0, 'max': 0 }
     }
     constraintObj['Salary'] = { 'max': sal }
     const players = [...uniques, ...duplicates]
-    let results = sortOptimize(players, constraintObj, classicPlayersData.intObj)
+    let results = optimizeClassic(players, constraintObj, classicPlayersData.intObj)
     let endResult = sortResults(results, uniques, players, lineupPlayers, fl)
     res.json(
        endResult
     )
 })
 
-function optimizeClassicModelTwo(constraintObj) {
+function classicConstraintModel(constraintObj) {
     constraintObj['QB'] = { 'min': 1, 'max': 1 }
     constraintObj['RB'] = { 'min': 2, 'max': 2 }
     constraintObj['WR'] = { 'min': 3, 'max': 3 }
     constraintObj['TE'] = { 'min': 1, 'max': 1 }
     constraintObj['DST'] = { 'min': 1, 'max': 1 }
     constraintObj['FLEX'] = { 'min': 1, 'max': 1 }
-    constraintObj['Salary'] = { 'max': 50000 }
+    constraintObj['salary'] = { 'max': 50000 }
     return constraintObj
 }
 
-function sortOptimize(players, constraintObj, intObj) {
+function optimizeClassic(players, constraintObj, intObj) {
     let obj = Object.assign({}, players)
     intObj['QB'] = 1
     intObj['RB'] = 1
@@ -187,40 +179,40 @@ function sortOptimize(players, constraintObj, intObj) {
         constraints: constraintObj,   
         variables: obj,
     }    
-    const results = solver.Solve(model);
+    const results = solver.Solve(model)
     return results
 }
 
-function sortResults(resultz, uniques, players, lineupPlayers=[], fl=[]) {
+function sortResults(results, uniques, players, lineupPlayers=[], fl=[]) {
     let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
-    sortedResults['result'] += resultz.result
+    sortedResults['result'] += results.result
     for (let i=0; i < lineupPlayers.length; i++){
-        let pos = lineupPlayers[i].Position.toLowerCase()
+        let pos = lineupPlayers[i].position.toLowerCase()
         sortedResults[pos] = [...sortedResults[pos], lineupPlayers[i]]
         sortedResults['lineup'] = [...sortedResults['lineup'], lineupPlayers[i]]
-        sortedResults['usedSal'] += lineupPlayers[i].Salary
+        sortedResults['usedSal'] += lineupPlayers[i].salary
         sortedResults['result'] += lineupPlayers[i].Projection
     }
     if (fl.length !== 0 ) {
         sortedResults['flex'] = [fl[0]] 
         sortedResults['lineup'] = [...sortedResults['lineup'], fl[0]]
-        sortedResults['usedSal'] += fl[0].Salary
+        sortedResults['usedSal'] += fl[0].salary
         sortedResults['result'] += fl[0].Projection
     }
-    for (const [key, value] of Object.entries(resultz)) {
+    for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (players[key].FLEX === 1) {    
                 let playerInd = Object.keys(players[key])[0]
                 let flexPlayer = uniques[playerInd]
                 sortedResults['flex'] = [flexPlayer]
                 sortedResults['lineup'] = [...sortedResults['lineup'], flexPlayer]
-                sortedResults['usedSal'] += flexPlayer.Salary
+                sortedResults['usedSal'] += flexPlayer.salary
             }
             else {
-                let pos = uniques[key].Position.toLowerCase()
+                let pos = uniques[key].position.toLowerCase()
                 sortedResults[pos] = [...sortedResults[pos], uniques[key]]
                 sortedResults['lineup'] = [...sortedResults['lineup'], uniques[key]]
-                sortedResults['usedSal'] += uniques[key].Salary
+                sortedResults['usedSal'] += uniques[key].salary
              }
         }
     }
@@ -228,33 +220,24 @@ function sortResults(resultz, uniques, players, lineupPlayers=[], fl=[]) {
 }
 
 async function fetchCaptain(num) {
-    let sleeperData = await fetchSleeperProjections()
+    let sleeperdata = await fetchSleeperProjections()
     let response = await fetch(`https://api.draftkings.com/draftgroups/v1/draftgroups/${num}/draftables`)
-    let dkData = await response.json()
-    return {
-        sleeperData, dkData
-    }    
-}
-
-async function updateCaptain(num) {
-    let x = await fetchCaptain(num)
-    let data = x.dkData
-    let sleeperdata = x.sleeperData
+    let data = await response.json()
     let flexesQueue = []
     let crownsQueue = []
     data.draftables.map((element) => {
         if (element.draftStatAttributes[0].id === 90){
-            if (sleeperdata.find(i => i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))) {
-                let p = sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
-                var proj = p.Projection
+            sleeperPlayer = sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
+            if (sleeperPlayer !== undefined){
+                var proj = sleeperPlayer.Projection
             }
             else {
                 var proj = 0    
+
             }
             let details = {
                 Name: element.displayName,
                 Position: element.position,
-                Salary: element.salary,
                 Game: element.competition['name'],
                 FFPG: element.draftStatAttributes[0].value,
                 Test: element.draftStatAttributes[0].id,
@@ -262,24 +245,26 @@ async function updateCaptain(num) {
                 DraftTableId: element.playerId,
                 Status: element.status,
             }
-            if (!flexesQueue.find(p => p.DraftTableId === element.playerId )){
+            if (!crownsQueue.find(p => p.DraftTableId === element.playerId )){
                 let newElement = {
                     ...details,
-                    FLEX: 1,
-                    [flexesQueue.length]: 1,
-                    Projection: proj
-                }
-                flexesQueue.push(newElement)
-            }
-            else {
-                var ind = flexesQueue.findIndex(p => p.DraftTableId === element.playerId )
-                let newElement = {
-                    ...details,
+                    Salary: element.salary,
                     CROWN: 1,
-                    [ind]: 1,
+                    [crownsQueue.length]: 1,
                     Projection: proj * 1.5
                 }
                 crownsQueue.push(newElement)
+            }
+            else {
+                var ind = crownsQueue.findIndex(p => p.DraftTableId === element.playerId )
+                let newElement = {
+                    ...details,
+                    Salary: element.salary, 
+                    FLEX: 1,
+                    [ind]: 1,
+                    Projection: proj 
+                }
+                flexesQueue.push(newElement)
             }
         }
     })
@@ -287,16 +272,16 @@ async function updateCaptain(num) {
         crownsQueue, flexesQueue
     }
 }
-
+   
 async function captainOneData() {
     let num = 98584
-    const queue = await updateCaptain(num)
+    const queue = await fetchCaptain(num)
     return queue
 }
 
 async function captainTwoData() {
     let num = 98585
-    const queue = await updateCaptain(num)
+    const queue = await fetchCaptain(num)
     return queue
 }
 
@@ -320,8 +305,8 @@ app.get("/moncaptainplayers", async (req, res) => {
 
 app.post("/optimizedcaptain", async (req, res) => {
     const queue = await captainOneData()
-    let optData = captainOptData(queue, req.body.fp, req.body.cp)
-    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue,  optData.myObjSTwo, optData.cp, optData.myObjSTwo)
+    let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
+    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
     res.json({
         crown: results.cp, fps: results.fps
     })
@@ -329,78 +314,65 @@ app.post("/optimizedcaptain", async (req, res) => {
 
 app.post("/optimizedcaptainmon", async (req, res) => {
     const queue = await captainTwoData()
-    let optData = captainOptData(queue, req.body.fp, req.body.cp)
-    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue,  optData.myObjSTwo, optData.cp, optData.myObjSTwo)
+    let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
+    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
     res.json({
         crown: results.cp, fps: results.fps
     })
 })
 
-function captainOptData(queue, lineupP, crownP) {
-    const cq = queue.crownsQueue
-    const fq = queue.flexesQueue
-    var cQueue = cq.filter(function(objFromA) {
-        return !lineupP.find(function(objFromB) {
-            return objFromA.DraftTableId === objFromB.DraftTableId
-        })
-    })
-    var fQueue = fq.filter(function(objFromA) {
-        return !lineupP.find(function(objFromB) {
-            return objFromA.DraftTableId === objFromB.DraftTableId
-        })
-    })
-    var crownsQueue = cQueue.filter(function(objFromC) {
-        return !crownP.find(function(objFromD) {
+function optimizeCaptainData(queue, selectedLineup, selectedCrown) {
+    let selectedCombine = [...selectedLineup, ...selectedCrown]
+    var crownsQueue = queue.crownsQueue.filter(function(objFromC) {
+        return !selectedCombine.find(function(objFromD) {
             return objFromC.DraftTableId === objFromD.DraftTableId
         })
     })
-    var flexesQueue = fQueue.filter(function(objFromC) {
-        return !crownP.find(function(objFromD) {
+    var flexesQueue = queue.flexesQueue.filter(function(objFromC) {
+        return !selectedCombine.find(function(objFromD) {
             return objFromC.DraftTableId === objFromD.DraftTableId
         })
     })
-    let myObjSTwo = {}
+    let constraintObj2 = {}
+    constraintObj2['Salary'] = {'max': 50000}
+    constraintObj2['CROWN'] = { 'min': 1, 'max': 1 }
+    constraintObj2['FLEX'] = { 'min': 5, 'max': 5 }
+    let salary = 0
+    if (selectedCrown.length !== 0){
+        constraintObj2['CROWN'] = { 'min': 0, 'max': 0 }
+        salary += selectedCrown[0].Salary * 1.5
+    }
+    for (let i = 0; i < selectedLineup.length; i++) {
+        salary += selectedLineup[i].Salary
+        let x = constraintObj2['FLEX']['min'] - 1
+        constraintObj2['FLEX'] = {'min' : x, 'max': x}
+    }
+    constraintObj2['Salary'] = {'max': 50000 - salary}
     for (let i = 0; i < flexesQueue.length; i++) {
-        myObjSTwo[i] = {'max': 1}
+        constraintObj2[i] = {'max': 1}
     }
-    myObjSTwo['Salary'] = {'max': 50000}
-    myObjSTwo['CROWN'] = { 'min': 1, 'max': 1 }
-    myObjSTwo['FLEX'] = { 'min': 5, 'max': 5 }
-    let sal = 50000 
-    let cp = []
-    let fps = []
-    if (crownP.length !== 0){
-        cp.push(crownP[0])
-        myObjSTwo['CROWN'] = { 'min': 0, 'max': 0 }
-        sal -= crownP[0].Salary * 1.5
-    }
-    for (let i = 0; i < lineupP.length; i++) {
-        sal -= lineupP[i].Salary
-        let x = myObjSTwo['FLEX']['min'] - 1
-        myObjSTwo['FLEX'] = {'min' : x, 'max': x}
-        fps.push(lineupP[i])
-    }
-    myObjSTwo['Salary'] = {'max': sal}
-    return {crownsQueue, flexesQueue, myObjSTwo, cp, fps}
+    return {crownsQueue, flexesQueue, constraintObj2}
 }
 
-function optimizeCaptain(crownsQueue, flexesQueue, myObjSTwo, cp, fps) {
+function optimizeCaptain(crownsQueue, flexesQueue, constraintObj2, selectedCrown, selectedLineup) {
     let all = [...crownsQueue, ...flexesQueue]
-    let objS = Object.assign({}, all)
-    let myObjS = {}
+    let obj2 = Object.assign({}, all)
+    let intObj2 = {}
     for (let i = 0; i < all.length; i++) {
-        myObjS[i] = 1      
+        intObj2[i] = 1      
     }
-    myObjS['FLEX'] = 1
-    myObjS['CROWN'] = 1
+    intObj2['FLEX'] = 1
+    intObj2['CROWN'] = 1
     const modelS = {
         optimize: "Projection",
         opType: "max",
-        ints: myObjS,
-        constraints: myObjSTwo,
-        variables: objS,
+        ints: intObj2,
+        constraints: constraintObj2,
+        variables: obj2,
     };
     const results = solver.Solve(modelS);
+    let fps = selectedLineup
+    let cp = selectedCrown
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (all[key].CROWN === 1) {
