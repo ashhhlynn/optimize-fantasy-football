@@ -221,61 +221,68 @@ function sortClassicResults(results, classicAll, uniques, lineupPlayers=[], fl=[
     return sortedResults
 }
 
-
-
-
-
-
-
-app.get("/sleeperplayers", (req, res) => { 
-    res.json(
-        sleeperObj
-    )
+   
+app.get("/trcaptainplayers", async (req, res) => { 
+    const queue = await captainOneData()
+    const crownsQueue = queue.crownsQueue
+    const flexesQueue = queue.flexesQueue
+    res.json({
+        crowns: crownsQueue, flexes: flexesQueue
+    })
 })
 
+app.get("/moncaptainplayers", async (req, res) => { 
+    const queue = await captainTwoData()
+    const crownsQueue = queue.crownsQueue
+    const flexesQueue = queue.flexesQueue
+    res.json({
+        crowns: crownsQueue, flexes: flexesQueue
+    });
+})
 
-async function fetchSleeperProjections() {
-    const currentWeek = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
-    if (currentWeek <= 18) { var current = currentWeek } 
-    else { var current = 18 }
-    const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
-    let responseJson = await response.json()
-    let sleeper = []
-    responseJson.map((element) => {
-        if (element.stats.pts_ppr > 0){  
-            if (element.player.position === "DEF" ) {
-                var name = element.player.last_name
-            }
-            else {
-                var name = element.player.first_name + ' ' + element.player.last_name
-            }
-            let details = {
-                Name: name,
-                Projection: element.stats.pts_ppr,
-            }
-            sleeper.push(details)
-        }
+app.post("/optimizedcaptain", async (req, res) => {
+    const queue = await captainOneData()
+    let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
+    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
+    res.json({
+        crown: results.cp, fps: results.fps
     })
-    return sleeper 
+});
+
+app.post("/optimizedcaptainmon", async (req, res) => {
+    const queue = await captainTwoData()
+    let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
+    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
+    res.json({
+        crown: results.cp, fps: results.fps
+    })
+})
+
+async function captainOneData() {
+    let num = 98584
+    const queue = await fetchCaptain(num)
+    return queue
 }
 
-
+async function captainTwoData() {
+    let num = 98585
+    const queue = await fetchCaptain(num)
+    return queue
+}
 
 async function fetchCaptain(num) {
-    let sleeperdata = await fetchSleeperProjections()
     let response = await fetch(`https://api.draftkings.com/draftgroups/v1/draftgroups/${num}/draftables`)
     let data = await response.json()
     let flexesQueue = []
     let crownsQueue = []
     data.draftables.map((element) => {
         if (element.draftStatAttributes[0].id === 90){
-            sleeperPlayer = sleeperdata.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
-            if (sleeperPlayer !== undefined){
-                var proj = sleeperPlayer.Projection
+            let sleeperElement = sleeperObj[element.displayName]
+            if (sleeperElement !== undefined){
+                var proj = sleeperElement
             }
             else {
-                var proj = 0    
-
+                var proj = 0
             }
             let details = {
                 Name: element.displayName,
@@ -314,54 +321,6 @@ async function fetchCaptain(num) {
         crownsQueue, flexesQueue
     }
 }
-   
-async function captainOneData() {
-    let num = 98584
-    const queue = await fetchCaptain(num)
-    return queue
-}
-
-async function captainTwoData() {
-    let num = 98585
-    const queue = await fetchCaptain(num)
-    return queue
-}
-
-app.get("/trcaptainplayers", async (req, res) => { 
-    const queue = await captainOneData()
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
-    res.json({
-        crowns: crownsQueue, flexes: flexesQueue
-    })
-})
-
-app.get("/moncaptainplayers", async (req, res) => { 
-    const queue = await captainTwoData()
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
-    res.json({
-        crowns: crownsQueue, flexes: flexesQueue
-    });
-})
-
-app.post("/optimizedcaptain", async (req, res) => {
-    const queue = await captainOneData()
-    let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
-    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
-    res.json({
-        crown: results.cp, fps: results.fps
-    })
-});
-
-app.post("/optimizedcaptainmon", async (req, res) => {
-    const queue = await captainTwoData()
-    let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
-    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
-    res.json({
-        crown: results.cp, fps: results.fps
-    })
-})
 
 function optimizeCaptainData(queue, selectedLineup, selectedCrown) {
     let selectedCombine = [...selectedLineup, ...selectedCrown]
