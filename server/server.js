@@ -8,82 +8,77 @@ app.use(express.json());
 const fetch = require("node-fetch");
 const e = require("express");
 
-async function fetchSleeperProjections() {
-    const currentWeek = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
-    if (currentWeek <= 18) { var current = currentWeek } 
-    else { var current = 18 }
-    const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
-    let responseJson = await response.json()
-    let sleeper = []
-    responseJson.map((element) => {
-        if (element.stats.pts_ppr > 0){  
-            if (element.player.position === "DEF" ) {
-                var name = element.player.last_name
-            }
-            else {
-                var name = element.player.first_name + ' ' + element.player.last_name
-            }
-            let details = {
-                Name: name,
-                Projection: element.stats.pts_ppr,
-            }
-            sleeper.push(details)
-        }
-    })
-    return sleeper 
-}
+let sleeperObj = {}
+let classicPlayers = []
+let classicFlex = []
+let classicConstraintObj = {}
+let classicIntObj = {}
 
-async function fetchClassic(){
-    let sleeperData = await fetchSleeperProjections()
-    let response = await fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables')
-    let responseData = await response.json()
-    let responseTables = responseData.draftables
-    let classicPlayers = []
-    let flexPlayers = []
-    let counter = 0
-    let intCounter = 0
-    let constraintObj = {}
-    let intObj = {}
-    for (let z=0; z < responseTables.length; z++){
-        if (responseTables[z].draftStatAttributes[0].id === 90){
-            let element = responseTables[z]
-            let sleeperPlayer = sleeperData.find(i=> i.Name === element.displayName || i.Name.slice(0,10) === element.displayName.slice(0,10))
-            if (sleeperPlayer !== undefined){
-                var proj = sleeperPlayer.Projection
-            }
-            else {
-                var proj = 0 
-            }
-            intObj[intCounter] = {'max': 1}
-            constraintObj[counter] = {'max': 1}
-            var details = {
-                ...element, 
-                Projection: proj,
-                [element.position]: 1,
-                [counter]: 1
-            }    
-            classicPlayers.push(details)
-            if (z !== responseTables.length - 1 && element.playerId === responseTables[z+1].playerId){
-                var detailsTwo = {
-                    ...details, 
-                    [element.position]: 0,
-                    FLEX: 1, 
+fetchSleeperObj()
+
+function fetchSleeperObj(){
+    fetch("https://api.sleeper.app/projections/nfl/2023/18?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr")
+    .then((res)=> res.json())
+    .then(data => {
+        data.map((element) => {
+                if (element.stats.pts_ppr > 0){  
+                    if (element.player.position === "DEF" ) {
+                        var name = element.player.last_name
+                    }
+                    else {
+                        var name = element.player.first_name + ' ' + element.player.last_name
+                    }
+                sleeperObj[name] = element.stats.pts_ppr
                 }
-                flexPlayers.push(detailsTwo)
-                intCounter += 1
-                intObj[intCounter] = {'max': 1}
-                z++
-            }
-            counter += 1
-            intCounter += 1
-        }   
-    }    
-    return {classicPlayers, flexPlayers, constraintObj, intObj}
+        })
+        fetchClassicPlayers()
+    })
 }
 
-app.get("/classicplayers", async (req, res) => { 
-    let classicPlayersData =  await fetchClassic()
-    let classicPlayers = classicPlayersData.classicPlayers
+function fetchClassicPlayers() {
+    fetch("https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables")
+    .then((res)=> res.json())
+    .then(data => {
+        let counter = 0
+        let intCounter = 0
+        for (let z=0; z < data.draftables.length; z++){
+            if (data.draftables[z].draftStatAttributes[0].id === 90){
+                let element = data.draftables[z]
+                let sleeperElement = sleeperObj[element.displayName]
+                if (sleeperElement !== undefined){
+                    var proj = sleeperElement
+                }
+                else {
+                    var proj = 0
+                }
+                classicIntObj[intCounter] = {'max': 1}
+                classicConstraintObj[counter] = {'max': 1}
+                var details = {
+                    ...element, 
+                    Projection: proj,
+                    [element.position]: 1,
+                    [counter]: 1
+                }    
+                classicPlayers.push(details)
+                if (z !== data.draftables.length - 1 && element.playerId === data.draftables[z+1].playerId){
+                    var detailsTwo = {
+                            ...details, 
+                            [element.position]: 0,
+                            FLEX: 1, 
+                    }
+                    classicFlex.push(detailsTwo)
+                    intCounter += 1
+                    classicIntObj[intCounter] = {'max': 1}
+                    z++
+                }
+                counter += 1
+                intCounter += 1
+            }   
+        }
+    })   
+}
+
+app.get("/classicplayers", (req, res) => { 
     let qqb = []
     let qrb = []
     let qwr = []
@@ -110,83 +105,106 @@ app.get("/classicplayers", async (req, res) => {
             qdst.push(classicPlayers[i])
         }
     } 
-    res.json({ unique: classicPlayers, qqb: qqb, qrb: qrb, qwr: qwr, qte: qte, qdst: qdst, qflex: qflex})
+    res.json({ 
+        unique: classicPlayers, qqb: qqb, qrb: qrb, qwr: qwr, qte: qte, qdst: qdst, qflex: qflex
+    })    
 })
 
-app.get("/classicoptimizer", async (req, res) => { 
-    let classicPlayersData =  await fetchClassic()
-    let uniques = classicPlayersData.classicPlayers
-    const players = [...uniques, ...classicPlayersData.flexPlayers]
-    let constraintObj = classicConstraintModel(classicPlayersData.constraintObj)
-    let results = optimizeClassic(players, constraintObj, classicPlayersData.intObj)
-    let endResult = sortResults(results, uniques, players)
+app.get("/classicoptimizer", (req, res) => { 
+    let classicConstraint = classicConstraintModel()
+    let classicAll = [...classicPlayers, ...classicFlex]
+    let results = optimizeClassic(classicConstraint, classicAll)
+    let uniques = classicPlayers
+    let endResult = sortClassicResults(results, classicAll, uniques)
     res.json(
         endResult
     )
 })
 
-app.post("/classicoptimize", async (req, res) => {
-    let classicPlayersData =  await fetchClassic()
-    let unique = classicPlayersData.classicPlayers
-    let duplicate = classicPlayersData.flexPlayers
+app.post("/classicoptimize", (req, res) => {
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
-    let constraintObj = classicConstraintModel(classicPlayersData.constraintObj)
+    let classicConstraint = classicConstraintModel()
     let sal = 50000
     for (let i = 0; i < lineupPlayers.length; i++) {
-        var uniques = unique.filter(p => p.playerId !== lineupPlayers[i].playerId)
-        var duplicates = duplicate.filter(p => p.playerId !== lineupPlayers[i].playerId)
+        var uniques = classicPlayers.filter(p => p.playerId !== lineupPlayers[i].playerId)
+        var duplicates = classicFlex.filter(p => p.playerId !== lineupPlayers[i].playerId)
         sal -= lineupPlayers[i].salary
-        let x = constraintObj[`${lineupPlayers[i].position}`]['min'] - 1
-        constraintObj[`${lineupPlayers[i].position}`] = {'min' : x, 'max': x}
+        let x = classicConstraint[`${lineupPlayers[i].position}`]['min'] - 1
+        classicConstraint[`${lineupPlayers[i].position}`] = {'min' : x, 'max': x}
     }
     if (fl.length !== 0 ) {
         sal -= fl[0].salary
-        constraintObj['FLEX'] = { 'min': 0, 'max': 0 }
+        classicConstraint['FLEX'] = { 'min': 0, 'max': 0 }
     }
-    constraintObj['Salary'] = { 'max': sal }
-    const players = [...uniques, ...duplicates]
-    let results = optimizeClassic(players, constraintObj, classicPlayersData.intObj)
-    let endResult = sortResults(results, uniques, players, lineupPlayers, fl)
+    classicConstraint['salary'] = { 'max': sal }
+    const classicAll = [...uniques, ...duplicates]    
+    let results = optimizeClassic(classicConstraint, classicAll)
+    let endResult = sortClassicResults(results, classicAll, uniques, lineupPlayers, fl)
     res.json(
        endResult
     )
 })
 
-
-function classicConstraintModel(constraintObj) {
-    constraintObj['QB'] = { 'min': 1, 'max': 1 }
-    constraintObj['RB'] = { 'min': 2, 'max': 2 }
-    constraintObj['WR'] = { 'min': 3, 'max': 3 }
-    constraintObj['TE'] = { 'min': 1, 'max': 1 }
-    constraintObj['DST'] = { 'min': 1, 'max': 1 }
-    constraintObj['FLEX'] = { 'min': 1, 'max': 1 }
-    constraintObj['salary'] = { 'max': 50000 }
-    return constraintObj
+function classicConstraintModel() {
+    let classicConstraint = {}
+    classicConstraint['QB'] = { 'min': 1, 'max': 1 }
+    classicConstraint['RB'] = { 'min': 2, 'max': 2 }
+    classicConstraint['WR'] = { 'min': 3, 'max': 3 }
+    classicConstraint['TE'] = { 'min': 1, 'max': 1 }
+    classicConstraint['DST'] = { 'min': 1, 'max': 1 }
+    classicConstraint['FLEX'] = { 'min': 1, 'max': 1 }
+    classicConstraint['salary'] = { 'max': 50000 }
+    return classicConstraint
 }
 
-function optimizeClassic(players, constraintObj, intObj) {
-    let obj = Object.assign({}, players)
-    intObj['QB'] = 1
-    intObj['RB'] = 1
-    intObj['WR'] = 1
-    intObj['TE'] = 1
-    intObj['DST'] = 1
-    intObj['FLEX'] = 1
+function optimizeClassic(classicConstraint, classicAll) {
+    let playersObj = Object.assign({}, classicAll)
+    let classicInt = {}
+    for (let i=0; i < classicPlayers.length; i++){
+        classicConstraint[i] = {'max': 1}
+        classicInt[i] = {'max': 1}
+    }
+    for (let i=classicPlayers.length; i < classicAll.length; i++){
+        classicInt[i] = {'max': 1}
+    }
+    classicInt['QB'] = 1
+    classicInt['RB'] = 1
+    classicInt['WR'] = 1
+    classicInt['TE'] = 1
+    classicInt['DST'] = 1
+    classicInt['FLEX'] = 1
     const model = {
         optimize: "Projection",
         opType: "max",
-        ints: intObj,
-        constraints: constraintObj,   
-        variables: obj,
+        ints: classicInt,
+        constraints: classicConstraint,   
+        variables: playersObj,
     }    
     const results = solver.Solve(model)
     return results
 }
 
-function sortResults(results, uniques, players, lineupPlayers=[], fl=[]) {
+function sortClassicResults(results, classicAll, uniques, lineupPlayers=[], fl=[]) {
     let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
     sortedResults['result'] += results.result
+    for (const [key, value] of Object.entries(results)) {
+        if (value === 1) {
+            if (classicAll[key].FLEX === 1) {    
+                let playerInd = Object.keys(classicAll[key])[0]
+                let flexPlayer =  uniques[playerInd]
+                sortedResults['flex'] = [flexPlayer]
+                sortedResults['lineup'] = [...sortedResults['lineup'], flexPlayer]
+                sortedResults['usedSal'] += flexPlayer.salary
+            }
+            else {
+                let pos =  uniques[key].position.toLowerCase()
+                sortedResults[pos] = [...sortedResults[pos],  uniques[key]]
+                sortedResults['lineup'] = [...sortedResults['lineup'],  uniques[key]]
+                sortedResults['usedSal'] +=  uniques[key].salary
+             }
+        }
+    }
     for (let i=0; i < lineupPlayers.length; i++){
         let pos = lineupPlayers[i].position.toLowerCase()
         sortedResults[pos] = [...sortedResults[pos], lineupPlayers[i]]
@@ -200,25 +218,48 @@ function sortResults(results, uniques, players, lineupPlayers=[], fl=[]) {
         sortedResults['usedSal'] += fl[0].salary
         sortedResults['result'] += fl[0].Projection
     }
-    for (const [key, value] of Object.entries(results)) {
-        if (value === 1) {
-            if (players[key].FLEX === 1) {    
-                let playerInd = Object.keys(players[key])[0]
-                let flexPlayer = uniques[playerInd]
-                sortedResults['flex'] = [flexPlayer]
-                sortedResults['lineup'] = [...sortedResults['lineup'], flexPlayer]
-                sortedResults['usedSal'] += flexPlayer.salary
-            }
-            else {
-                let pos = uniques[key].position.toLowerCase()
-                sortedResults[pos] = [...sortedResults[pos], uniques[key]]
-                sortedResults['lineup'] = [...sortedResults['lineup'], uniques[key]]
-                sortedResults['usedSal'] += uniques[key].salary
-             }
-        }
-    }
     return sortedResults
 }
+
+
+
+
+
+
+
+app.get("/sleeperplayers", (req, res) => { 
+    res.json(
+        sleeperObj
+    )
+})
+
+
+async function fetchSleeperProjections() {
+    const currentWeek = Math.ceil((new Date() - new Date("2023-09-05"))/604800000)
+    if (currentWeek <= 18) { var current = currentWeek } 
+    else { var current = 18 }
+    const response = await fetch(`https://api.sleeper.app/projections/nfl/2023/${current}?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr`)
+    let responseJson = await response.json()
+    let sleeper = []
+    responseJson.map((element) => {
+        if (element.stats.pts_ppr > 0){  
+            if (element.player.position === "DEF" ) {
+                var name = element.player.last_name
+            }
+            else {
+                var name = element.player.first_name + ' ' + element.player.last_name
+            }
+            let details = {
+                Name: name,
+                Projection: element.stats.pts_ppr,
+            }
+            sleeper.push(details)
+        }
+    })
+    return sleeper 
+}
+
+
 
 async function fetchCaptain(num) {
     let sleeperdata = await fetchSleeperProjections()
