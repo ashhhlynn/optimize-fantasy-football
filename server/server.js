@@ -221,7 +221,6 @@ function sortClassicResults(results, classicAll, uniques, lineupPlayers=[], fl=[
     return sortedResults
 }
 
-   
 app.get("/trcaptainplayers", async (req, res) => { 
     const queue = await captainOneData()
     const crownsQueue = queue.crownsQueue
