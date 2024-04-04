@@ -44,9 +44,9 @@ function fetchClassicPlayers() {
         for (let z=0; z < data.draftables.length; z++){
             if (data.draftables[z].draftStatAttributes[0].id === 90){
                 let element = data.draftables[z]
-                let sleeperElement = sleeperObj[element.displayName]
+                let sleeperElement = Object.keys(sleeperObj).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
                 if (sleeperElement !== undefined){
-                    var proj = sleeperElement
+                    var proj = sleeperObj[sleeperElement]
                 }
                 else {
                     var proj = 0
@@ -114,8 +114,7 @@ app.get("/classicoptimizer", (req, res) => {
     let classicConstraint = classicConstraintModel()
     let classicAll = [...classicPlayers, ...classicFlex]
     let results = optimizeClassic(classicConstraint, classicAll)
-    let uniques = classicPlayers
-    let endResult = sortClassicResults(results, classicAll, uniques)
+    let endResult = sortClassicResults(results, classicAll, classicPlayers)
     res.json(
         endResult
     )
@@ -147,7 +146,7 @@ app.post("/classicoptimize", (req, res) => {
 })
 
 function classicConstraintModel() {
-    let classicConstraint = {}
+    let classicConstraint = {...classicConstraintObj}
     classicConstraint['QB'] = { 'min': 1, 'max': 1 }
     classicConstraint['RB'] = { 'min': 2, 'max': 2 }
     classicConstraint['WR'] = { 'min': 3, 'max': 3 }
@@ -160,14 +159,7 @@ function classicConstraintModel() {
 
 function optimizeClassic(classicConstraint, classicAll) {
     let playersObj = Object.assign({}, classicAll)
-    let classicInt = {}
-    for (let i=0; i < classicPlayers.length; i++){
-        classicConstraint[i] = {'max': 1}
-        classicInt[i] = {'max': 1}
-    }
-    for (let i=classicPlayers.length; i < classicAll.length; i++){
-        classicInt[i] = {'max': 1}
-    }
+    let classicInt = {...classicIntObj}
     classicInt['QB'] = 1
     classicInt['RB'] = 1
     classicInt['WR'] = 1
@@ -187,12 +179,11 @@ function optimizeClassic(classicConstraint, classicAll) {
 
 function sortClassicResults(results, classicAll, uniques, lineupPlayers=[], fl=[]) {
     let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
-    sortedResults['result'] += results.result
+    let value = results.result 
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (classicAll[key].FLEX === 1) {    
-                let playerInd = Object.keys(classicAll[key])[0]
-                let flexPlayer =  uniques[playerInd]
+                let flexPlayer = uniques.find(p => p.playerId === classicAll[key].playerId)
                 sortedResults['flex'] = [flexPlayer]
                 sortedResults['lineup'] = [...sortedResults['lineup'], flexPlayer]
                 sortedResults['usedSal'] += flexPlayer.salary
@@ -210,14 +201,15 @@ function sortClassicResults(results, classicAll, uniques, lineupPlayers=[], fl=[
         sortedResults[pos] = [...sortedResults[pos], lineupPlayers[i]]
         sortedResults['lineup'] = [...sortedResults['lineup'], lineupPlayers[i]]
         sortedResults['usedSal'] += lineupPlayers[i].salary
-        sortedResults['result'] += lineupPlayers[i].Projection
+        value += lineupPlayers[i].Projection
     }
     if (fl.length !== 0 ) {
         sortedResults['flex'] = [fl[0]] 
         sortedResults['lineup'] = [...sortedResults['lineup'], fl[0]]
         sortedResults['usedSal'] += fl[0].salary
-        sortedResults['result'] += fl[0].Projection
+        value += fl[0].Projection
     }
+    sortedResults['result'] = value
     return sortedResults
 }
 
@@ -276,9 +268,9 @@ async function fetchCaptain(num) {
     let crownsQueue = []
     data.draftables.map((element) => {
         if (element.draftStatAttributes[0].id === 90){
-            let sleeperElement = sleeperObj[element.displayName]
+            let sleeperElement = Object.keys(sleeperObj).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
             if (sleeperElement !== undefined){
-                var proj = sleeperElement
+                var proj = sleeperObj[sleeperElement]
             }
             else {
                 var proj = 0
