@@ -7,7 +7,7 @@ Daily Fantasy Football lineup builder and optimizer application created with Nod
   </tr>
 </table> 
 
-Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/898677863">video</a> demos.
+Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/930504746">video</a> demos.
 
 ## Technologies Used
 - JavaScript
@@ -31,8 +31,8 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - View lineup total projection and remaining salary data
 
 ## Media 
-![Screenshot (174)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/2755d16d-f177-42ba-85fc-de752f5782ba)
-![Screenshot (173)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/d170dce2-076f-4f5f-a37d-8b3dfbd3e0ee)
+![Screenshot (190)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/80af461d-e490-4ba9-831a-f17d04faa4b0)
+![Screenshot (192)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/d2a85433-04ff-4d3e-b89b-2ba3f6afded0)
 
 ## Setup
 - ` git clone < this repository > `
