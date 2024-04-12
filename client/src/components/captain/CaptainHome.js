@@ -158,7 +158,6 @@ function CaptainHome(props) {
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        
                         {isLoading ? 
                             <Loader active /> : <Loader />
                         }

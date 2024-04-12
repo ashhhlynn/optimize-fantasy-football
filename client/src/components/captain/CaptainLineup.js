@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table, Icon, Header } from 'semantic-ui-react'
+import BlankCells from '../BlankCells.js'
 
 function CaptainLineup(props) {
       
@@ -45,12 +46,7 @@ function CaptainLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeCrownPlayer(event, crown[0])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -64,12 +60,7 @@ function CaptainLineup(props) {
                         <Table.Cell><center><Icon name="close" style={{cursor:"pointer"}} onClick={(event) => removeFlexPlayer(event, flexPlayers[0])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -83,12 +74,7 @@ function CaptainLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeFlexPlayer(event, flexPlayers[1])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -102,12 +88,7 @@ function CaptainLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeFlexPlayer(event, flexPlayers[2])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -121,12 +102,7 @@ function CaptainLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeFlexPlayer(event, flexPlayers[3])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -140,12 +116,7 @@ function CaptainLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removeFlexPlayer(event, flexPlayers[4])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
               </Table.Body>

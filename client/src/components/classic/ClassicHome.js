@@ -52,29 +52,46 @@ function ClassicHome() {
     const setPlayer = (player) => {
         if (!lineupPlayers.find(p => p.playerId === player.playerId)) { 
             if (player.position === "QB" && !qb ) {
-              setLineupData(player)
-              setQb(player)
+                setLineupData(player)
+                setQb(player)
             }
             else if (player.position === "RB" && rbs.length < 2) {
-              setRbs(rbs => [...rbs, player])
-              setLineupData(player)
+                setRbs(rbs => [...rbs, player])
+                setLineupData(player)
             }
             else if (player.position === "WR" && wrs.length < 3) {
-              setWrs(wrs => [...wrs, player])
-              setLineupData(player)
+                setWrs(wrs => [...wrs, player])
+                setLineupData(player)
             }
             else if (player.position === "TE" && !te) {
-              setTe(player)
-              setLineupData(player)
+                setTe(player)
+                setLineupData(player)
             }
             else if (player.position === "DST" && !dst) {
-              setDst(player)
-              setLineupData(player)
+                setDst(player)
+                setLineupData(player)
             }
             else if (flex.length < 1 && (player.position === "RB" || player.position === "WR"  || player.position === "TE")) {
-              setFlex([player])
-              setLineupData(player)
+                setFlex([player])
+                setLineupData(player)
             }
+        }
+    }
+
+    const optimizeWith = () => {
+        setOpen(false)
+        let fl = flex
+        let answer = 'yes'
+        if (fl.length > 0 ) {
+            let lp = lineupPlayers.filter(p => p.playerId !== flex[0].playerId)
+            optimizePlayers(lp, fl, answer)
+        } 
+        else if (lineupPlayers.length > 0){
+            let lp = lineupPlayers 
+            optimizePlayers(lp, fl, answer)
+        }
+        else {
+            optimizeWithout()
         }
     }
 
@@ -97,23 +114,6 @@ function ClassicHome() {
             setLineupPlayers(data.lineup)
             setLoading(false)
         })
-    }
-
-    const optimizeWith = () => {
-        setOpen(false)
-        let fl = flex
-        let answer = 'yes'
-        if (fl.length > 0 ) {
-            let lp = lineupPlayers.filter(p => p.playerId !== flex[0].playerId)
-            optimizePlayers(lp, fl, answer)
-        } 
-        else if (lineupPlayers.length > 0){
-            let lp = lineupPlayers 
-            optimizePlayers(lp, fl, answer)
-        }
-        else {
-            optimizeWithout()
-        }
     }
 
     const optimizePlayers = (lp, fl, answer) => {
@@ -161,24 +161,24 @@ function ClassicHome() {
     const removePlayer = (player) => {
         removeLineupData(player)
         if (player === flex[0]) {
-          setFlex([])
+            setFlex([])
         }  
         else if (player.position === "QB") {
-          setQb()
+            setQb()
         }
         else if (player.position === "RB") {
-          let z = rbs.filter(f => f !== player)
-          setRbs(z)
+            let z = rbs.filter(f => f !== player)
+            setRbs(z)
         }
         else if (player.position === "WR") {
-          let z = wrs.filter(f => f !== player)
-          setWrs(z)
+            let z = wrs.filter(f => f !== player)
+            setWrs(z)
         }
         else if (player.position === "TE") {
-          setTe()
+            setTe()
         }
         else if (player.position ==="DST" ) {
-          setDst()
+            setDst()
         }
     }
 
@@ -283,7 +283,7 @@ function ClassicHome() {
                         </Modal>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label.Group style={{height:"46px",cursor:"pointer", marginLeft:"24%", marginTop:"1.85%",marginBottom:"-2.3%"}}>
+                        <Label.Group style={{height:"46px", cursor:"pointer", marginLeft:"24%", marginTop:"1.85%",marginBottom:"-2.3%"}}>
                             <Label onClick={setQPlayers} style={{fontSize:"11.5px", backgroundColor:"#61dafb"}}>QB</Label>
                             <Label onClick={setRPlayers} style={{fontSize:"11.5px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>RB</Label>
                             <Label onClick={setWPlayers} style={{fontSize:"11.5px", marginLeft:"-.5%", backgroundColor:"#61dafb"}}>WR</Label>

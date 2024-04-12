@@ -28,15 +28,15 @@ function fetchSleeperObj(){
     .then((res)=> res.json())
     .then(data => {
         data.map((element) => {
-                if (element.stats.pts_ppr > 0){  
-                    if (element.player.position === "DEF" ) {
-                        var name = element.player.last_name
-                    }
-                    else {
-                        var name = element.player.first_name + ' ' + element.player.last_name
-                    }
-                sleeperObj[name] = element.stats.pts_ppr
+            if (element.stats.pts_ppr > 0){  
+                if (element.player.position === "DEF" ) {
+                    var name = element.player.last_name
                 }
+                else {
+                    var name = element.player.first_name + ' ' + element.player.last_name
+                }
+                sleeperObj[name] = element.stats.pts_ppr
+            }
         })
         fetchClassicPlayers()
     })
@@ -48,11 +48,11 @@ function fetchClassicPlayers() {
     .then(data => {
         let counter = 0
         let intCounter = 0
-        for (let z=0; z < data.draftables.length; z++){
-            if (data.draftables[z].draftStatAttributes[0].id === 90){
+        for (let z=0; z < data.draftables.length; z++) {
+            if (data.draftables[z].draftStatAttributes[0].id === 90) {
                 let element = data.draftables[z]
                 let sleeperElement = Object.keys(sleeperObj).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
-                if (sleeperElement !== undefined){
+                if (sleeperElement !== undefined) {
                     var proj = sleeperObj[sleeperElement]
                 }
                 else {
@@ -67,11 +67,11 @@ function fetchClassicPlayers() {
                     [counter]: 1
                 }    
                 classicPlayers.push(details)
-                if (z !== data.draftables.length - 1 && element.playerId === data.draftables[z+1].playerId){
+                if (z !== data.draftables.length - 1 && element.playerId === data.draftables[z+1].playerId) {
                     var detailsTwo = {
-                            ...details, 
-                            [element.position]: 0,
-                            FLEX: 1, 
+                        ...details, 
+                        [element.position]: 0,
+                        FLEX: 1, 
                     }
                     classicFlex.push(detailsTwo)
                     intCounter += 1
@@ -94,7 +94,7 @@ app.get("/classicplayers", (req, res) => {
     let qte = []
     let qdst = []
     let qflex = []
-    for (let i=0; i < classicPlayers.length; i++){
+    for (let i=0; i < classicPlayers.length; i++) {
         if (classicPlayers[i].position === "QB"){
             qqb.push(classicPlayers[i])
         }

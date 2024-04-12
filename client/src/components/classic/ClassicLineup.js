@@ -1,5 +1,6 @@
-import { Table, Icon } from 'semantic-ui-react'
 import React from 'react'
+import { Table, Icon } from 'semantic-ui-react'
+import BlankCells from '../BlankCells.js'
 
 function ClassicLineup(props) {
     
@@ -18,8 +19,8 @@ function ClassicLineup(props) {
     return (
         <>
         <Table fixed style={{borderColor:"white", color:"#fafafa", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
-            <Table.Header >
-                <Table.Row >
+            <Table.Header>
+                <Table.Row>
                     <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px", width:"54px", color:"white",  backgroundColor:"#2e323c"}}>POS.</Table.HeaderCell>
                     <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px", width:"160px", color:"white",  backgroundColor:"#2e323c"}}>PLAYER</Table.HeaderCell>
                     <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px",  width:"56px", color:"white", backgroundColor:"#2e323c"}}>TEAM</Table.HeaderCell>
@@ -40,12 +41,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon name="close" style={{cursor:"pointer"}} onClick={(event) => removePlayer(event, qb)}/></center></Table.Cell>
                         </>
                     :
-                        <>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -59,12 +55,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, rbs[0])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -78,12 +69,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, rbs[1])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -98,12 +84,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, wrs[0])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -117,12 +98,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, wrs[1])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -136,12 +112,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, wrs[2])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -155,12 +126,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close"  onClick={(event) => removePlayer(event, te)}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -174,12 +140,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, flex[0])}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
                 <Table.Row>
@@ -193,12 +154,7 @@ function ClassicLineup(props) {
                         <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, dst)}/></center></Table.Cell>
                         </>
                     :
-                        <> 
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        </>
+                        <BlankCells/>
                     }
                 </Table.Row>
               </Table.Body>
