@@ -3,7 +3,7 @@ import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions, Loader } 
 import CaptainLineupHeader from './CaptainLineupHeader.js'
 import CaptainLineup from './CaptainLineup.js'
 import CaptainQueue from './CaptainQueue.js'
-import { Link } from 'react-router-dom'
+import ContestButtons from './ContestButtons.js'
 
 function MondayCaptainHome(props) {
 
@@ -147,14 +147,7 @@ function MondayCaptainHome(props) {
 
     return (
         <div>
-            <div class="contestButtons">
-                <Button circular color="white" basic as={Link} to="/showdown1" inverted style={{marginRight:"5%", backgroundColor:"inherit"}}>
-                    <span style={{fontWeight:"normal", fontSize:"12.5px",color:"white"}}>{props.sdDow1} {props.sdDate1}<br></br><b>{props.sdTeams1}</b></span>
-                </Button>
-                <Button circular color="white" as={Link} basic to="/showdown2" inverted style={{marginRight:"3%", backgroundColor:"inherit"}}>
-                    <span style={{fontSize:"12.5px",color:"white"}}>{props.sdDow2} {props.sdDate2}<br></br><b>{props.sdTeams2}</b></span>
-                </Button>
-            </div>
+            <ContestButtons sdTeams1={props.sdTeams1} sdDate1={props.sdDate1} sdDow1={props.sdDow1} sdDate2={props.sdDate2} sdDow2={props.sdDow2} sdTeams2={props.sdTeams2}/>
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>

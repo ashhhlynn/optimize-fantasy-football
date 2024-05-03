@@ -1,84 +1,84 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300&display=swap');
 
 .App {
-  background-color: #181a1f;
-  text-align: center;
+    background-color: #181a1f;
+    text-align: center;
 }
 
 ::-webkit-scrollbar {
-	width: 16px;
-	box-shadow: 0;
+    width: 16px;
+    box-shadow: 0;
 }
 
 ::-webkit-scrollbar-track {
-	background-color: #181a1f;
+    background-color: #181a1f;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #2e323c;
-	background-clip: content-box;
-	border-radius: 20px;
+    background-color: #2e323c;
+    background-clip: content-box;
+    border-radius: 20px;
 }
 
 .contestButtons .ui.button {
-  height:55px;
-  width: 180px !important;
-  padding-top: 12px;
-  font-weight: normal !important;
+    height:55px;
+    width: 180px !important;
+    padding-top: 12px;
+    font-weight: normal !important;
 }
 
 .ui.button {
-  color: #181a1f;
-  font-family: Helvetica !important;
-  font-size: 15.5px  !important;
-  font-weight: bold !important;
-  padding: 0 50;
-  letter-spacing: .95px !important;
-  height:38px;
+    color: #181a1f;
+    font-family: Helvetica !important;
+    font-size: 15.5px  !important;
+    font-weight: bold !important;
+    padding: 0 50;
+    letter-spacing: .95px !important;
+    height:38px;
 }
 
 .ui.table {
-  background-color: #21232a !important;
-  font-family: Helvetica !important;
-  color: #fafafa;
-  letter-spacing: .35px !important;
+    background-color: #21232a !important;
+    font-family: Helvetica !important;
+    color: #fafafa;
+    letter-spacing: .35px !important;
 }
 
 .ui.label {
-  padding: 9.5px 12px !important;
-  color: #181a1f !important;
-  letter-spacing: 0px;
-  font-family: 'Helvetica' !important;
-  font-weight: bold !important;
+    padding: 9.5px 12px !important;
+    color: #181a1f !important;
+    letter-spacing: 0px;
+    font-family: 'Helvetica' !important;
+    font-weight: bold !important;
 }
 
 .dfs {
-  height: 460px !important;
-  overflow-y: scroll !important; /* or auto */
-  width:520px  !important;
-  scrollbar-color: #15151b !important;
+    height: 460px !important;
+    overflow-y: scroll !important; /* or auto */
+    width:520px  !important;
+    scrollbar-color: #15151b !important;
 }
 
 .dfsClassic {
-  height: 540px !important;
-  overflow-y: scroll !important; /* or auto */
-  width:538px  !important;
-  scrollbar-color: #15151b!important;
+    height: 540px !important;
+    overflow-y: scroll !important; /* or auto */
+    width:538px  !important;
+    scrollbar-color: #15151b!important;
 }
 
 .header h2 {
-	font-family: 'raleway' !important;
-  font-size: 23px !important;
-  letter-spacing: 1.65px !important;
-  margin-top: 1.5% !important;
-  margin-left: 2.1% !important;
-  text-align: left;
-  font-weight: 800 !important;
-  color:#a0e8fc 
+    font-family: 'raleway' !important;
+    font-size: 23px !important;
+    letter-spacing: 1.65px !important;
+    margin-top: 1.5% !important;
+    margin-left: 2.1% !important;
+    text-align: left;
+    font-weight: 800 !important;
+    color:#a0e8fc;
 }
 
 html {
-	font-size: 62.5%;
-	-webkit-font-smoothing: antialiased;
-	color:white;
+    font-size: 62.5%;
+    -webkit-font-smoothing: antialiased;
+    color:white;
 }
