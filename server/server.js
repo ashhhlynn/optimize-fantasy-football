@@ -13,6 +13,13 @@ let classicPlayers = []
 let classicFlex = []
 let classicCombined = []
 let classicConstraintObj = {}
+classicConstraintObj['QB'] = { 'min': 1, 'max': 1 }
+classicConstraintObj['RB'] = { 'min': 2, 'max': 2 }
+classicConstraintObj['WR'] = { 'min': 3, 'max': 3 }
+classicConstraintObj['TE'] = { 'min': 1, 'max': 1 }
+classicConstraintObj['DST'] = { 'min': 1, 'max': 1 }
+classicConstraintObj['FLEX'] = { 'min': 1, 'max': 1 }
+classicConstraintObj['salary'] = { 'max': 50000 }
 let classicIntObj = {}
 classicIntObj['QB'] = 1
 classicIntObj['RB'] = 1
@@ -120,10 +127,8 @@ app.get("/classicplayers", (req, res) => {
 })
 
 app.get("/classicoptimizer", (req, res) => { 
-    let classicConstraint = classicConstraintModel()
-    let classicAll = classicCombined
-    let results = optimizeClassic(classicConstraint, classicAll)
-    let endResult = sortClassicResults(results, classicAll)
+    let results = optimizeClassic(classicConstraintObj, classicCombined)
+    let endResult = sortClassicResults(results, classicCombined)
     res.json(
         endResult
     )
@@ -132,7 +137,7 @@ app.get("/classicoptimizer", (req, res) => {
 app.post("/classicoptimize", (req, res) => {
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
-    let classicConstraint = classicConstraintModel()
+    let classicConstraint = {...classicConstraintObj}
     let sal = 50000
     let classicAll = [...classicCombined]
     for (let i = 0; i < lineupPlayers.length; i++) {
@@ -154,20 +159,9 @@ app.post("/classicoptimize", (req, res) => {
     )
 })
 
-function classicConstraintModel() {
-    let classicConstraint = {...classicConstraintObj}
-    classicConstraint['QB'] = { 'min': 1, 'max': 1 }
-    classicConstraint['RB'] = { 'min': 2, 'max': 2 }
-    classicConstraint['WR'] = { 'min': 3, 'max': 3 }
-    classicConstraint['TE'] = { 'min': 1, 'max': 1 }
-    classicConstraint['DST'] = { 'min': 1, 'max': 1 }
-    classicConstraint['FLEX'] = { 'min': 1, 'max': 1 }
-    classicConstraint['salary'] = { 'max': 50000 }
-    return classicConstraint
-}
-
 function optimizeClassic(classicConstraint, classicAll) {
     let playersObj = Object.assign({}, classicAll)
+    console.log(playersObj)
     const model = {
         optimize: "Projection",
         opType: "max",
