@@ -267,7 +267,11 @@ function ClassicHome() {
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}
                         open={open}
-                        trigger={<Button style={{width: "230px", marginLeft:"6%",backgroundColor:"#61dafb", color:"#181a1f"}}>OPTIMIZE LINEUP</Button>}
+                        trigger={
+                            <div className="optimizeLabel">
+                                <Label size="big" style={{cursor:"pointer", backgroundColor:"#61dafb", fontWeight:"normal", fontSize:"17px", letterSpacing:".5px"}}>OPTIMIZE</Label>
+                            </div>
+                        }
                         >
                             <ModalContent style={{textAlign:"center"}}>
                                 <p style={{fontFamily:"Helvetica", fontSize:"15px", fontWeight:"bold"}}>Include selected players?</p>
@@ -281,6 +285,9 @@ function ClassicHome() {
                                 </ModalActions>
                             </ModalContent>
                         </Modal>
+
+                        
+
                     </Grid.Column>
                     <Grid.Column>
                         <Label.Group style={{height:"46px", cursor:"pointer", marginLeft:"24%", marginTop:"1.85%",marginBottom:"-2.3%"}}>

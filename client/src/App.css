@@ -44,6 +44,18 @@
     letter-spacing: .35px !important;
 }
 
+.classicPop .ui.label {
+    padding: 11px 16px !important;
+    color: #181a1f !important;
+    font-family: 'Helvetica' !important;
+}
+
+.optimizeLabel .ui.label {
+    padding: 12px 44px !important;
+    color: #181a1f !important;
+    font-family: 'Helvetica' !important;
+}
+
 .ui.label {
     padding: 9.5px 12px !important;
     color: #181a1f !important;

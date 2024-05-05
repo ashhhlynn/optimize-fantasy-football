@@ -28,6 +28,9 @@ classicIntObj['TE'] = 1
 classicIntObj['DST'] = 1
 classicIntObj['FLEX'] = 1
 
+let classicCombinedObj = {}
+
+
 fetchSleeperObj()
 
 function fetchSleeperObj(){
@@ -91,6 +94,8 @@ function fetchClassicPlayers() {
         }
         classicCombined.push(...classicPlayers)
         classicCombined.push(...classicFlex)
+
+        classicCombinedObj = {...classicCombined}
     })   
 }
 
@@ -127,8 +132,8 @@ app.get("/classicplayers", (req, res) => {
 })
 
 app.get("/classicoptimizer", (req, res) => { 
-    let results = optimizeClassic(classicConstraintObj, classicCombined)
-    let endResult = sortClassicResults(results, classicCombined)
+    let results = testOptimizeClassic(classicConstraintObj, classicCombinedObj)
+    let endResult = sortClassicResults(results, classicCombinedObj)
     res.json(
         endResult
     )
@@ -159,9 +164,25 @@ app.post("/classicoptimize", (req, res) => {
     )
 })
 
+
+function testOptimizeClassic(classicConstraint, classicAll) {
+    const model = {
+        optimize: "Projection",
+        opType: "max",
+        ints: classicIntObj,
+        constraints: classicConstraint,   
+        variables: classicAll,
+        options: {
+            "tolerance": 0.025
+        }
+    }    
+    const results = solver.Solve(model)
+    return results
+}
+
+
 function optimizeClassic(classicConstraint, classicAll) {
     let playersObj = Object.assign({}, classicAll)
-    console.log(playersObj)
     const model = {
         optimize: "Projection",
         opType: "max",

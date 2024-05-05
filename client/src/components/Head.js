@@ -11,7 +11,7 @@ function Head(props) {
                 <Menu.Menu position="right">
                     <Menu.Item style={{marginLeft:"0%"}}> 
                         <Popup
-                            content={`Contests updated NFL Thursdays Sun ${props.clDate}`}
+                            content={`Sun ${props.clDate}`}
                             key={1}
                             header={"Classic Contest"}
                             trigger={
@@ -23,7 +23,7 @@ function Head(props) {
                     </Menu.Item>
                     <Menu.Item style={{marginLeft:"-14%"}}>
                         <Popup
-                            content={`Contests updated NFL Thursdays ${props.sdDow1} ${props.sdDate1} and ${props.sdDow2} ${props.sdDate2}`}
+                            content={`${props.sdDow1} ${props.sdDate1} and ${props.sdDow2} ${props.sdDate2}`}
                             key={1}
                             header={"Showdown Contest"}
                             trigger={
