@@ -27,9 +27,9 @@ classicIntObj['WR'] = 1
 classicIntObj['TE'] = 1
 classicIntObj['DST'] = 1
 classicIntObj['FLEX'] = 1
-
 let classicCombinedObj = {}
 
+let oldclassicIntObj = {}
 
 fetchSleeperObj()
 
@@ -68,7 +68,7 @@ function fetchClassicPlayers() {
                 else {
                     var proj = 0
                 }
-                classicIntObj[intCounter] = {'max': 1}
+                oldclassicIntObj[intCounter] = 1
                 classicConstraintObj[counter] = {'max': 1}
                 var details = {
                     ...element, 
@@ -85,7 +85,7 @@ function fetchClassicPlayers() {
                     }
                     classicFlex.push(detailsTwo)
                     intCounter += 1
-                    classicIntObj[intCounter] = {'max': 1}
+                    oldclassicIntObj[intCounter] = 1
                     z++
                 }
                 counter += 1
@@ -94,8 +94,12 @@ function fetchClassicPlayers() {
         }
         classicCombined.push(...classicPlayers)
         classicCombined.push(...classicFlex)
-
         classicCombinedObj = {...classicCombined}
+        for (let f=0; f < classicCombined.length; f++){
+            if (classicCombined[f].Projection > 0){
+                classicIntObj[f] = 1
+            }
+        }
     })   
 }
 
@@ -132,7 +136,7 @@ app.get("/classicplayers", (req, res) => {
 })
 
 app.get("/classicoptimizer", (req, res) => { 
-    let results = testOptimizeClassic(classicConstraintObj, classicCombinedObj)
+    let results = getOptimizeClassic(classicConstraintObj, classicCombinedObj)
     let endResult = sortClassicResults(results, classicCombinedObj)
     res.json(
         endResult
@@ -164,8 +168,7 @@ app.post("/classicoptimize", (req, res) => {
     )
 })
 
-
-function testOptimizeClassic(classicConstraint, classicAll) {
+function getOptimizeClassic(classicConstraint, classicAll) {
     const model = {
         optimize: "Projection",
         opType: "max",
@@ -179,7 +182,6 @@ function testOptimizeClassic(classicConstraint, classicAll) {
     const results = solver.Solve(model)
     return results
 }
-
 
 function optimizeClassic(classicConstraint, classicAll) {
     let playersObj = Object.assign({}, classicAll)

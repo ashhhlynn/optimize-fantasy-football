@@ -285,9 +285,6 @@ function ClassicHome() {
                                 </ModalActions>
                             </ModalContent>
                         </Modal>
-
-                        
-
                     </Grid.Column>
                     <Grid.Column>
                         <Label.Group style={{height:"46px", cursor:"pointer", marginLeft:"24%", marginTop:"1.85%",marginBottom:"-2.3%"}}>
