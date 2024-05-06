@@ -29,8 +29,6 @@ classicIntObj['DST'] = 1
 classicIntObj['FLEX'] = 1
 let classicCombinedObj = {}
 
-let oldclassicIntObj = {}
-
 fetchSleeperObj()
 
 function fetchSleeperObj(){
@@ -57,7 +55,6 @@ function fetchClassicPlayers() {
     .then((res)=> res.json())
     .then(data => {
         let counter = 0
-        let intCounter = 0
         for (let z=0; z < data.draftables.length; z++) {
             if (data.draftables[z].draftStatAttributes[0].id === 90) {
                 let element = data.draftables[z]
@@ -68,8 +65,6 @@ function fetchClassicPlayers() {
                 else {
                     var proj = 0
                 }
-                oldclassicIntObj[intCounter] = 1
-                classicConstraintObj[counter] = {'max': 1}
                 var details = {
                     ...element, 
                     Projection: proj,
@@ -83,21 +78,19 @@ function fetchClassicPlayers() {
                         [element.position]: 0,
                         FLEX: 1, 
                     }
-                    classicFlex.push(detailsTwo)
-                    intCounter += 1
-                    oldclassicIntObj[intCounter] = 1
+                    classicFlex.push(detailsTwo)            
                     z++
                 }
                 counter += 1
-                intCounter += 1
             }   
         }
         classicCombined.push(...classicPlayers)
         classicCombined.push(...classicFlex)
-        classicCombinedObj = {...classicCombined}
         for (let f=0; f < classicCombined.length; f++){
             if (classicCombined[f].Projection > 0){
                 classicIntObj[f] = 1
+                classicConstraintObj[f] = {'max': 1}
+                classicCombinedObj[f] = classicCombined[f]
             }
         }
     })   
@@ -136,7 +129,8 @@ app.get("/classicplayers", (req, res) => {
 })
 
 app.get("/classicoptimizer", (req, res) => { 
-    let results = getOptimizeClassic(classicConstraintObj, classicCombinedObj)
+    let num = 0.025
+    let results = optimizeClassic(classicConstraintObj, classicCombinedObj, num)
     let endResult = sortClassicResults(results, classicCombinedObj)
     res.json(
         endResult
@@ -161,14 +155,16 @@ app.post("/classicoptimize", (req, res) => {
         classicAll.filter(p => p.playerId !== fl[0].playerId)
     }
     classicConstraint['salary'] = { 'max': sal }
-    let results = optimizeClassic(classicConstraint, classicAll)
+    let classicAllObj = Object.assign({}, classicAll)
+    let num = 0 
+    let results = optimizeClassic(classicConstraint, classicAllObj, num)
     let endResult = sortClassicResults(results, classicAll, lineupPlayers, fl)
     res.json(
        endResult
     )
 })
 
-function getOptimizeClassic(classicConstraint, classicAll) {
+function optimizeClassic(classicConstraint, classicAll, num) {
     const model = {
         optimize: "Projection",
         opType: "max",
@@ -176,21 +172,8 @@ function getOptimizeClassic(classicConstraint, classicAll) {
         constraints: classicConstraint,   
         variables: classicAll,
         options: {
-            "tolerance": 0.025
+            "tolerance": num
         }
-    }    
-    const results = solver.Solve(model)
-    return results
-}
-
-function optimizeClassic(classicConstraint, classicAll) {
-    let playersObj = Object.assign({}, classicAll)
-    const model = {
-        optimize: "Projection",
-        opType: "max",
-        ints: classicIntObj,
-        constraints: classicConstraint,   
-        variables: playersObj,
     }    
     const results = solver.Solve(model)
     return results
