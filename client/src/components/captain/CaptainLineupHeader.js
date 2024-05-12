@@ -5,14 +5,14 @@ function CaptainLineupHeader(props) {
 
     return (
         <>
-        <div className="classicPop" style={{marginBottom:"-.2%",marginLeft:"-55.5%"}}>
+        <div className="classicPop" style={{marginBottom:"-.2%",marginLeft:"-53%"}}>
             <Popup
             position='left center'
             style={{marginTop:"-16%"}}
             wide   
             trigger={
-            <Label style={{fontSize:"15px", cursor:"pointer",backgroundColor:"#61dafb", fontWeight:"normal", letterSpacing:"0px"}} size="large">
-                <span style={{marginLeft:"0%"}}>Showdown <Icon name='announcement'/></span>
+            <Label style={{fontSize:"15px", cursor:"pointer",backgroundColor:"#61dafb", fontWeight:"normal", letterSpacing:".3px"}} size="large">
+                <span style={{marginLeft:"0%"}}>SHOWDOWN <Icon name='announcement'/></span>
             </Label>
             }>
                 <ListItem as='li'>Optimize DraftKings lineup for highest projection</ListItem>

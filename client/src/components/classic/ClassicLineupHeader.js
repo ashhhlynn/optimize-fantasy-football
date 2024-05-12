@@ -5,14 +5,14 @@ function ClassicLineupHeader(props) {
 
     return (
         <>
-        <div className="classicPop" style={{marginBottom:"-2.12%",marginLeft:"-60%"}}>
+        <div className="classicPop" style={{marginBottom:"-2.12%",marginLeft:"-58%"}}>
             <Popup
             position='left center'
             style={{marginTop:"-16%"}}
             wide   
             trigger={
             <Label style={{cursor:"pointer", fontSize:"15px", backgroundColor:"#61dafb", fontWeight:"normal", letterSpacing:"0px"}} size='large'>
-                <span style={{marginLeft:"0%"}}>Classic <Icon name='announcement'/></span>
+                <span style={{marginLeft:"0%"}}>CLASSIC <Icon name='announcement'/></span>
             </Label>
             }>
                 <ListItem as='li'>Optimize DraftKings lineup for highest projection</ListItem>
