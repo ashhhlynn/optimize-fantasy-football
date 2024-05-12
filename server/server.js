@@ -6,7 +6,6 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 const fetch = require("node-fetch");
-const e = require("express");
 
 let sleeperObj = {}
 let classicPlayers = []
@@ -21,28 +20,17 @@ classicConstraintObj['DST'] = { 'min': 1, 'max': 1 }
 classicConstraintObj['FLEX'] = { 'min': 1, 'max': 1 }
 classicConstraintObj['salary'] = { 'max': 50000 }
 let classicIntObj = {}
-classicIntObj['QB'] = 1
-classicIntObj['RB'] = 1
-classicIntObj['WR'] = 1
-classicIntObj['TE'] = 1
-classicIntObj['DST'] = 1
-classicIntObj['FLEX'] = 1
 let classicCombinedObj = {}
 
-fetchSleeperObj()
+fetchSleeperProjections()
 
-function fetchSleeperObj(){
+function fetchSleeperProjections(){
     fetch("https://api.sleeper.app/projections/nfl/2023/18?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr")
     .then((res)=> res.json())
     .then(data => {
         data.map((element) => {
             if (element.stats.pts_ppr > 0){  
-                if (element.player.position === "DEF" ) {
-                    var name = element.player.last_name
-                }
-                else {
-                    var name = element.player.first_name + ' ' + element.player.last_name
-                }
+                var name = element.player.position === "DEF" ?  element.player.last_name : element.player.first_name + ' ' + element.player.last_name 
                 sleeperObj[name] = element.stats.pts_ppr
             }
         })
@@ -59,12 +47,9 @@ function fetchClassicPlayers() {
             if (data.draftables[z].draftStatAttributes[0].id === 90) {
                 let element = data.draftables[z]
                 let sleeperElement = Object.keys(sleeperObj).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
-                if (sleeperElement !== undefined) {
-                    var proj = sleeperObj[sleeperElement]
-                }
-                else {
-                    var proj = 0
-                }
+                var proj = sleeperElement !== undefined ? sleeperObj[sleeperElement] : 0
+                
+             
                 var details = {
                     ...element, 
                     Projection: proj,
@@ -165,6 +150,12 @@ app.post("/classicoptimize", (req, res) => {
 })
 
 function optimizeClassic(classicConstraint, classicAll, num) {
+    classicIntObj['QB'] = 1
+    classicIntObj['RB'] = 1
+    classicIntObj['WR'] = 1
+    classicIntObj['TE'] = 1
+    classicIntObj['DST'] = 1
+    classicIntObj['FLEX'] = 1
     const model = {
         optimize: "Projection",
         opType: "max",
