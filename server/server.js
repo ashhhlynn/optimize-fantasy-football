@@ -9,8 +9,6 @@ const fetch = require("node-fetch");
 
 let sleeperObj = {}
 let classicPlayers = []
-let classicFlex = []
-let classicCombined = []
 let classicConstraintObj = {}
 classicConstraintObj['QB'] = { 'min': 1, 'max': 1 }
 classicConstraintObj['RB'] = { 'min': 2, 'max': 2 }
@@ -19,7 +17,7 @@ classicConstraintObj['TE'] = { 'min': 1, 'max': 1 }
 classicConstraintObj['DST'] = { 'min': 1, 'max': 1 }
 classicConstraintObj['FLEX'] = { 'min': 1, 'max': 1 }
 classicConstraintObj['salary'] = { 'max': 50000 }
-let classicIntObj = {}
+let classicIntegerObj = {}
 let classicCombinedObj = {}
 
 fetchSleeperProjections()
@@ -48,75 +46,43 @@ function fetchClassicPlayers() {
                 let element = data.draftables[z]
                 let sleeperElement = Object.keys(sleeperObj).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
                 var proj = sleeperElement !== undefined ? sleeperObj[sleeperElement] : 0
-                
-             
-                var details = {
-                    ...element, 
-                    Projection: proj,
-                    [element.position]: 1,
-                    [counter]: 1
-                }    
+                var details = {...element, Projection: proj, [element.position]: 1, [counter]: 1}    
                 classicPlayers.push(details)
+                if (proj > 0) {
+                    classicCombinedObj[counter] = details
+                    classicIntegerObj[counter] = 1
+                    classicConstraintObj[counter] = {'max': 1}
+                }
                 if (z !== data.draftables.length - 1 && element.playerId === data.draftables[z+1].playerId) {
-                    var detailsTwo = {
-                        ...details, 
-                        [element.position]: 0,
-                        FLEX: 1, 
-                    }
-                    classicFlex.push(detailsTwo)            
-                    z++
+                    var detailsTwo = {...details, [element.position]: 0, FLEX: 1}
+                    if (proj > 0) {
+                        classicCombinedObj[counter + 1000] = detailsTwo
+                        classicIntegerObj[counter + 1000] = 1
+                    }    
+                    z++  
                 }
                 counter += 1
             }   
-        }
-        classicCombined.push(...classicPlayers)
-        classicCombined.push(...classicFlex)
-        for (let f=0; f < classicCombined.length; f++){
-            if (classicCombined[f].Projection > 0){
-                classicIntObj[f] = 1
-                classicConstraintObj[f] = {'max': 1}
-                classicCombinedObj[f] = classicCombined[f]
-            }
         }
     })   
 }
 
 app.get("/classicplayers", (req, res) => { 
-    let qqb = []
-    let qrb = []
-    let qwr = []
-    let qte = []
-    let qdst = []
-    let qflex = []
+    let sortedPlayers = {unique: classicPlayers, qqb: [], qrb: [], qwr: [], qte: [], qdst: [], qflex: []}
     for (let i=0; i < classicPlayers.length; i++) {
-        if (classicPlayers[i].position === "QB"){
-            qqb.push(classicPlayers[i])
+        let pos =  'q' + classicPlayers[i].position.toLowerCase()
+        if (pos === 'qrb' || pos === 'qwr' || pos === 'qte'){
+            sortedPlayers['qflex'] = [...sortedPlayers['qflex'], classicPlayers[i]]
         }
-        else if (classicPlayers[i].position === "RB"){
-            qrb.push(classicPlayers[i])
-            qflex.push(classicPlayers[i])
-        }
-        else if (classicPlayers[i].position === "WR"){
-            qwr.push(classicPlayers[i])
-            qflex.push(classicPlayers[i])
-        }
-        else if (classicPlayers[i].position === "TE"){
-            qte.push(classicPlayers[i])
-            qflex.push(classicPlayers[i])
-        }
-        else if (classicPlayers[i].position === "DST"){
-            qdst.push(classicPlayers[i])
-        }
+        sortedPlayers[pos] = [...sortedPlayers[pos],  classicPlayers[i]] 
     } 
-    res.json({ 
-        unique: classicPlayers, qqb: qqb, qrb: qrb, qwr: qwr, qte: qte, qdst: qdst, qflex: qflex
-    })    
+    res.json(sortedPlayers)    
 })
 
 app.get("/classicoptimizer", (req, res) => { 
     let num = 0.025
     let results = optimizeClassic(classicConstraintObj, classicCombinedObj, num)
-    let endResult = sortClassicResults(results, classicCombinedObj)
+    let endResult = sortClassicResults(results)
     res.json(
         endResult
     )
@@ -126,40 +92,53 @@ app.post("/classicoptimize", (req, res) => {
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
     let classicConstraint = {...classicConstraintObj}
+    let classicAllObj = {...classicCombinedObj}
     let sal = 50000
-    let classicAll = [...classicCombined]
+    let val = 0 
     for (let i = 0; i < lineupPlayers.length; i++) {
-        classicAll.filter(p => p.playerId !== lineupPlayers[i].playerId)
-        sal -= lineupPlayers[i].salary
+        let numb = Object.keys(lineupPlayers[i])[0]
+        let numbTwo = Number(numb) + 1000
+        delete classicAllObj[numb]
+        delete classicAllObj[numbTwo]
         let x = classicConstraint[`${lineupPlayers[i].position}`]['min'] - 1
         classicConstraint[`${lineupPlayers[i].position}`] = {'min' : x, 'max': x}
+        sal -= lineupPlayers[i].salary
+        val += lineupPlayers[i].Projection
     }  
     if (fl.length !== 0){
-        sal -= fl[0].salary
+        let numb = Object.keys(fl[0])[0]
+        let numbTwo = Number(numb) + 1000
+        delete classicAllObj[numb]
+        delete classicAllObj[numbTwo]
         classicConstraint['FLEX'] = { 'min': 0, 'max': 0 }
-        classicAll.filter(p => p.playerId !== fl[0].playerId)
+        sal -= fl[0].salary
+        val += fl[0].Projection
     }
     classicConstraint['salary'] = { 'max': sal }
-    let classicAllObj = Object.assign({}, classicAll)
-    let num = 0 
-    let results = optimizeClassic(classicConstraint, classicAllObj, num)
-    let endResult = sortClassicResults(results, classicAll, lineupPlayers, fl)
+    let results = optimizeClassic(classicConstraint, classicAllObj, 0)
+    let endResult = sortClassicResults(results, lineupPlayers)
+    endResult['usedSal'] += (50000 - sal)
+    endResult['result'] += val
+    if (fl.length !== 0){
+        endResult['flex'] = [...endResult['flex'], fl[0]] 
+        endResult['lineup'] = [...endResult['lineup'], fl[0]]
+    }    
     res.json(
        endResult
     )
 })
 
 function optimizeClassic(classicConstraint, classicAll, num) {
-    classicIntObj['QB'] = 1
-    classicIntObj['RB'] = 1
-    classicIntObj['WR'] = 1
-    classicIntObj['TE'] = 1
-    classicIntObj['DST'] = 1
-    classicIntObj['FLEX'] = 1
+    classicIntegerObj['QB'] = 1
+    classicIntegerObj['RB'] = 1
+    classicIntegerObj['WR'] = 1
+    classicIntegerObj['TE'] = 1
+    classicIntegerObj['DST'] = 1
+    classicIntegerObj['FLEX'] = 1
     const model = {
         optimize: "Projection",
         opType: "max",
-        ints: classicIntObj,
+        ints: classicIntegerObj,
         constraints: classicConstraint,   
         variables: classicAll,
         options: {
@@ -170,40 +149,30 @@ function optimizeClassic(classicConstraint, classicAll, num) {
     return results
 }
 
-function sortClassicResults(results, classicAll, lineupPlayers=[], fl=[]) {
-    let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
-    let value = results.result 
+function sortClassicResults(results, lineupPlayers=[]) {
+    let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: results.result, usedSal: 0}
     let usedSal = 0 
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
-            if (classicAll[key].FLEX === 1) {    
-                let flexPlayer = classicPlayers.find(p => p.playerId === classicAll[key].playerId)
+            if (classicCombinedObj[key].FLEX === 1) {    
+                let flexPlayer = classicPlayers.find(p => p.playerId === classicCombinedObj[key].playerId)
                 sortedResults['flex'] = [flexPlayer]
                 sortedResults['lineup'] = [...sortedResults['lineup'], flexPlayer]
                 usedSal += flexPlayer.salary
             }
             else {
-                let pos =  classicAll[key].position.toLowerCase()
-                sortedResults[pos] = [...sortedResults[pos],  classicAll[key]]
-                sortedResults['lineup'] = [...sortedResults['lineup'],  classicAll[key]]
-                usedSal +=  classicAll[key].salary
-             }
+                let pos =  classicCombinedObj[key].position.toLowerCase()
+                sortedResults[pos] = [...sortedResults[pos],  classicCombinedObj[key]]
+                sortedResults['lineup'] = [...sortedResults['lineup'],  classicCombinedObj[key]]
+                usedSal +=  classicCombinedObj[key].salary
+            }
         }
     }
     for (let i=0; i < lineupPlayers.length; i++){
         let pos = lineupPlayers[i].position.toLowerCase()
         sortedResults[pos] = [...sortedResults[pos], lineupPlayers[i]]
         sortedResults['lineup'] = [...sortedResults['lineup'], lineupPlayers[i]]
-        usedSal += lineupPlayers[i].salary
-        value += lineupPlayers[i].Projection
     }
-    if (fl.length !== 0 ) {
-        sortedResults['flex'] = [fl[0]] 
-        sortedResults['lineup'] = [...sortedResults['lineup'], fl[0]]
-        usedSal += fl[0].salary
-        value += fl[0].Projection
-    }
-    sortedResults['result'] = value
     sortedResults['usedSal'] = usedSal
     return sortedResults
 }
