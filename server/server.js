@@ -83,9 +83,7 @@ app.get("/classicoptimizer", (req, res) => {
     let num = 0.025
     let results = optimizeClassic(classicConstraintObj, classicCombinedObj, num)
     let endResult = sortClassicResults(results)
-    res.json(
-        endResult
-    )
+    res.json(endResult)
 })
 
 app.post("/classicoptimize", (req, res) => {
@@ -123,9 +121,7 @@ app.post("/classicoptimize", (req, res) => {
         endResult['flex'] = [...endResult['flex'], fl[0]] 
         endResult['lineup'] = [...endResult['lineup'], fl[0]]
     }    
-    res.json(
-       endResult
-    )
+    res.json(endResult)
 })
 
 function optimizeClassic(classicConstraint, classicAll, num) {
@@ -179,26 +175,22 @@ function sortClassicResults(results, lineupPlayers=[]) {
 
 app.get("/trcaptainplayers", async (req, res) => { 
     const queue = await captainOneData()
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
     res.json({
-        crowns: crownsQueue, flexes: flexesQueue
+        crowns: queue.crownsQueue, flexes: queue.flexesQueue
     })
 })
 
 app.get("/moncaptainplayers", async (req, res) => { 
     const queue = await captainTwoData()
-    const crownsQueue = queue.crownsQueue
-    const flexesQueue = queue.flexesQueue
     res.json({
-        crowns: crownsQueue, flexes: flexesQueue
+        crowns: queue.crownsQueue, flexes: queue.flexesQueue
     });
 })
 
 app.post("/optimizedcaptain", async (req, res) => {
     const queue = await captainOneData()
     let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
-    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
+    let results = optimizeCaptain(optData.allQueue, queue.flexesQueue, optData.captainConstraintObj, req.body.cp, req.body.fp)
     res.json({
         crown: results.cp, fps: results.fps
     })
@@ -207,7 +199,7 @@ app.post("/optimizedcaptain", async (req, res) => {
 app.post("/optimizedcaptainmon", async (req, res) => {
     const queue = await captainTwoData()
     let optData = optimizeCaptainData(queue, req.body.fp, req.body.cp)
-    let results = optimizeCaptain(optData.crownsQueue, optData.flexesQueue, optData.constraintObj2, req.body.cp, req.body.fp)
+    let results = optimizeCaptain(optData.allQueue, queue.flexesQueue, optData.captainConstraintObj, req.body.cp, req.body.fp)
     res.json({
         crown: results.cp, fps: results.fps
     })
@@ -233,12 +225,7 @@ async function fetchCaptain(num) {
     data.draftables.map((element) => {
         if (element.draftStatAttributes[0].id === 90){
             let sleeperElement = Object.keys(sleeperObj).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
-            if (sleeperElement !== undefined){
-                var proj = sleeperObj[sleeperElement]
-            }
-            else {
-                var proj = 0
-            }
+            var proj = sleeperElement !== undefined ? sleeperObj[sleeperElement] : 0
             let details = {
                 Name: element.displayName,
                 Position: element.position,
@@ -248,95 +235,74 @@ async function fetchCaptain(num) {
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
                 Status: element.status,
+                Salary: element.salary,
             }
-            if (!crownsQueue.find(p => p.DraftTableId === element.playerId )){
-                let newElement = {
-                    ...details,
-                    Salary: element.salary,
-                    CROWN: 1,
-                    [crownsQueue.length]: 1,
-                    Projection: proj * 1.5
-                }
+            var ind = crownsQueue.findIndex(p => p.DraftTableId === element.playerId )
+            if (ind === -1){
+                let newElement = {...details, CROWN: 1, [crownsQueue.length]: 1, Projection: proj * 1.5}
                 crownsQueue.push(newElement)
             }
             else {
-                var ind = crownsQueue.findIndex(p => p.DraftTableId === element.playerId )
-                let newElement = {
-                    ...details,
-                    Salary: element.salary, 
-                    FLEX: 1,
-                    [ind]: 1,
-                    Projection: proj 
-                }
+                let newElement = {...details, FLEX: 1, [ind]: 1, Projection: proj}
                 flexesQueue.push(newElement)
             }
         }
     })
-    return {
-        crownsQueue, flexesQueue
-    }
+    return {crownsQueue, flexesQueue}
 }
 
 function optimizeCaptainData(queue, selectedLineup, selectedCrown) {
-    let selectedCombine = [...selectedLineup, ...selectedCrown]
-    var crownsQueue = queue.crownsQueue.filter(function(objFromC) {
-        return !selectedCombine.find(function(objFromD) {
-            return objFromC.DraftTableId === objFromD.DraftTableId
-        })
-    })
-    var flexesQueue = queue.flexesQueue.filter(function(objFromC) {
-        return !selectedCombine.find(function(objFromD) {
-            return objFromC.DraftTableId === objFromD.DraftTableId
-        })
-    })
-    let constraintObj2 = {}
-    constraintObj2['Salary'] = {'max': 50000}
-    constraintObj2['CROWN'] = { 'min': 1, 'max': 1 }
-    constraintObj2['FLEX'] = { 'min': 5, 'max': 5 }
+    let allQueue = [...queue.crownsQueue, ...queue.flexesQueue]
+    let captainConstraintObj = {}
+    captainConstraintObj['Salary'] = {'max': 50000}
+    captainConstraintObj['CROWN'] = { 'min': 1, 'max': 1 }
+    captainConstraintObj['FLEX'] = { 'min': 5, 'max': 5 }
     let salary = 0
     if (selectedCrown.length !== 0){
-        constraintObj2['CROWN'] = { 'min': 0, 'max': 0 }
+        captainConstraintObj['CROWN'] = { 'min': 0, 'max': 0 }
         salary += selectedCrown[0].Salary * 1.5
+        allQueue.filter(p => p.DraftTableId !== selectedCrown[0].DraftTableId)
     }
     for (let i = 0; i < selectedLineup.length; i++) {
         salary += selectedLineup[i].Salary
-        let x = constraintObj2['FLEX']['min'] - 1
-        constraintObj2['FLEX'] = {'min' : x, 'max': x}
+        let x = captainConstraintObj['FLEX']['min'] - 1
+        captainConstraintObj['FLEX'] = {'min' : x, 'max': x}       
+        allQueue.filter(p => p.DraftTableId !== selectedLineup[i].DraftTableId)
     }
-    constraintObj2['Salary'] = {'max': 50000 - salary}
-    for (let i = 0; i < flexesQueue.length; i++) {
-        constraintObj2[i] = {'max': 1}
-    }
-    return {crownsQueue, flexesQueue, constraintObj2}
+    captainConstraintObj['Salary'] = {'max': 50000 - salary}
+    return {allQueue, captainConstraintObj}
 }
 
-function optimizeCaptain(crownsQueue, flexesQueue, constraintObj2, selectedCrown, selectedLineup) {
-    let all = [...crownsQueue, ...flexesQueue]
-    let obj2 = Object.assign({}, all)
-    let intObj2 = {}
-    for (let i = 0; i < all.length; i++) {
-        intObj2[i] = 1      
+function optimizeCaptain(allQueue, flexesQueue, captainConstraintObj, selectedCrown, selectedLineup) {
+    let captainAll = Object.assign({}, allQueue)
+    let captainIntObj = {}
+    for (let i = 0; i < flexesQueue.length; i++) {
+        captainConstraintObj[i] = {'max': 1}
+        captainIntObj[i] = 1      
     }
-    intObj2['FLEX'] = 1
-    intObj2['CROWN'] = 1
+    for (let i = flexesQueue.length; i < allQueue.length; i++) {
+        captainIntObj[i] = 1      
+    }
+    captainIntObj['FLEX'] = 1
+    captainIntObj['CROWN'] = 1
     const modelS = {
         optimize: "Projection",
         opType: "max",
-        ints: intObj2,
-        constraints: constraintObj2,
-        variables: obj2,
+        ints: captainIntObj,
+        constraints: captainConstraintObj,
+        variables: captainAll,
     };
     const results = solver.Solve(modelS);
     let fps = selectedLineup
     let cp = selectedCrown
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
-            if (all[key].CROWN === 1) {
-                let c = flexesQueue.find(p => p.Name === all[key].Name)
+            if (allQueue[key].CROWN === 1) {
+                let c = flexesQueue.find(p => p.Name === allQueue[key].Name)
                 cp.push(c)
             }
             else {
-                fps.push(all[key])
+                fps.push(allQueue[key])
             }
         }
     }
