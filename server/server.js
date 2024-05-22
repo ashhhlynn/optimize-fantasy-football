@@ -261,13 +261,13 @@ function optimizeCaptainData(queue, selectedLineup, selectedCrown) {
     if (selectedCrown.length !== 0){
         captainConstraintObj['CROWN'] = { 'min': 0, 'max': 0 }
         salary += selectedCrown[0].Salary * 1.5
-        allQueue.filter(p => p.DraftTableId !== selectedCrown[0].DraftTableId)
+        allQueue = allQueue.filter(p => p.DraftTableId !== selectedCrown[0].DraftTableId)
     }
     for (let i = 0; i < selectedLineup.length; i++) {
         salary += selectedLineup[i].Salary
         let x = captainConstraintObj['FLEX']['min'] - 1
         captainConstraintObj['FLEX'] = {'min' : x, 'max': x}       
-        allQueue.filter(p => p.DraftTableId !== selectedLineup[i].DraftTableId)
+        allQueue = allQueue.filter(p => p.DraftTableId !== selectedLineup[i].DraftTableId)
     }
     captainConstraintObj['Salary'] = {'max': 50000 - salary}
     return {allQueue, captainConstraintObj}
