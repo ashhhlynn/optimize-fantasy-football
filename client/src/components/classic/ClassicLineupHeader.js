@@ -5,13 +5,13 @@ function ClassicLineupHeader(props) {
 
     return (
         <>
-        <div className="classicPop" style={{marginBottom:"-2.12%",marginLeft:"-58%"}}>
+        <div className="classicPop" style={{marginBottom:"-2.12%",marginLeft:"-60.5%"}}>
             <Popup
             position='left center'
             style={{marginTop:"-16%"}}
             wide   
             trigger={
-            <Label style={{cursor:"pointer", fontSize:"15px", backgroundColor:"#61dafb", fontWeight:"normal", letterSpacing:"0px"}} size='large'>
+            <Label style={{cursor:"pointer", letterSpacing:".15px", fontSize:"12px", backgroundColor:"#61dafb"}} size='large'>
                 <span style={{marginLeft:"0%"}}>CLASSIC <Icon name='announcement'/></span>
             </Label>
             }>
