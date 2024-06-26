@@ -68,7 +68,7 @@ function fetchClassicPlayers() {
 }
 
 app.get("/classicplayers", (req, res) => { 
-    let sortedPlayers = {unique: classicPlayers, qqb: [], qrb: [], qwr: [], qte: [], qdst: [], qflex: []}
+    let sortedPlayers = {qall: classicPlayers, qqb: [], qrb: [], qwr: [], qte: [], qdst: [], qflex: []}
     for (let i=0; i < classicPlayers.length; i++) {
         let pos =  'q' + classicPlayers[i].position.toLowerCase()
         if (pos === 'qrb' || pos === 'qwr' || pos === 'qte'){

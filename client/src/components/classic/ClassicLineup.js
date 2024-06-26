@@ -1,32 +1,18 @@
-import React from 'react'
-import { Table, Icon } from 'semantic-ui-react'
-import BlankCells from '../BlankCells.js'
+import React from 'react';
+import { Table, Icon } from 'semantic-ui-react';
+import BlankCells from '../BlankCells.js';
 
-function ClassicLineup(props) {
-    
-    const removePlayer = (e, player) => {
-        e.preventDefault()
-        props.removePlayer(player)
-    }
-
-    let qb = props.qb
-    let te = props.te
-    let rbs = props.rbs
-    let wrs = props.wrs
-    let dst = props.dst
-    let flex = props.flex
-
+function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
     return (
-        <>
-        <Table fixed style={{borderColor:"white", color:"#fafafa", marginTop:"-2.5%", marginLeft:"11%", width:"520px"}}>           
+        <Table className="classicLineup" fixed >          
             <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px", width:"54px", color:"white",  backgroundColor:"#2e323c"}}>POS.</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px", width:"160px", color:"white",  backgroundColor:"#2e323c"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px",  width:"56px", color:"white", backgroundColor:"#2e323c"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px", width:"56px", color:"white",  backgroundColor:"#2e323c"}}>PROJ.</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal", fontSize:"12px", letterSpacing: ".5px",  width:"72px", color:"white", backgroundColor:"#2e323c"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{fontWeight:"normal",  fontSize:"12px", letterSpacing: ".5px",  width:"35px", color:"white", backgroundColor:"#2e323c"}}></Table.HeaderCell>
+                <Table.Row className='classicLineupHeader'>
+                    <Table.HeaderCell style={{width:"54px"}}>POS.</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"160px"}}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"56px"}}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"56px"}}>PROJ.</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"72px"}}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{width:"35px"}}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>           
@@ -38,9 +24,9 @@ function ClassicLineup(props) {
                         <Table.Cell>{qb.teamAbbreviation}</Table.Cell>
                         <Table.Cell>{qb.Projection}</Table.Cell>
                         <Table.Cell>${qb.salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" style={{cursor:"pointer"}} onClick={(event) => removePlayer(event, qb)}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(qb)}/></center></Table.Cell>
                         </>
-                    :
+                    :   
                         <BlankCells/>
                     }
                 </Table.Row>
@@ -52,7 +38,7 @@ function ClassicLineup(props) {
                         <Table.Cell>{rbs[0].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{rbs[0].Projection}</Table.Cell>
                         <Table.Cell>${rbs[0].salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, rbs[0])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(rbs[0])}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
@@ -66,7 +52,7 @@ function ClassicLineup(props) {
                         <Table.Cell>{rbs[1].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{rbs[1].Projection}</Table.Cell>
                         <Table.Cell>${rbs[1].salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, rbs[1])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(rbs[1])}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
@@ -81,7 +67,7 @@ function ClassicLineup(props) {
                         </Table.Cell>
                         <Table.Cell>{wrs[0].Projection}</Table.Cell>
                         <Table.Cell>${wrs[0].salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, wrs[0])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(wrs[0])}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
@@ -95,7 +81,7 @@ function ClassicLineup(props) {
                         <Table.Cell>{wrs[1].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{wrs[1].Projection}</Table.Cell>
                         <Table.Cell>${wrs[1].salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, wrs[1])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(wrs[1])}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
@@ -109,7 +95,7 @@ function ClassicLineup(props) {
                         <Table.Cell>{wrs[2].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{wrs[2].Projection}</Table.Cell>
                         <Table.Cell>${wrs[2].salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, wrs[2])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(wrs[2])}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
@@ -123,7 +109,7 @@ function ClassicLineup(props) {
                         <Table.Cell>{te.teamAbbreviation}</Table.Cell>
                         <Table.Cell>{te.Projection}</Table.Cell>
                         <Table.Cell>${te.salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close"  onClick={(event) => removePlayer(event, te)}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(te)}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
@@ -137,7 +123,7 @@ function ClassicLineup(props) {
                         <Table.Cell>{flex[0].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{flex[0].Projection}</Table.Cell>
                         <Table.Cell>${flex[0].salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, flex[0])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(flex[0])}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
@@ -151,16 +137,15 @@ function ClassicLineup(props) {
                         <Table.Cell>{dst.teamAbbreviation}</Table.Cell>
                         <Table.Cell>{dst.Projection}</Table.Cell>
                         <Table.Cell>${dst.salary}</Table.Cell>
-                        <Table.Cell><center><Icon style={{cursor:"pointer"}} name="close" onClick={(event) => removePlayer(event, dst)}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(dst)}/></center></Table.Cell>
                         </>
                     :
                         <BlankCells/>
                     }
                 </Table.Row>
-              </Table.Body>
-            </Table>
-        </>
-    )
-}
+            </Table.Body>
+        </Table>
+    );
+};
 
-export default ClassicLineup
+export default ClassicLineup;

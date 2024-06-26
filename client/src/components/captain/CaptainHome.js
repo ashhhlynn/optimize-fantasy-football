@@ -147,13 +147,16 @@ function CaptainHome(props) {
 
     return (
         <div>
-            <ContestButtons sdTeams1={props.sdTeams1} sdDate1={props.sdDate1} sdDow1={props.sdDow1} sdDate2={props.sdDate2} sdDow2={props.sdDow2} sdTeams2={props.sdTeams2}/>
+            <ContestButtons 
+                sdTeams1={props.sdTeams1} 
+                sdDate1={props.sdDate1} 
+                sdDate2={props.sdDate2} 
+                sdTeams2={props.sdTeams2}
+            />
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        {isLoading ? 
-                            <Loader active /> : <Loader />
-                        }
+                        {isLoading ? <Loader active /> : <Loader />}
                         <CaptainLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
@@ -166,18 +169,24 @@ function CaptainHome(props) {
                             removeCrownPlayer={removeCrownPlayer}
                         />
                         <Modal
-                        style={{width:"305px"}}
-                        onClose={() => setOpen(false)}
-                        onOpen={() => setOpen(true)}
-                        open={open}
-                        trigger={
-                            <div className="optimizeLabel">
-                                <Label size="big" style={{cursor:"pointer", backgroundColor:"#61dafb", fontWeight:"normal", fontSize:"17px", letterSpacing:".5px"}}>OPTIMIZE</Label>
-                            </div>
-                        }
+                            style={{width:"305px"}}
+                            onClose={() => setOpen(false)}
+                            onOpen={() => setOpen(true)}
+                            open={open}
+                            trigger={
+                                <div className="optimizeLabel">
+                                    <Label size="big">OPTIMIZE</Label>
+                                </div>
+                            }
                         >
                             <ModalContent style={{textAlign:"center"}}>
-                            <p style={{fontFamily:"Helvetica", fontSize:"15px", fontWeight:"bold"}}>Include selected players?</p>
+                            <p style={{
+                                fontFamily:"Helvetica", 
+                                fontSize:"15px", 
+                                fontWeight:"bold"
+                            }}>
+                                Include selected players?
+                            </p>
                                 <ModalActions>
                                     <Button basic color="teal" style={{marginLeft:"1.5%", width:"110px"}} onClick={optimizeWith}>
                                         <Icon name='checkmark' /> Yes
@@ -190,7 +199,7 @@ function CaptainHome(props) {
                         </Modal>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label style={{fontSize:"11.5px", marginBottom:".2%", backgroundColor:"#61dafb", marginLeft:"46%"}}>
+                        <Label className='showdownLabel' style={{marginLeft:"46%"}}>
                             <Icon name="chess queen" color="black"/>x1.5 Projection & Salary
                         </Label>
                         <CaptainQueue 
@@ -207,7 +216,7 @@ function CaptainHome(props) {
                 </Grid.Row>
             </Grid>
         </div>
-    )
-}
+    );
+};
 
-export default CaptainHome
+export default CaptainHome;

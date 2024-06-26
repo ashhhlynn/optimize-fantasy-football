@@ -1,34 +1,49 @@
-import React from 'react'
-import { Table, Label, Popup, Icon, ListItem } from 'semantic-ui-react'
+import React from 'react';
+import { Table, Label, Popup, ListItem } from 'semantic-ui-react';
 
-function ClassicLineupHeader(props) {
-
+function ClassicLineupHeader({ lineupNumbers }) {
     return (
         <>
-        <div className="classicPop" style={{marginBottom:"-2.12%",marginLeft:"-60.5%"}}>
-            <Popup
-            position='left center'
-            style={{marginTop:"-16%"}}
-            wide   
-            trigger={
-            <Label style={{cursor:"pointer", letterSpacing:".15px", fontSize:"12px", backgroundColor:"#61dafb"}} size='large'>
-                <span style={{marginLeft:"0%"}}>CLASSIC <Icon name='announcement'/></span>
-            </Label>
-            }>
+        <div className="classicPop">
+            <Popup 
+                position='left center'
+                style={{marginTop:"-16%"}}
+                wide   
+                trigger={<Label size='large'>CLASSIC</Label>}
+            >
                 <ListItem as='li'>Optimize DraftKings lineup for highest projection</ListItem>
                 <ListItem as='li'>Contests and salaries updated live weekly</ListItem>
                 <ListItem as='li'>Select players to require in optimized lineup</ListItem>
             </Popup>
         </div>
-        <Table fixed style={{marginLeft:"11%", width:"520px", backgroundColor:"#181a1f", borderColor:"white"}}>
+        <Table className="classicLineupInfo" fixed>
             <Table.Row>
-                <Table.Cell style={{color:"#61dafb", fontSize:"16px", textAlign:"left", width:"74px"}}> <b>PROJ. {props.projection.toFixed(2)}</b></Table.Cell>
-                <Table.Cell style={{color:"white", textAlign:"right", width:"80px"}}>Rem. Salary: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${props.salary}</span></Table.Cell>
-                <Table.Cell style={{color:"white", textAlign:"right", width:"80px"}}>Rem./Player: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${props.salaryPerPlayer}</span></Table.Cell>
+                <Table.Cell style={{
+                    color:"#61dafb", 
+                    fontSize:"16px", 
+                    textAlign:"left", 
+                    width:"74px"
+                }}> 
+                    <b>PROJ. {lineupNumbers.projection.toFixed(2)}</b>
+                </Table.Cell>
+                <Table.Cell style={{
+                    color:"white", 
+                    textAlign:"right", 
+                    width:"80px"
+                }}>
+                    Rem. Salary: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${lineupNumbers.salary}</span>
+                </Table.Cell>
+                <Table.Cell style={{
+                    color:"white", 
+                    textAlign:"right", 
+                    width:"80px"
+                }}>
+                    Rem./Player: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${lineupNumbers.salaryPerPlayer}</span>
+                </Table.Cell>
             </Table.Row>
         </Table>
         </>
-    )
-}
+    );
+};
 
-export default ClassicLineupHeader
+export default ClassicLineupHeader;

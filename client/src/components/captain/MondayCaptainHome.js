@@ -147,13 +147,16 @@ function MondayCaptainHome(props) {
 
     return (
         <div>
-            <ContestButtons sdTeams1={props.sdTeams1} sdDate1={props.sdDate1} sdDow1={props.sdDow1} sdDate2={props.sdDate2} sdDow2={props.sdDow2} sdTeams2={props.sdTeams2}/>
+            <ContestButtons 
+                sdTeams1={props.sdTeams1} 
+                sdDate1={props.sdDate1} 
+                sdDate2={props.sdDate2} 
+                sdTeams2={props.sdTeams2}
+            />
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
-                        {isLoading ? 
-                            <Loader active /> : <Loader />
-                        }
+                        {isLoading ? <Loader active /> : <Loader />}
                         <CaptainLineupHeader
                             salary={salary}
                             salaryPerPlayer={salaryPerPlayer}
