@@ -21,7 +21,17 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                 <Table.Row>
                     <Table.Cell>
                         <Header as='h4' image>
-                            <Header.Content><Icon size="large" style={{marginTop:"14%", color:"white", marginLeft:"8%"}}name="chess queen"/></Header.Content>
+                            <Header.Content>
+                                <Icon 
+                                    size="large" 
+                                    style={{
+                                    marginTop:"14%", 
+                                    color:"white", 
+                                    marginLeft:"8%"
+                                }}
+                                    name="chess queen"
+                                />
+                            </Header.Content>
                         </Header>
                     </Table.Cell>
                     {crown.length !== 0 ?

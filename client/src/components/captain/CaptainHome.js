@@ -1,27 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions, Loader } from 'semantic-ui-react'
-import CaptainLineupHeader from './CaptainLineupHeader.js'
-import CaptainLineup from './CaptainLineup.js'
-import CaptainQueue from './CaptainQueue.js'
-import ContestButtons from './ContestButtons.js'
+import React, { useState, useEffect } from 'react';
+import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions, Loader } from 'semantic-ui-react';
+import CaptainLineupHeader from './CaptainLineupHeader.js';
+import CaptainLineup from './CaptainLineup.js';
+import CaptainQueue from './CaptainQueue.js';
+import ContestButtons from './ContestButtons.js';
 
-function CaptainHome(props) {
+function CaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
 
-    const [players, setPlayers] = useState([])
-    const [salary, setSalary] = useState(50000)
-    const [salaryPerPlayer, setSalaryPerPlayer] = useState(8333)
-    const [projection, setProjection] = useState(0)
-    const [playerCount, setPlayerCount] = useState(6)
-    const [crown, setCrown] = useState([])
-    const [flexPlayers, setFlexPlayers] = useState([])
-    const [open, setOpen] = useState(false)
+    const [players, setPlayers] = useState([]);
+    const [crown, setCrown] = useState([]);
+    const [flexPlayers, setFlexPlayers] = useState([]);
+    const [lineupNumbers, setLineupNumbers] = useState({
+        salary: 50000,
+        salaryPerPlayer: 8333,
+        playerCount: 6,
+        projection: 0,
+    });
+    const [open, setOpen] = useState(false);
     const [isLoading, setLoading] = useState(false);
 
-    const url = "https://optimize-daily.onrender.com"
+    const url = "https://optimize-daily.onrender.com";
 
     useEffect(() => {
         fetchPlayerQueue()
-      },[])
+      },[]);
 
     const fetchPlayerQueue = () => {
         fetch(`${url}/trcaptainplayers`)
@@ -29,23 +31,66 @@ function CaptainHome(props) {
         .then(data => {
             setPlayers(data.flexes)   
         })
-    }
+    };
 
-    const optimizeWithout = () => {
-        setOpen(false)
-        let fp = []
-        let cp = []
-        optimizePlayers(fp, cp)
-    }
+    const sortPlayers = (event) => {
+        event.preventDefault()
+        setPlayers([...players.slice().sort((item1, item2) => item2[`${event.target.id}`] < item1[`${event.target.id}`] ? -1 : 1)])
+    };
 
-    const optimizeWith = () => {
-        setOpen(false)
-        let fp = flexPlayers
-        let cp = crown
-        optimizePlayers(fp, cp)
-    }
+    const sortName = () => {
+        setPlayers([...players.slice().sort((item1, item2) => item2.Name < item1.Name ? 1 : -1)])
+    };
+
+    const setCrownPlayer = (player) => {
+        if (crown.length === 0 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId)) {            
+            setCrown([player])
+            let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.Salary * 1.5)/(lineupNumbers.playerCount - 1))
+            setLineupNumbers({
+                salary:  lineupNumbers.salary - player.Salary * 1.5,
+                salaryPerPlayer: salPer,
+                playerCount: lineupNumbers.playerCount - 1,
+                projection: lineupNumbers.projection + player.Projection * 1.5
+            })
+        }
+    };
+
+    const setFlexPlayer = (player) => {
+        if (flexPlayers.length < 5 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId) && crown.DraftTableId !== player.DraftTableId) {
+            setFlexPlayers(flexPlayers => [...flexPlayers, player])
+            let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.Salary)/(lineupNumbers.playerCount - 1))            
+            setLineupNumbers({
+                salary:  lineupNumbers.salary - player.Salary,
+                salaryPerPlayer: salPer,
+                playerCount: lineupNumbers.playerCount - 1,
+                projection: lineupNumbers.projection + player.Projection 
+            })
+        }
+    };
+
+    const removeCrownPlayer = (player) => {
+        setCrown([])
+        setLineupNumbers({
+            salaryPerPlayer: parseInt((lineupNumbers.salary + player.Salary * 1.5)/(lineupNumbers.playerCount + 1)),
+            playerCount: lineupNumbers.playerCount + 1,
+            projection: lineupNumbers.projection - player.Projection * 1.5, 
+            salary:  lineupNumbers.salary + player.Salary * 1.5
+        })
+    };
+
+    const removeFlexPlayer = (player) => {
+        let x = flexPlayers.filter(f => f !== player)
+        setFlexPlayers(x)
+        setLineupNumbers({
+            salaryPerPlayer: parseInt((lineupNumbers.salary + player.Salary)/(lineupNumbers.playerCount + 1)),
+            playerCount: lineupNumbers.playerCount + 1,
+            projection: lineupNumbers.projection - player.Projection, 
+            salary:  lineupNumbers.salary + player.Salary
+        })
+    };
 
     const optimizePlayers = (fp, cp) => {
+        setOpen(false)
         setLoading(true)
         fetch(`${url}/optimizedcaptain`, {
             method: "POST",
@@ -66,102 +111,29 @@ function CaptainHome(props) {
                 ssum += value.Salary;
                 psum += value.Projection;
             });  
-            setSalary(50000 - ssum)
-            setProjection(psum)      
-            setSalaryPerPlayer(0)
-            setPlayerCount(0)
+            setLineupNumbers({
+                salary: 50000 - ssum,
+                projection: psum,
+                salaryPerPlayer: 0,
+                playerCount: 0
+            })
             setLoading(false)
         })
-    }
-
-    const sortPos = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Position < item1.Position ? -1 : 1)])
-    }
-
-    const sortProjection = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Projection < item1.Projection ? -1 : 1)])
-    }
-
-    const sortFFPG = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.FFPG < item1.FFPG ? -1 : 1)])
-    }
-
-    const sortMoney = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Salary < item1.Salary ? -1 : 1)])
-    }
-
-    const sortName = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Name < item1.Name ? 1 : -1)])
-    }
-
-    const setCrownPlayer = (player) => {
-        if (crown.length === 0 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId)) {
-            let s = salary - player.Salary * 1.5
-            if (playerCount === 1) {
-                setSalaryPerPlayer(0)
-            }
-            else {
-                setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
-            }
-            setSalary(s)
-            setPlayerCount(playerCount - 1)
-            setProjection(projection + player.Projection * 1.5)
-            setCrown([player])
-        }
-    }
-
-    const setFlexPlayer = (player) => {
-        if (flexPlayers.length < 5 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId) && crown.DraftTableId !== player.DraftTableId) {
-            let s = salary - player.Salary
-            if (playerCount === 1) {
-                setSalaryPerPlayer(0)
-            }
-            else {
-                setSalaryPerPlayer(parseInt(s/(playerCount - 1)))
-            }
-            setSalary(s)
-            setPlayerCount(playerCount - 1)
-            setProjection(projection + player.Projection)
-            setFlexPlayers(flexPlayers => [...flexPlayers, player])
-        }
-    }
-
-    const removeCrownPlayer = (player) => {
-        let s = salary + player.Salary * 1.5
-        setSalaryPerPlayer(parseInt(s/(playerCount + 1)))
-        setSalary(s)
-        setPlayerCount(playerCount + 1)
-        setProjection(projection - player.Projection * 1.5)
-        setCrown([])
-    }
-
-    const removeFlexPlayer = (player) => {
-        let s = salary + player.Salary
-        setSalaryPerPlayer(parseInt(s/(playerCount + 1)))
-        setSalary(s)
-        setPlayerCount(playerCount + 1)
-        setProjection(projection - player.Projection)
-        let x = flexPlayers.filter(f => f !== player)
-        setFlexPlayers(x)
-    }
+    };
 
     return (
         <div>
             <ContestButtons 
-                sdTeams1={props.sdTeams1} 
-                sdDate1={props.sdDate1} 
-                sdDate2={props.sdDate2} 
-                sdTeams2={props.sdTeams2}
+                sdTeams1={sdTeams1} 
+                sdDate1={sdDate1} 
+                sdDate2={sdDate2} 
+                sdTeams2={sdTeams2}
             />
             <Grid divider vert style={{marginTop:"2%"}}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
                         {isLoading ? <Loader active /> : <Loader />}
-                        <CaptainLineupHeader
-                            salary={salary}
-                            salaryPerPlayer={salaryPerPlayer}
-                            projection={projection}
-                        />
+                        <CaptainLineupHeader lineupNumbers={lineupNumbers} />
                         <CaptainLineup 
                             flexPlayers={flexPlayers}
                             crown={crown}
@@ -188,10 +160,23 @@ function CaptainHome(props) {
                                 Include selected players?
                             </p>
                                 <ModalActions>
-                                    <Button basic color="teal" style={{marginLeft:"1.5%", width:"110px"}} onClick={optimizeWith}>
+                                    <Button 
+                                        basic 
+                                        color="teal" 
+                                        style={{
+                                            marginLeft:"1.5%", 
+                                            width:"110px"
+                                        }} 
+                                        onClick={()=>optimizePlayers(flexPlayers, crown)}
+                                    >
                                         <Icon name='checkmark' /> Yes
                                     </Button>
-                                    <Button basic color='grey' style={{width:"110px"}} onClick={optimizeWithout}>
+                                    <Button 
+                                        basic 
+                                        color='grey' 
+                                        style={{width:"110px"}} 
+                                        onClick={()=>optimizePlayers([],[])}
+                                    >
                                         <Icon name='remove' /> No
                                     </Button>
                                 </ModalActions>
@@ -203,13 +188,10 @@ function CaptainHome(props) {
                             <Icon name="chess queen" color="black"/>x1.5 Projection & Salary
                         </Label>
                         <CaptainQueue 
+                            sortPlayers={sortPlayers}
+                            sortName={sortName}
                             setCrownPlayer={setCrownPlayer}
                             setFlexPlayer={setFlexPlayer}
-                            sortMoney={sortMoney}
-                            sortPos={sortPos}
-                            sortProjection={sortProjection}
-                            sortName={sortName}
-                            sortFFPG={sortFFPG}
                             players={players}
                         />
                     </Grid.Column>

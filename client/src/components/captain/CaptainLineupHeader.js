@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Popup, Label, ListItem } from 'semantic-ui-react'
 
-function CaptainLineupHeader(props) {
+function CaptainLineupHeader({ lineupNumbers }) {
     return (
         <>
         <div className="showdownPop">
@@ -26,21 +26,21 @@ function CaptainLineupHeader(props) {
                     textAlign:"left", 
                     width:"74px"
                 }}> 
-                    <b>PROJ. {props.projection.toFixed(2)}</b>
+                    <b>PROJ. {lineupNumbers.projection.toFixed(2)}</b>
                 </Table.Cell>
                 <Table.Cell style={{
                     color:"white", 
                     textAlign:"right", 
                     width:"80px"
                 }}>
-                    Rem. Salary: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${props.salary}</span>
+                    Rem. Salary: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${lineupNumbers.salary}</span>
                 </Table.Cell>
                 <Table.Cell style={{
                     color:"white", 
                     textAlign:"right", 
                     width:"80px"
                 }}>
-                    Rem./Player: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${props.salaryPerPlayer}</span>
+                    Rem./Player: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${lineupNumbers.salaryPerPlayer}</span>
                 </Table.Cell>
             </Table.Row>
         </Table>
