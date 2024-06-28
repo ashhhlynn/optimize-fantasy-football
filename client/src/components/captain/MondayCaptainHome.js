@@ -98,17 +98,11 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
         })
         .then(response => response.json())
         .then(data => {
-            let ssum = data.crown[0].Salary * 1.5
-            let psum = data.crown[0].Projection * 1.5
             setCrown(data.crown)
             setFlexPlayers(data.fps)
-            data.fps.forEach(value => {
-                ssum += value.Salary;
-                psum += value.Projection;
-            });  
             setLineupNumbers({
-                salary: 50000 - ssum,
-                projection: psum,
+                salary: data.sSum,
+                projection: data.pSum,
                 salaryPerPlayer: 0,
                 playerCount: 0
             })
