@@ -2,19 +2,25 @@ import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 
 function CaptainQueue({ sortPlayers, sortName, players, setCrownPlayer, setFlexPlayer }) {
-
     const playercells = players.map(player => 
         <Table.Row>
             <Table.Cell style={{textAlign:"center"}}>{player.Position}</Table.Cell>
             <Table.Cell>
                 {player.Name} 
                 {player.Status === "None" ? <></> : player.Status === "IR" ? 
-                    <span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,2)}</span> 
+                    <span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,2)}
+                    </span>
                 : 
-                    <span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,1)}</span>
+                    <span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,1)}
+                    </span>
                 }
                 <br/>
-                <span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.Team}</span>
+                <span style={{
+                    fontSize:"11px", 
+                    letterSpacing:".4px"}}
+                >
+                    {player.Team}
+                </span>
             </Table.Cell>         
             <Table.Cell>{player.FFPG}</Table.Cell>
             <Table.Cell>{player.Projection}</Table.Cell>
@@ -28,7 +34,12 @@ function CaptainQueue({ sortPlayers, sortName, players, setCrownPlayer, setFlexP
     
     return (
         <div className="dfs" style={{marginLeft:"4.7%"}}>
-            <Table className='showdownQueue' striped sortable fixed>
+            <Table 
+                className='showdownQueue' 
+                striped 
+                sortable 
+                fixed
+            >
                 <Table.Header>
                     <Table.Row className='classicQueueHeader'>
                         <Table.HeaderCell style={{width:"40px"}} id='Position' onClick={sortPlayers}>POS.</Table.HeaderCell>

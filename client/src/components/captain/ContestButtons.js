@@ -13,7 +13,8 @@ function ContestButtons({ sdDate1, sdTeams1, sdDate2, sdTeams2 }) {
                 inverted 
                 style={{marginRight:"5%"}}
             >
-               <span>{sdDate1}<br/><b>{sdTeams1}</b></span>
+                {sdDate1}<br/> 
+                <p><b>{sdTeams1}</b></p>
             </Button>
             <Button 
                 circular 
@@ -23,7 +24,8 @@ function ContestButtons({ sdDate1, sdTeams1, sdDate2, sdTeams2 }) {
                 inverted 
                 style={{marginRight:"3%"}}
             >
-                <span>{sdDate2}<br/><b>{sdTeams2}</b></span>
+                {sdDate2}<br/>
+                <p><b>{sdTeams2}</b></p>
             </Button>
         </div>
     );

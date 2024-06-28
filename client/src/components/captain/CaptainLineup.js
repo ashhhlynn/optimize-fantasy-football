@@ -3,7 +3,6 @@ import { Table, Icon, Header } from 'semantic-ui-react';
 import BlankCells from '../BlankCells.js';
 
 function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer }) {
-
     return (
         <>
         <Table fixed className='classicLineup'>           
@@ -40,10 +39,10 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{crown[0].Team}</Table.Cell>
                         <Table.Cell>{(crown[0].Projection * 1.5).toFixed(2)}</Table.Cell>
                         <Table.Cell>${crown[0].Salary * 1.5}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeCrownPlayer(crown[0])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removeCrownPlayer(crown[0])} /></center></Table.Cell>
                         </>
                     :
-                        <BlankCells/>
+                        <BlankCells />
                     }
                 </Table.Row>
                 <Table.Row>
@@ -54,10 +53,10 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[0].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[0].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[0].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[0])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[0])} /></center></Table.Cell>
                         </>
                     :
-                        <BlankCells/>
+                        <BlankCells />
                     }
                 </Table.Row>
                 <Table.Row>
@@ -68,10 +67,10 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[1].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[1].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[1].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[1])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[1])} /></center></Table.Cell>
                         </>
                     :
-                        <BlankCells/>
+                        <BlankCells />
                     }
                 </Table.Row>
                 <Table.Row>
@@ -82,10 +81,10 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[2].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[2].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[2].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[2])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[2])} /></center></Table.Cell>
                         </>
                     :
-                        <BlankCells/>
+                        <BlankCells />
                     }
                 </Table.Row>
                 <Table.Row>
@@ -96,10 +95,10 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[3].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[3].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[3].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[3])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[3])} /></center></Table.Cell>
                         </>
                     :
-                        <BlankCells/>
+                        <BlankCells />
                     }
                 </Table.Row>
                 <Table.Row>
@@ -110,10 +109,10 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[4].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[4].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[4].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[4])}/></center></Table.Cell>
+                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[4])} /></center></Table.Cell>
                         </>
                     :
-                        <BlankCells/>
+                        <BlankCells />
                     }
                 </Table.Row>
               </Table.Body>

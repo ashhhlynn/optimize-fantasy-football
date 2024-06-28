@@ -2,16 +2,17 @@ import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 
 function ClassicQueue({sortFFPG, sortPlayers, sortName, players, setPlayer }) {
-
     const playercells = players.map (player => 
         <Table.Row>
             <Table.Cell style={{textAlign:"center"}}>{player.position}</Table.Cell>
             <Table.Cell>
                 {player.displayName} 
                 {player.status === "None" ? <></> : player.status === "IR" ? 
-                    <span style={{color:"#61dafb", fontWeight:"700"}}>{player.status.substr(0,2)}</span>
+                    <span style={{color:"#61dafb", fontWeight:"700"}}> {player.status.substr(0,2)}
+                    </span>
                     : 
-                    <span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,1)}</span>
+                    <span style={{color:"#61dafb", fontWeight:"700"}}> {player.Status.substr(0,1)}
+                    </span>
                 }
                 <br/>
                 <span style={{fontSize:"11px", letterSpacing:".4px"}}>{player.competition['name']}</span>

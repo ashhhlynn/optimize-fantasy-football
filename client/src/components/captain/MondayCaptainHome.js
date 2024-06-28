@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions, Loader } from 'semantic-ui-react'
-import CaptainLineupHeader from './CaptainLineupHeader.js'
-import CaptainLineup from './CaptainLineup.js'
-import CaptainQueue from './CaptainQueue.js'
-import ContestButtons from './ContestButtons.js'
+import React, { useState, useEffect } from 'react';
+import { Button, Grid, Label, Icon, Modal, ModalContent, ModalActions, Loader } from 'semantic-ui-react';
+import CaptainLineupHeader from './CaptainLineupHeader.js';
+import CaptainLineup from './CaptainLineup.js';
+import CaptainQueue from './CaptainQueue.js';
+import ContestButtons from './ContestButtons.js';
 
 function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
-
     const [players, setPlayers] = useState([]);
     const [crown, setCrown] = useState([]);
     const [flexPlayers, setFlexPlayers] = useState([]);
@@ -94,12 +93,8 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
         setLoading(true)
         fetch(`${url}/optimizedcaptainmon`, {
             method: "POST",
-            body: JSON.stringify({
-                fp, cp
-            }),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
+            body: JSON.stringify({fp, cp}),
+            headers: {"Content-type": "application/json; charset=UTF-8"},
         })
         .then(response => response.json())
         .then(data => {
@@ -147,18 +142,36 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                             open={open}
                             trigger={
                                 <div className="optimizeLabel">
-                                    <Label size="big" style={{cursor:"pointer", backgroundColor:"#61dafb", fontWeight:"normal", fontSize:"17px", letterSpacing:".5px"}}>OPTIMIZE</Label>
+                                    <Label size="big">OPTIMIZE</Label>
                                 </div>
                             }
                         >
                             <ModalContent style={{textAlign:"center"}}>
-                                <p style={{fontFamily:"Helvetica", fontSize:"15px", fontWeight:"bold"}}>Include selected players?</p>
+                                <p style={{
+                                    fontFamily:"Helvetica", 
+                                    fontSize:"15px", 
+                                    fontWeight:"bold"
+                                }}>
+                                    Include selected players?
+                                </p>
                                 <ModalActions>
-                                    <Button basic color="teal"  style={{marginLeft:"1.5%", width:"110px"}} onClick={()=>optimizePlayers(flexPlayers, crown)}
+                                    <Button 
+                                        basic 
+                                        color="teal" 
+                                        style={{
+                                            marginLeft:"1.5%", 
+                                            width:"110px"
+                                        }} 
+                                        onClick={()=>optimizePlayers(flexPlayers, crown)}
                                     >
                                         <Icon name='checkmark' /> Yes
                                     </Button>
-                                    <Button basic color='grey' style={{width:"110px"}} onClick={()=>optimizePlayers([],[])}                                    >
+                                    <Button 
+                                        basic 
+                                        color='grey' 
+                                        style={{width:"110px"}} 
+                                        onClick={()=>optimizePlayers([],[])}
+                                    >
                                         <Icon name='remove' /> No
                                     </Button>
                                 </ModalActions>
@@ -166,8 +179,8 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                         </Modal>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label style={{fontSize:"11.5px", marginBottom:".2%",backgroundColor:"#61dafb", marginLeft:"46%"}}>
-                            <Icon name="chess queen" color="black"/>x1.5 Projection & Salary
+                        <Label className='showdownLabel' style={{marginLeft:"46%"}}>
+                            <Icon name="chess queen" color="black" />x1.5 Projection & Salary
                         </Label>
                         <CaptainQueue 
                             setCrownPlayer={setCrownPlayer}

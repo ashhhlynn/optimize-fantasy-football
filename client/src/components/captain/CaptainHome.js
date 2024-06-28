@@ -6,7 +6,6 @@ import CaptainQueue from './CaptainQueue.js';
 import ContestButtons from './ContestButtons.js';
 
 function CaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
-
     const [players, setPlayers] = useState([]);
     const [crown, setCrown] = useState([]);
     const [flexPlayers, setFlexPlayers] = useState([]);
@@ -94,12 +93,8 @@ function CaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
         setLoading(true)
         fetch(`${url}/optimizedcaptain`, {
             method: "POST",
-            body: JSON.stringify({
-                fp, cp
-            }),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
+            body: JSON.stringify({fp, cp}),
+            headers: {"Content-type": "application/json; charset=UTF-8"},
         })
         .then(response => response.json())
         .then(data => {
@@ -185,7 +180,7 @@ function CaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                     </Grid.Column>
                     <Grid.Column>
                         <Label className='showdownLabel' style={{marginLeft:"46%"}}>
-                            <Icon name="chess queen" color="black"/>x1.5 Projection & Salary
+                            <Icon name="chess queen" color="black" />x1.5 Projection & Salary
                         </Label>
                         <CaptainQueue 
                             sortPlayers={sortPlayers}
