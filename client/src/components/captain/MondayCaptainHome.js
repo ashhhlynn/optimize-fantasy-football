@@ -33,12 +33,13 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     };
 
     const sortPlayers = (event) => {
-        event.preventDefault()
-        setPlayers([...players.slice().sort((item1, item2) => item2[`${event.target.id}`] < item1[`${event.target.id}`] ? -1 : 1)])
+        event.preventDefault()   
+        setPlayers([...players.slice().sort((item1, item2) => item2[`${event.target.id}`] - item1[`${event.target.id}`])])
     };
 
-    const sortName = () => {
-        setPlayers([...players.slice().sort((item1, item2) => item2.Name < item1.Name ? 1 : -1)])
+    const sortNames = (event) => {
+        event.preventDefault()
+        setPlayers([...players.slice().sort((item1, item2) => item2[`${event.target.id}`] < item1[`${event.target.id}`] ? 1 : -1)])
     };
 
     const setCrownPlayer = (player) => {
@@ -55,7 +56,7 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     };
 
     const setFlexPlayer = (player) => {
-        if (flexPlayers.length < 5 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId) && crown.DraftTableId !== player.DraftTableId) {
+        if (flexPlayers.length < 5 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId) && crown[0].DraftTableId !== player.DraftTableId) {
             setFlexPlayers(flexPlayers => [...flexPlayers, player])
             let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.Salary)/(lineupNumbers.playerCount - 1))            
             setLineupNumbers({
@@ -177,10 +178,11 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                             <Icon name="chess queen" color="black" />x1.5 Projection & Salary
                         </Label>
                         <CaptainQueue 
+                            sortPlayers={sortPlayers}
+                            sortNames={sortNames}
                             setCrownPlayer={setCrownPlayer}
                             setFlexPlayer={setFlexPlayer}
                             sortProjection={sortPlayers}
-                            sortName={sortName}
                             players={players}
                         />
                     </Grid.Column>

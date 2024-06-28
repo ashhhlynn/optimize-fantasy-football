@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 
-function CaptainQueue({ sortPlayers, sortName, players, setCrownPlayer, setFlexPlayer }) {
+function CaptainQueue({ sortPlayers, sortNames, players, setCrownPlayer, setFlexPlayer }) {
     const playercells = players.map(player => 
         <Table.Row>
             <Table.Cell style={{textAlign:"center"}}>{player.Position}</Table.Cell>
@@ -42,8 +42,8 @@ function CaptainQueue({ sortPlayers, sortName, players, setCrownPlayer, setFlexP
             >
                 <Table.Header>
                     <Table.Row className='classicQueueHeader'>
-                        <Table.HeaderCell style={{width:"40px"}} id='Position' onClick={sortPlayers}>POS.</Table.HeaderCell>
-                        <Table.HeaderCell style={{width:"130px"}} onClick={sortName}>PLAYER</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{width:"40px"}} id='Position' onClick={sortNames}>POS.</Table.HeaderCell>
+                        <Table.HeaderCell style={{width:"130px"}} id='Name' onClick={sortNames}>PLAYER</Table.HeaderCell>                    
                         <Table.HeaderCell style={{width:"46px"}} id='FFPG' onClick={sortPlayers}>FFPG</Table.HeaderCell>
                         <Table.HeaderCell style={{width:"48px"}} id='Projection' onClick={sortPlayers}>PROJ.</Table.HeaderCell>
                         <Table.HeaderCell style={{width:"62px"}} id='Salary' onClick={sortPlayers}>SALARY</Table.HeaderCell>

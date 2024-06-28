@@ -38,7 +38,7 @@ function ClassicQueue({sortFFPG, sortPlayers, sortName, players, setPlayer }) {
                     <Table.Row className='classicQueueHeader'>
                         <Table.HeaderCell style={{width:"36px"}} id='position' onClick={sortPlayers}>POS.</Table.HeaderCell>
                         <Table.HeaderCell style={{width:"100px"}} onClick={sortName}>PLAYER</Table.HeaderCell>                    
-                        <Table.HeaderCell style={{width:"40px"}}>TEAM</Table.HeaderCell>                    
+                        <Table.HeaderCell style={{width:"40px"}} id='teamAbbreviation' onClick={sortPlayers}>TEAM</Table.HeaderCell>                    
                         <Table.HeaderCell style={{width:"42px"}} onClick={sortFFPG}>FFPG</Table.HeaderCell>
                         <Table.HeaderCell style={{width:"44px"}} id='Projection' onClick={sortPlayers}>PROJ.</Table.HeaderCell>
                         <Table.HeaderCell style={{width:"50px"}} id='salary' onClick={sortPlayers}>SALARY</Table.HeaderCell>

@@ -50,7 +50,7 @@ function ClassicHome() {
 
     const sortFFPG = (event) => {
         event.preventDefault()
-        setPlayers([...players.slice().sort((item1, item2) => item2.draftStatAttributes[0].value < item1.draftStatAttributes[0].value ? -1 : 1)])
+        setPlayers([...players.slice().sort((item1, item2) => item2.draftStatAttributes[0].value - item1.draftStatAttributes[0].value)])
     };
 
     const sortName = (event) => {
