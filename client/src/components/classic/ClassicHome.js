@@ -31,7 +31,7 @@ function ClassicHome() {
     const [open, setOpen] = useState(false);
     const [isLoading, setLoading] = useState(false);
 
-    const url = "https://optimize-daily.onrender.com";
+    const url = "http://localhost:8000";
 
     useEffect(() => {
         fetchPlayerQueue()
@@ -138,8 +138,8 @@ function ClassicHome() {
             setLoading(true)
             fetch(`${url}/classicoptimize`, {
                 method: "POST",
-                body: JSON.stringify({lp, fl}),
-                headers: {"Content-type": "application/json; charset=UTF-8"},
+                body: JSON.stringify({ lp, fl }),
+                headers: { "Content-type": "application/json; charset=UTF-8" }
             })
             .then(response => response.json())
             .then(data => {
@@ -177,7 +177,7 @@ function ClassicHome() {
     };
 
     return (
-        <Grid divider vert style={{marginTop:".5%"}}>
+        <Grid divider vert style={{ marginTop:".5%" }}>
             <Grid.Row columns={2}>
                 <Grid.Column> 
                     {isLoading ? <Loader active /> : <Loader />}
@@ -192,17 +192,17 @@ function ClassicHome() {
                         removePlayer={removePlayer}
                     />
                     <Modal
-                        style={{width:"305px"}}
+                        style={{ width:"305px" }}
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}
                         open={open}
                         trigger={
                             <div className="optimizeLabel">
-                                <Label size="big">OPTIMIZE</Label>
+                                <Label className="optimizeLabel" size="big">OPTIMIZE</Label>
                             </div>
                         }
                     >
-                        <ModalContent style={{textAlign:"center"}}>
+                        <ModalContent style={{ textAlign:"center" }}>
                             <p style={{
                                 fontFamily:"Helvetica", 
                                 fontSize:"15px", 
@@ -226,7 +226,7 @@ function ClassicHome() {
                                     basic 
                                     color='grey' 
                                     onClick={optimizeWithout}
-                                    style={{width:"110px"}} 
+                                    style={{ width:"110px" }} 
                                 >
                                     <Icon name='remove' /> No
                                 </Button>

@@ -20,6 +20,10 @@
     border-radius: 20px;
 }
 
+.icon {
+    cursor: pointer !important;
+}
+
 .header h2 {
     font-family: 'raleway' !important;
     font-size: 23px !important;
@@ -29,6 +33,15 @@
     text-align: left;
     font-weight: 800 !important;
     color:#a0e8fc;
+}
+
+.header .ui.button {
+    background: inherit !important;
+    width: 40px;
+}
+
+.header .icon {
+    color: #61dafb;
 }
 
 .contestButtons .ui.button {
@@ -41,18 +54,24 @@
     font-size: 12.5px !important;
 }
 
+.optimizeLabel .ui.label {
+    padding: 12px 44px !important;
+    color: #181a1f !important;
+    font-family: 'Helvetica' !important;
+    background-color: #61dafb !important;
+    font-size: 17px !important;
+    letter-spacing: .5px !important;
+    cursor: pointer;
+}
+
+
 .ui.button {
-    color: #181a1f;
     font-family: Helvetica !important;
     font-size: 15.5px  !important;
     font-weight: bold !important;
     padding: 0 50;
     letter-spacing: .95px !important;
     height:38px;
-}
-
-.icon {
-    cursor: pointer !important;
 }
 
 .ui.table {
@@ -69,6 +88,7 @@
     font-family: 'Helvetica' !important;
     font-weight: bold !important;
 }
+
 
 .dfs {
     height: 460px !important;
@@ -154,16 +174,6 @@
     margin-top: -2.5% !important;
     margin-left: 11% !important;
     width: 520px !important;
-}
-
-.optimizeLabel .ui.label {
-    padding: 12px 44px !important;
-    color: #181a1f !important;
-    font-family: 'Helvetica' !important;
-    background-color: #61dafb; 
-    font-size: 17px !important;
-    letter-spacing: .5px !important;
-    cursor: pointer;
 }
 
 .showdownPop {

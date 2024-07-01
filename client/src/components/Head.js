@@ -13,53 +13,33 @@ function Head({ clDate, sdDate1, sdDate2 }) {
             }}>
                 <h2>Optimize Daily</h2>
                 <Menu.Menu position="right">
-                    <Menu.Item style={{marginLeft:"0%"}}> 
+                    <Menu.Item style={{ marginLeft:"0%" }}> 
                         <Popup
                             content={`Sun ${clDate}`}
                             key={1}
                             header={"Classic Contest"}
                             trigger={
-                                <Button 
-                                    as={Link} to="/" 
-                                    style={{
-                                        width: "40px",
-                                        background:"inherit"
-                                    }}
-                                >
+                                <Button as={Link} to="/">
                                     <Icon 
                                         name="football ball" 
                                         size="big" 
-                                        style={{
-                                            cursor:"pointer", 
-                                            fontSize:"170%",
-                                            color:"#61dafb"
-                                        }}
+                                        style={{ fontSize:"170%" }}
                                     />
                                 </Button>
                             }
                         />
                     </Menu.Item>
-                    <Menu.Item style={{marginLeft:"-14%"}}>
+                    <Menu.Item style={{ marginLeft:"-14%" }}>
                         <Popup
                             content={`${sdDate1} and ${sdDate2}`}
                             key={1}
                             header={"Showdown Contest"}
                             trigger={
-                                <Button 
-                                    style={{
-                                        width: "40px",
-                                        background:"inherit"
-                                    }} 
-                                    as={Link} to="/showdown2"
-                                >
+                                <Button as={Link} to="/showdown2">
                                     <Icon 
                                         name="chess queen" 
                                         size="big" 
-                                        style={{
-                                            cursor:"pointer",
-                                            fontSize:"180%",
-                                            color:"#61dafb"
-                                        }}
+                                        style={{ fontSize:"180%" }}
                                     />
                                 </Button>
                             }

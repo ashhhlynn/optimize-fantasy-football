@@ -7,12 +7,12 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
         <Table className="classicLineup" fixed >          
             <Table.Header>
                 <Table.Row className='classicLineupHeader'>
-                    <Table.HeaderCell style={{width:"54px"}}>POS.</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"160px"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px"}}>PROJ.</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"72px"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"35px"}}></Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"54px" }}>POS.</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"160px" }}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"56px" }}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"56px" }}>PROJ.</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"72px" }}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"35px" }}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>           
@@ -24,7 +24,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{qb.teamAbbreviation}</Table.Cell>
                         <Table.Cell>{qb.Projection}</Table.Cell>
                         <Table.Cell>${qb.salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(qb)} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(qb)} /></center>
+                        </Table.Cell>
                         </>
                     :   
                         <BlankCells />
@@ -38,7 +40,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{rbs[0].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{rbs[0].Projection}</Table.Cell>
                         <Table.Cell>${rbs[0].salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(rbs[0])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(rbs[0])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -52,7 +56,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{rbs[1].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{rbs[1].Projection}</Table.Cell>
                         <Table.Cell>${rbs[1].salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(rbs[1])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(rbs[1])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -67,7 +73,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         </Table.Cell>
                         <Table.Cell>{wrs[0].Projection}</Table.Cell>
                         <Table.Cell>${wrs[0].salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(wrs[0])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(wrs[0])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -81,7 +89,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{wrs[1].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{wrs[1].Projection}</Table.Cell>
                         <Table.Cell>${wrs[1].salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(wrs[1])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(wrs[1])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -95,7 +105,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{wrs[2].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{wrs[2].Projection}</Table.Cell>
                         <Table.Cell>${wrs[2].salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(wrs[2])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(wrs[2])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -109,7 +121,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{te.teamAbbreviation}</Table.Cell>
                         <Table.Cell>{te.Projection}</Table.Cell>
                         <Table.Cell>${te.salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(te)} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(te)} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -123,7 +137,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{flex[0].teamAbbreviation}</Table.Cell>
                         <Table.Cell>{flex[0].Projection}</Table.Cell>
                         <Table.Cell>${flex[0].salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(flex[0])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(flex[0])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -137,7 +153,9 @@ function ClassicLineup({ qb, rbs, wrs, te, dst, flex, removePlayer }) {
                         <Table.Cell>{dst.teamAbbreviation}</Table.Cell>
                         <Table.Cell>{dst.Projection}</Table.Cell>
                         <Table.Cell>${dst.salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removePlayer(dst)} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removePlayer(dst)} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />

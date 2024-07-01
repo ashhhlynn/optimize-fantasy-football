@@ -15,32 +15,21 @@ function App() {
   const [sdTeams2, setSdTeams2] = useState('');
   const [sdDate2, setSdDate2] = useState('');
 
+  const url = "http://localhost:8000";
+
   useEffect(() => {
     getDates()
   }, );
 
   const getDates = () => {
-    fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98582/draftables')
-    .then(response => response.json())
+    fetch(`${url}/dates`)
+    .then((res)=> res.json())
     .then(data => {
-      setClDate(data.draftables[0].competition.startTime.substr(5,5))
-      fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
-      .then(response => response.json())
-      .then(data2 => {
-        setSdTeams2(data2.draftables[0].competition.name)            
-        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
-        .then(response => response.json())
-        .then(data1 => {
-          setSdTeams1(data1.draftables[0].competition.name)
-          let d1 = new Date(data1.draftables[0].competition.startTime.substr(0,10))
-          let dow1 = d1.getDay()
-          let d2 = new Date(data2.draftables[0].competition.startTime.substr(0,10))
-          let dow2 = d2.getDay()
-          const dayNames = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
-          setSdDate1(dayNames[dow1] + ' ' + data1.draftables[0].competition.startTime.substr(5,5))   
-          setSdDate2(dayNames[dow2] + ' ' + data2.draftables[0].competition.startTime.substr(5,5))
-        })
-      })
+      setClDate(data.clDate)
+      setSdTeams1(data.sdTeams1)
+      setSdTeams2(data.sdTeams2)
+      setSdDate1(data.sdDate1)
+      setSdDate2(data.sdDate2)
     })
   };
 
@@ -61,7 +50,7 @@ function App() {
               sdDate2={sdDate2} 
               sdTeams2={sdTeams2} 
             />
-          }/>
+          } />
           <Route exact path="/showdown2" element={
             <MondayCaptainHome 
               sdTeams1={sdTeams1} 
@@ -69,7 +58,7 @@ function App() {
               sdDate2={sdDate2} 
               sdTeams2={sdTeams2}
             />
-          }/>
+          } />
         </Routes>
         <br/><br/>
       </div>

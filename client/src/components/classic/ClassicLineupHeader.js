@@ -7,7 +7,7 @@ function ClassicLineupHeader({ lineupNumbers }) {
         <div className="classicPop">
             <Popup 
                 position='left center'
-                style={{marginTop:"-16%"}}
+                style={{ marginTop:"-16%" }}
                 wide   
                 trigger={<Label size='large'>CLASSIC</Label>}
             >
@@ -31,14 +31,14 @@ function ClassicLineupHeader({ lineupNumbers }) {
                     textAlign:"right", 
                     width:"80px"
                 }}>
-                    Rem. Salary: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${lineupNumbers.salary}</span>
+                    Rem. Salary: <span style={{ marginLeft:"2%", color:"#61dafb", fontSize:"16px" }}> ${lineupNumbers.salary}</span>
                 </Table.Cell>
                 <Table.Cell style={{
                     color:"white", 
                     textAlign:"right", 
                     width:"80px"
                 }}>
-                    Rem./Player: <span style={{marginLeft:"2%", color:"#61dafb", fontSize:"16px"}}> ${lineupNumbers.salaryPerPlayer}</span>
+                    Rem./Player: <span style={{ marginLeft:"2%", color:"#61dafb", fontSize:"16px" }}> ${lineupNumbers.salaryPerPlayer}</span>
                 </Table.Cell>
             </Table.Row>
         </Table>

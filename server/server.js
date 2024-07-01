@@ -65,6 +65,27 @@ function fetchClassicPlayers() {
     })   
 }
 
+app.get("/dates", (req, res) => { 
+    fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
+    .then(response => response.json())
+    .then(data2 => {
+        fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98584/draftables')
+        .then(response => response.json())
+        .then(data1 => {
+            let sdTeams1 = data1.draftables[0].competition.name
+            let sdTeams2 = data2.draftables[0].competition.name
+            let d1 = new Date(data1.draftables[0].competition.startTime.substr(0,10))
+            let dow1 = d1.getDay()
+            let d2 = new Date(data2.draftables[0].competition.startTime.substr(0,10))
+            let dow2 = d2.getDay()
+            const dayNames = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
+            let sdDate1 = dayNames[dow1] + ' ' + data1.draftables[0].competition.startTime.substr(5,5)   
+            let sdDate2 = dayNames[dow2] + ' ' + data2.draftables[0].competition.startTime.substr(5,5)
+            res.json({clDate: classicPlayers[0].competition.startTime.substr(5,5), sdTeams1: sdTeams1, sdTeams2: sdTeams2, sdDate1: sdDate1, sdDate2: sdDate2})    
+        })
+    })
+});
+
 app.get("/classicplayers", (req, res) => { 
     let sortedPlayers = {qall: classicPlayers, qqb: [], qrb: [], qwr: [], qte: [], qdst: [], qflex: []}
     for (let i=0; i < classicPlayers.length; i++) {
