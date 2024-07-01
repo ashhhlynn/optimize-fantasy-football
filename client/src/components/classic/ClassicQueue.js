@@ -8,10 +8,10 @@ function ClassicQueue({sortFFPG, sortPlayers, sortName, players, setPlayer }) {
             <Table.Cell>
                 {player.displayName} 
                 {player.status === "None" ? <></> : player.status === "IR" ? 
-                    <span style={{ color:"#61dafb", fontWeight:"700" }}> {player.status.substr(0,2)}
+                    <span className="injury"> {player.status.substr(0,2)}
                     </span>
                     : 
-                    <span style={{ color:"#61dafb", fontWeight:"700" }}> {player.Status.substr(0,1)}
+                    <span className="injury"> {player.Status.substr(0,1)}
                     </span>
                 }
                 <br/>

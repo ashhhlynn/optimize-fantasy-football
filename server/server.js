@@ -63,7 +63,7 @@ function fetchClassicPlayers() {
             }   
         }
     })   
-}
+};
 
 app.get("/dates", (req, res) => { 
     fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')

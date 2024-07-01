@@ -7,7 +7,7 @@ function CaptainLineupHeader({ lineupNumbers }) {
         <div className="showdownPop">
             <Popup
                 position='left center'
-                style={{marginTop:"-16%"}}
+                style={{ marginTop:"-16%" }}
                 wide   
                 trigger={
                     <Label size="large">SHOWDOWN </Label>

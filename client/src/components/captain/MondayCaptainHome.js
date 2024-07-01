@@ -119,7 +119,7 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                 sdDate2={sdDate2} 
                 sdTeams2={sdTeams2}
             />
-            <Grid divider vert style={{marginTop:"2%"}}>
+            <Grid divider vert style={{ marginTop:"2%" }}>
                 <Grid.Row columns={2}>
                     <Grid.Column>
                         {isLoading ? <Loader active /> : <Loader />}
@@ -131,7 +131,7 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                             removeCrownPlayer={removeCrownPlayer}
                         />
                         <Modal
-                            style={{width:"305px"}}
+                            style={{ width:"305px" }}
                             onClose={() => setOpen(false)}
                             onOpen={() => setOpen(true)}
                             open={open}
@@ -141,7 +141,7 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                                 </div>
                             }
                         >
-                            <ModalContent style={{textAlign:"center"}}>
+                            <ModalContent style={{ textAlign:"center" }}>
                                 <p style={{
                                     fontFamily:"Helvetica", 
                                     fontSize:"15px", 
@@ -164,7 +164,7 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                                     <Button 
                                         basic 
                                         color='grey' 
-                                        style={{width:"110px"}} 
+                                        style={{ width:"110px" }} 
                                         onClick={()=>optimizePlayers([],[])}
                                     >
                                         <Icon name='remove' /> No
@@ -174,7 +174,7 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                         </Modal>
                     </Grid.Column>
                     <Grid.Column>
-                        <Label className='showdownLabel' style={{marginLeft:"46%"}}>
+                        <Label className='showdownLabel' style={{ marginLeft:"46%" }}>
                             <Icon name="chess queen" color="black" />x1.5 Projection & Salary
                         </Label>
                         <CaptainQueue 

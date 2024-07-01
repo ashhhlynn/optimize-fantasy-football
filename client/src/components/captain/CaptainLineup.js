@@ -8,12 +8,12 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
         <Table fixed className='classicLineup'>           
             <Table.Header>
                 <Table.Row className='classicLineupHeader'>
-                    <Table.HeaderCell style={{width:"54px"}}>POS.</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"180px"}}>PLAYER</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px"}}>TEAM</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"56px"}}>PROJ.</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"72px"}}>SALARY</Table.HeaderCell>
-                    <Table.HeaderCell style={{width:"35px"}}></Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"54px" }}>POS.</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"180px" }}>PLAYER</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"56px" }}>TEAM</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"56px" }}>PROJ.</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"72px" }}>SALARY</Table.HeaderCell>
+                    <Table.HeaderCell style={{ width:"35px" }}></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -39,7 +39,9 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{crown[0].Team}</Table.Cell>
                         <Table.Cell>{(crown[0].Projection * 1.5).toFixed(2)}</Table.Cell>
                         <Table.Cell>${crown[0].Salary * 1.5}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeCrownPlayer(crown[0])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removeCrownPlayer(crown[0])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -53,7 +55,9 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[0].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[0].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[0].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[0])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[0])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -67,7 +71,9 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[1].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[1].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[1].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[1])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[1])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -81,7 +87,9 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[2].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[2].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[2].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[2])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[2])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -95,7 +103,9 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[3].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[3].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[3].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[3])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[3])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
@@ -109,7 +119,9 @@ function CaptainLineup({ flexPlayers, crown, removeCrownPlayer, removeFlexPlayer
                         <Table.Cell>{flexPlayers[4].Team}</Table.Cell>
                         <Table.Cell>{flexPlayers[4].Projection}</Table.Cell>
                         <Table.Cell>${flexPlayers[4].Salary}</Table.Cell>
-                        <Table.Cell><center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[4])} /></center></Table.Cell>
+                        <Table.Cell>
+                            <center><Icon name="close" onClick={() => removeFlexPlayer(flexPlayers[4])} /></center>
+                        </Table.Cell>
                         </>
                     :
                         <BlankCells />
