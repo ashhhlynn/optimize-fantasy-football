@@ -130,47 +130,46 @@ app.get("/classicplayers", (req, res) => {
         sortedPlayers[pos] = [...sortedPlayers[pos],  classicPlayers[i]] 
     } 
     res.json(sortedPlayers)    
-})
+});
 
 app.get("/classicoptimizer", (req, res) => { 
+    let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
     let results = optimizeClassic(classicConstraintObj, classicCombinedObj, .025)
-    let endResult = sortClassicResults(results)
+    let endResult = sortClassicResults(results, sortedResults)
     res.json(endResult)
-})
+});
 
 app.post("/classicoptimize", (req, res) => {
+    let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
     let classicConstraint = {...classicConstraintObj}
-    let classicAllObj = {...classicCombinedObj}
-    let sal = 50000
-    let val = 0 
+    let classicAllObj = {...classicCombinedObj}    
     for (let i = 0; i < lineupPlayers.length; i++) {
         delete classicAllObj[Object.keys(lineupPlayers[i])[0]]
         delete classicAllObj[Number(Object.keys(lineupPlayers[i])[0]) + 1000]
         let x = classicConstraint[`${lineupPlayers[i].position}`]['min'] - 1
         classicConstraint[`${lineupPlayers[i].position}`] = {'min' : x, 'max': x}
-        sal -= lineupPlayers[i].salary
-        val += lineupPlayers[i].Projection
+        sortedResults['usedSal'] += lineupPlayers[i].salary   
+        sortedResults['result'] += lineupPlayers[i].Projection        
+        let pos = lineupPlayers[i].position.toLowerCase()
+        sortedResults[pos] = [...sortedResults[pos], lineupPlayers[i]]
+        sortedResults['lineup'] = [...sortedResults['lineup'], lineupPlayers[i]]
     }  
     if (fl.length !== 0){        
         delete classicAllObj[Object.keys(fl[0])[0]]
         delete classicAllObj[Number(Object.keys(fl[0])[0]) + 1000]
         classicConstraint['FLEX'] = { 'min': 0, 'max': 0 }
-        sal -= fl[0].salary
-        val += fl[0].Projection
+        sortedResults['usedSal'] += fl[0].salary   
+        sortedResults['result'] += fl[0].Projection   
+        sortedResults['flex'] = [fl[0]] 
+        sortedResults['lineup'] = [...sortedResults['lineup'], fl[0]]
     }
-    classicConstraint['salary'] = { 'max': sal }
+    classicConstraint['salary'] = { 'max': 50000 - sortedResults['usedSal'] }    
     let results = optimizeClassic(classicConstraint, classicAllObj, 0)
-    let endResult = sortClassicResults(results, lineupPlayers)
-    endResult['usedSal'] += (50000 - sal)
-    endResult['result'] += val
-    if (fl.length !== 0){
-        endResult['flex'] = [...endResult['flex'], fl[0]] 
-        endResult['lineup'] = [...endResult['lineup'], fl[0]]
-    }    
+    let endResult = sortClassicResults(results, sortedResults)
     res.json(endResult)
-})
+});
 
 function optimizeClassic(classicConstraint, classicAll, num) {
     classicIntObj['QB'] = 1
@@ -188,35 +187,26 @@ function optimizeClassic(classicConstraint, classicAll, num) {
         options: {"tolerance": num}
     }    
     return solver.Solve(model)
-}
+};
 
-function sortClassicResults(results, lineupPlayers=[]) {
-    let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: results.result, usedSal: 0}
-    let usedSal = 0 
+function sortClassicResults(results, sortedResults) {
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (classicCombinedObj[key].FLEX === 1) {    
-                let flexPlayer = classicPlayers.find(p => p.playerId === classicCombinedObj[key].playerId)
-                sortedResults['flex'] = [flexPlayer]
-                sortedResults['lineup'] = [...sortedResults['lineup'], flexPlayer]
-                usedSal += flexPlayer.salary
+                var player = classicPlayers.find(p => p.playerId === classicCombinedObj[key].playerId)
+                sortedResults['flex'] = [player]
             }
             else {
-                let pos =  classicCombinedObj[key].position.toLowerCase()
-                sortedResults[pos] = [...sortedResults[pos],  classicCombinedObj[key]]
-                sortedResults['lineup'] = [...sortedResults['lineup'],  classicCombinedObj[key]]
-                usedSal +=  classicCombinedObj[key].salary
+                var player = classicCombinedObj[key]
+                sortedResults[player.position.toLowerCase()] = [...sortedResults[player.position.toLowerCase()], player]
             }
+            sortedResults['lineup'] = [...sortedResults['lineup'], player]
+            sortedResults['usedSal'] += player.salary        
         }
     }
-    for (let i=0; i < lineupPlayers.length; i++){
-        let pos = lineupPlayers[i].position.toLowerCase()
-        sortedResults[pos] = [...sortedResults[pos], lineupPlayers[i]]
-        sortedResults['lineup'] = [...sortedResults['lineup'], lineupPlayers[i]]
-    }
-    sortedResults['usedSal'] = usedSal
+    sortedResults['result'] += results.result
     return sortedResults
-}
+};
 
 app.get("/captainplayers1", (req, res) => { 
     res.json({ flexes: captainQueue1.flexesQueue });
