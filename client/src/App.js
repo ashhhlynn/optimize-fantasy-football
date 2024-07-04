@@ -15,7 +15,7 @@ function App() {
   const [sdTeams2, setSdTeams2] = useState('');
   const [sdDate2, setSdDate2] = useState('');
 
-  const url = "https://optimize-daily.onrender.com";
+  const url = "http://localhost:8000";
 
   useEffect(() => {
     getDates()

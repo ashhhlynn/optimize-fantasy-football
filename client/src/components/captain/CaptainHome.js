@@ -18,14 +18,14 @@ function CaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     const [open, setOpen] = useState(false);
     const [isLoading, setLoading] = useState(false);
 
-    const url = "https://optimize-daily.onrender.com";
+    const url = "http://localhost:8000";
 
     useEffect(() => {
         fetchPlayerQueue()
       },[]);
 
     const fetchPlayerQueue = () => {
-        fetch(`${url}/trcaptainplayers`)
+        fetch(`${url}/captainplayers1`)
         .then((res)=> res.json())
         .then(data => {
             setPlayers(data.flexes)   
@@ -92,7 +92,7 @@ function CaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     const optimizePlayers = (fp, cp) => {
         setOpen(false)
         setLoading(true)
-        fetch(`${url}/optimizedcaptain`, {
+        fetch(`${url}/optimizedcaptain1`, {
             method: "POST",
             body: JSON.stringify({ fp, cp }),
             headers: {"Content-type": "application/json; charset=UTF-8"},
