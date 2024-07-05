@@ -32,7 +32,7 @@ function ClassicHome() {
     const [isLoading, setLoading] = useState(false);
 
     const url = "https://optimize-daily.onrender.com";
-    
+
     useEffect(() => {
         fetchPlayerQueue()
     },[]);

@@ -10,13 +10,6 @@ const fetch = require("node-fetch");
 let sleeperProjections = {};
 let [classicPlayers, classicCombined, classicInt, classicConstraint] = [[], {}, {}, {}];
 let [captainQueue1, captainQueue2] = [{}, {}];
-classicConstraint['QB'] = { 'min': 1, 'max': 1 };
-classicConstraint['RB'] = { 'min': 2, 'max': 2 };
-classicConstraint['WR'] = { 'min': 3, 'max': 3 };
-classicConstraint['TE'] = { 'min': 1, 'max': 1 };
-classicConstraint['DST'] = { 'min': 1, 'max': 1 };
-classicConstraint['FLEX'] = { 'min': 1, 'max': 1 };
-classicConstraint['salary'] = { 'max': 50000 };
 
 fetchSleeperProjections();
 
@@ -44,7 +37,12 @@ function fetchClassicPlayers() {
                 let element = data.draftables[z]
                 let sleeperElement = Object.keys(sleeperProjections).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
                 var proj = sleeperElement !== undefined ? sleeperProjections[sleeperElement] : 0
-                var details = {...element, Projection: proj, [element.position]: 1, [z]: 1}    
+                var details = {
+                    ...element, 
+                    Projection: proj, 
+                    [element.position]: 1, 
+                    [z]: 1
+                }    
                 classicPlayers.push(details)
                 if (proj > 0){
                     classicCombined[z] = details
@@ -53,7 +51,11 @@ function fetchClassicPlayers() {
                 }
                 if (z !== data.draftables.length - 1 && element.playerId === data.draftables[z+1].playerId) {
                     if (proj > 0) {
-                        classicCombined[z + 1000] = {...details, [element.position]: 0, FLEX: 1}
+                        classicCombined[z + 1000] = {
+                            ...details, 
+                            [element.position]: 0, 
+                            FLEX: 1
+                        }
                         classicInt[z + 1000] = 1
                     } 
                     z++ 
@@ -88,7 +90,6 @@ function getCaptainPlayers(data) {
                 Game: element.competition['name'],
                 Time: element.competition['startTime'],
                 FFPG: element.draftStatAttributes[0].value,
-                Test: element.draftStatAttributes[0].id,
                 Team: element.teamAbbreviation,
                 DraftTableId: element.playerId,
                 Status: element.status,
@@ -96,17 +97,25 @@ function getCaptainPlayers(data) {
             }
             var ind = crownsQueue.findIndex(p => p.DraftTableId === element.playerId )
             if (ind === -1) {
-                let newElement = {...details, CROWN: 1, [crownsQueue.length]: 1, Projection: proj * 1.5}
+                let newElement = {
+                    ...details, CROWN: 1, 
+                    [crownsQueue.length]: 1, 
+                    Projection: proj * 1.5
+                }
                 crownsQueue.push(newElement)
-            }
-            else {
-                let newElement = {...details, FLEX: 1, [ind]: 1, Projection: proj}
+            } else {
+                let newElement = {
+                    ...details, 
+                    FLEX: 1, 
+                    [ind]: 1, 
+                    Projection: proj
+                }
                 flexesQueue.push(newElement)
             }
         }
     })
     let combinedQueue = [...crownsQueue, ...flexesQueue]
-    return {flexesQueue, combinedQueue}    
+    return { flexesQueue, combinedQueue }    
 }; 
 
 app.get("/dates", (req, res) => { 
@@ -123,7 +132,7 @@ app.get("/dates", (req, res) => {
 });
 
 app.get("/classicplayers", (req, res) => { 
-    let sortedPlayers = {qall: classicPlayers, qqb: [], qrb: [], qwr: [], qte: [], qdst: [], qflex: []}
+    let sortedPlayers = { qall: classicPlayers, qqb: [], qrb: [], qwr: [], qte: [], qdst: [], qflex: [] }
     for (let i=0; i < classicPlayers.length; i++) {
         let pos =  'q' + classicPlayers[i].position.toLowerCase()
         if (pos === 'qrb' || pos === 'qwr' || pos === 'qte') { sortedPlayers['qflex'] = [...sortedPlayers['qflex'], classicPlayers[i]] }
@@ -133,37 +142,35 @@ app.get("/classicplayers", (req, res) => {
 });
 
 app.get("/classicoptimizer", (req, res) => { 
-    let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
-    let results = optimizeClassic(classicConstraint, classicCombined, .025)
+    let sortedResults = { lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0 }
+    let classicConstraintNew = getClassicConstraint()
+    let results = optimizeClassic(classicConstraintNew, classicCombined, .025)
     let endResult = sortClassicResults(results, sortedResults)
     res.json(endResult)
 });
 
 app.post("/classicoptimize", (req, res) => {
-    let sortedResults = {lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0}
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
-    let classicConstraintNew = {...classicConstraint}
+    let sortedResults = { lineup: [...lineupPlayers, ...fl], qb: [], rb: [], wr: [], te: [], dst: [], flex: fl, result: 0, usedSal: 0 }
+    let classicConstraintNew = getClassicConstraint()
     let classicAll = {...classicCombined}    
     for (let i = 0; i < lineupPlayers.length; i++) {
         delete classicAll[Object.keys(lineupPlayers[i])[0]]
         delete classicAll[Number(Object.keys(lineupPlayers[i])[0]) + 1000]
-        let x = classicConstraintNew[`${lineupPlayers[i].position}`]['min'] - 1
-        classicConstraintNew[`${lineupPlayers[i].position}`] = {'min' : x, 'max': x}
+        let playerPos = lineupPlayers[i].position
+        classicConstraintNew[`${playerPos}`]['min'] -= 1 
+        classicConstraintNew[`${playerPos}`]['max'] -= 1 
         sortedResults['usedSal'] += lineupPlayers[i].salary   
-        sortedResults['result'] += lineupPlayers[i].Projection        
-        let pos = lineupPlayers[i].position.toLowerCase()
-        sortedResults[pos] = [...sortedResults[pos], lineupPlayers[i]]
-        sortedResults['lineup'] = [...sortedResults['lineup'], lineupPlayers[i]]
+        sortedResults['result'] += lineupPlayers[i].Projection             
+        sortedResults[playerPos.toLowerCase()] = [...sortedResults[playerPos.toLowerCase()], lineupPlayers[i]]
     }  
     if (fl.length !== 0){        
         delete classicAll[Object.keys(fl[0])[0]]
         delete classicAll[Number(Object.keys(fl[0])[0]) + 1000]
         classicConstraintNew['FLEX'] = { 'min': 0, 'max': 0 }
         sortedResults['usedSal'] += fl[0].salary   
-        sortedResults['result'] += fl[0].Projection   
-        sortedResults['flex'] = [fl[0]] 
-        sortedResults['lineup'] = [...sortedResults['lineup'], fl[0]]
+        sortedResults['result'] += fl[0].Projection    
     }
     classicConstraintNew['salary'] = { 'max': 50000 - sortedResults['usedSal'] }    
     let results = optimizeClassic(classicConstraintNew, classicAll, 0)
@@ -171,13 +178,19 @@ app.post("/classicoptimize", (req, res) => {
     res.json(endResult)
 });
 
+function getClassicConstraint() {
+    classicConstraint['QB'] = { 'min': 1, 'max': 1 };
+    classicConstraint['RB'] = { 'min': 2, 'max': 2 };
+    classicConstraint['WR'] = { 'min': 3, 'max': 3 };
+    classicConstraint['TE'] = { 'min': 1, 'max': 1 };
+    classicConstraint['DST'] = { 'min': 1, 'max': 1 };
+    classicConstraint['FLEX'] = { 'min': 1, 'max': 1 };
+    classicConstraint['salary'] = { 'max': 50000 };
+    return classicConstraint
+};
+
 function optimizeClassic(classicConstraintNew, classicAll, num) {
-    classicInt['QB'] = 1
-    classicInt['RB'] = 1
-    classicInt['WR'] = 1
-    classicInt['TE'] =  1
-    classicInt['DST'] = 1
-    classicInt['FLEX'] = 1
+    classicInt['QB'] = classicInt['RB'] = classicInt['WR'] = classicInt['TE'] = classicInt['DST'] = classicInt['FLEX'] = 1
     const model = {
         optimize: "Projection",
         opType: "max",
@@ -195,8 +208,7 @@ function sortClassicResults(results, sortedResults) {
             if (classicCombined[key].FLEX === 1) {    
                 var player = classicPlayers.find(p => p.playerId === classicCombined[key].playerId)
                 sortedResults['flex'] = [player]
-            }
-            else {
+            } else {
                 var player = classicCombined[key]
                 sortedResults[player.position.toLowerCase()] = [...sortedResults[player.position.toLowerCase()], player]
             }
@@ -229,11 +241,12 @@ app.post("/optimizedcaptain2", (req, res) => {
 function optimizeCaptain(queue, selectedLineup, selectedCrown){
     let combinedQueue = [...queue.combinedQueue]
     let projTotal = 0
-    let [captainConstraint, captainInt] = [{}, {}]
-    captainConstraint['Salary'] = {'max': 50000}
-    captainConstraint['CROWN'] = { 'min': 1, 'max': 1 }
-    captainConstraint['FLEX'] = { 'min': 5, 'max': 5 }
-    captainInt['FLEX'] = captainInt['CROWN'] = 1    
+    let captainConstraint = {
+        'Salary': {'max': 50000},
+        'CROWN': { 'min': 1, 'max': 1 },
+        'FLEX': { 'min': 5, 'max': 5 }
+    }
+    let captainInt = { 'FLEX': 1, 'CROWN': 1 }
     for (let i=0; i < queue.flexesQueue.length; i++) {
         captainConstraint[i] = {'max': 1}
         captainInt[i] = 1      
@@ -265,16 +278,15 @@ function optimizeCaptain(queue, selectedLineup, selectedCrown){
             if (combinedQueue[key].CROWN === 1) {
                 let crown = queue.flexesQueue.find(p => p.Name === combinedQueue[key].Name)
                 selectedCrown.push(crown)
-                salarySum = salarySum - (crown.Salary * 1.5)
-            }
-            else {
+                salarySum -= crown.Salary * 1.5
+            } else {
                 selectedLineup.push(combinedQueue[key])
-                salarySum = salarySum - combinedQueue[key].Salary
+                salarySum -= combinedQueue[key].Salary
             }
         }
     }
     let projSum = Math.round((results.result + projTotal)*100)/100
-    return {crown: selectedCrown, fps: selectedLineup, sSum: salarySum, pSum: projSum}
+    return { crown: selectedCrown, fps: selectedLineup, sSum: salarySum, pSum: projSum }
 };
 
 app.listen(PORT, () => {
