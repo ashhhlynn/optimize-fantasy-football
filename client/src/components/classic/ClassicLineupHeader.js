@@ -24,7 +24,7 @@ function ClassicLineupHeader({ lineupNumbers }) {
                     textAlign:"left", 
                     width:"74px"
                 }}> 
-                    <b>PROJ. {lineupNumbers.projection.toFixed(2)}</b>
+                    <b>PROJ. {Math.abs(lineupNumbers.projection).toFixed(2)}</b>
                 </Table.Cell>
                 <Table.Cell style={{
                     color:"white", 

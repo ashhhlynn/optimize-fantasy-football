@@ -3,9 +3,9 @@ const cors = require("cors");
 const solver = require("javascript-lp-solver");
 const app = express();
 const PORT = process.env.PORT || 8000;
+const fetch = require("node-fetch");
 app.use(cors());
 app.use(express.json());
-const fetch = require("node-fetch");
 
 let sleeperProjections = {};
 let [classicPlayers, classicCombined, classicInt, classicConstraint] = [[], {}, {}, {}];
@@ -13,18 +13,18 @@ let [captainQueue1, captainQueue2] = [{}, {}];
 
 fetchSleeperProjections();
 
-function fetchSleeperProjections(){
+function fetchSleeperProjections() {
     fetch("https://api.sleeper.app/projections/nfl/2023/18?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr")
     .then((res)=> res.json())
     .then(data => {
         data.map((element) => {
-            if (element.stats.pts_ppr > 0){  
+            if (element.stats.pts_ppr > 0) {  
                 var name = element.player.position === "DEF" ?  element.player.last_name : element.player.first_name + ' ' + element.player.last_name 
                 sleeperProjections[name] = element.stats.pts_ppr
             }
-        })
-        fetchClassicPlayers()
-        fetchCaptainPlayers()
+        });
+        fetchClassicPlayers();
+        fetchCaptainPlayers();
     })
 };
 
@@ -43,8 +43,8 @@ function fetchClassicPlayers() {
                     [element.position]: 1, 
                     [z]: 1
                 }    
-                classicPlayers.push(details)
-                if (proj > 0){
+                classicPlayers.push(details);
+                if (proj > 0) {
                     classicCombined[z] = details
                     classicInt[z] = 1
                     classicConstraint[z] = {'max': 1}
@@ -57,12 +57,12 @@ function fetchClassicPlayers() {
                             FLEX: 1
                         }
                         classicInt[z + 1000] = 1
-                    } 
+                    }
                     z++ 
                 }
-            }   
+            }
         }
-    })   
+    });   
 };
 
 function fetchCaptainPlayers() {
@@ -72,10 +72,10 @@ function fetchCaptainPlayers() {
         fetch('https://api.draftkings.com/draftgroups/v1/draftgroups/98585/draftables')
         .then(response => response.json())
         .then(data2 => {
-            captainQueue1 = getCaptainPlayers(data1.draftables)
-            captainQueue2 = getCaptainPlayers(data2.draftables)
-        })
-    })
+            captainQueue1 = getCaptainPlayers(data1.draftables);
+            captainQueue2 = getCaptainPlayers(data2.draftables);
+        });
+    });
 };
 
 function getCaptainPlayers(data) {
@@ -98,7 +98,8 @@ function getCaptainPlayers(data) {
             var ind = crownsQueue.findIndex(p => p.DraftTableId === element.playerId )
             if (ind === -1) {
                 let newElement = {
-                    ...details, CROWN: 1, 
+                    ...details, 
+                    CROWN: 1, 
                     [crownsQueue.length]: 1, 
                     Projection: proj * 1.5
                 }
@@ -113,7 +114,7 @@ function getCaptainPlayers(data) {
                 flexesQueue.push(newElement)
             }
         }
-    })
+    });
     let combinedQueue = [...crownsQueue, ...flexesQueue]
     return { flexesQueue, combinedQueue }    
 }; 
@@ -128,7 +129,7 @@ app.get("/dates", (req, res) => {
         sdTeams2: captainQueue2.flexesQueue[0].Game,
         sdDate1: dayNames[d1.getDay()] + ' ' + captainQueue1.flexesQueue[0].Time.substr(5,5), 
         sdDate2: dayNames[d2.getDay()] + ' ' + captainQueue2.flexesQueue[0].Time.substr(5,5)
-    })    
+    });   
 });
 
 app.get("/classicplayers", (req, res) => { 
@@ -138,7 +139,7 @@ app.get("/classicplayers", (req, res) => {
         if (pos === 'qrb' || pos === 'qwr' || pos === 'qte') { sortedPlayers['qflex'] = [...sortedPlayers['qflex'], classicPlayers[i]] }
         sortedPlayers[pos] = [...sortedPlayers[pos],  classicPlayers[i]] 
     } 
-    res.json(sortedPlayers)    
+    res.json(sortedPlayers);    
 });
 
 app.get("/classicoptimizer", (req, res) => { 
@@ -146,7 +147,7 @@ app.get("/classicoptimizer", (req, res) => {
     let classicConstraintNew = getClassicConstraint()
     let results = optimizeClassic(classicConstraintNew, classicCombined, .025)
     let endResult = sortClassicResults(results, sortedResults)
-    res.json(endResult)
+    res.json(endResult);
 });
 
 app.post("/classicoptimize", (req, res) => {
@@ -165,7 +166,7 @@ app.post("/classicoptimize", (req, res) => {
         sortedResults['result'] += lineupPlayers[i].Projection             
         sortedResults[playerPos.toLowerCase()] = [...sortedResults[playerPos.toLowerCase()], lineupPlayers[i]]
     }  
-    if (fl.length !== 0){        
+    if (fl.length !== 0) {        
         delete classicAll[Object.keys(fl[0])[0]]
         delete classicAll[Number(Object.keys(fl[0])[0]) + 1000]
         classicConstraintNew['FLEX'] = { 'min': 0, 'max': 0 }
@@ -175,7 +176,7 @@ app.post("/classicoptimize", (req, res) => {
     classicConstraintNew['salary'] = { 'max': 50000 - sortedResults['usedSal'] }    
     let results = optimizeClassic(classicConstraintNew, classicAll, 0)
     let endResult = sortClassicResults(results, sortedResults)
-    res.json(endResult)
+    res.json(endResult);
 });
 
 function getClassicConstraint() {
@@ -197,16 +198,16 @@ function optimizeClassic(classicConstraintNew, classicAll, num) {
         ints: classicInt,
         constraints: classicConstraintNew,   
         variables: classicAll,
-        options: {"tolerance": num}
+        options: { "tolerance": num }
     }    
-    return solver.Solve(model)
+    return solver.Solve(model);
 };
 
 function sortClassicResults(results, sortedResults) {
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (classicCombined[key].FLEX === 1) {    
-                var player = classicPlayers.find(p => p.playerId === classicCombined[key].playerId)
+                var player = classicCombined[key-1000]
                 sortedResults['flex'] = [player]
             } else {
                 var player = classicCombined[key]
@@ -238,7 +239,7 @@ app.post("/optimizedcaptain2", (req, res) => {
     res.json(results)
 });
 
-function optimizeCaptain(queue, selectedLineup, selectedCrown){
+function optimizeCaptain(queue, selectedLineup, selectedCrown) {
     let combinedQueue = [...queue.combinedQueue]
     let projTotal = 0
     let captainConstraint = {
@@ -259,7 +260,8 @@ function optimizeCaptain(queue, selectedLineup, selectedCrown){
         captainConstraint['Salary']['max'] -= selectedCrown[0].Salary * 1.5
     }
     for (let i = 0; i < selectedLineup.length; i++) {
-        captainConstraint['FLEX'] = {'min' : captainConstraint['FLEX']['min'] - 1, 'max': captainConstraint['FLEX']['min'] - 1}       
+        captainConstraint['FLEX']['min'] -= 1
+        captainConstraint['FLEX']['max'] -= 1
         combinedQueue = combinedQueue.filter(p => p.DraftTableId !== selectedLineup[i].DraftTableId)
         projTotal += selectedLineup[i].Projection
         captainConstraint['Salary']['max'] -= selectedLineup[i].Salary
@@ -285,7 +287,7 @@ function optimizeCaptain(queue, selectedLineup, selectedCrown){
             }
         }
     }
-    let projSum = Math.round((results.result + projTotal)*100)/100
+    let projSum = results.result + projTotal
     return { crown: selectedCrown, fps: selectedLineup, sSum: salarySum, pSum: projSum }
 };
 
