@@ -5,7 +5,7 @@ import CaptainLineup from './CaptainLineup.js';
 import CaptainQueue from './CaptainQueue.js';
 import ContestButtons from './ContestButtons.js';
 
-function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
+function CaptainHome2({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     const [players, setPlayers] = useState([]);
     const [crown, setCrown] = useState([]);
     const [flexPlayers, setFlexPlayers] = useState([]);
@@ -21,25 +21,21 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     const url = "https://optimize-daily.onrender.com";
     
     useEffect(() => {
-        fetchPlayerQueue()
-    },[]);
-
-    const fetchPlayerQueue = () => {
         fetch(`${url}/captainplayers2`)
         .then((res)=> res.json())
         .then(data => {
             setPlayers(data.flexes)   
         })
-    };
+    },[]);
 
     const sortPlayers = (event) => {
         event.preventDefault()   
-        setPlayers([...players.slice().sort((item1, item2) => item2[`${event.target.id}`] - item1[`${event.target.id}`])])
+        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] - a[`${event.target.id}`])])
     };
 
     const sortNames = (event) => {
         event.preventDefault()
-        setPlayers([...players.slice().sort((item1, item2) => item2[`${event.target.id}`] < item1[`${event.target.id}`] ? 1 : -1)])
+        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] < a[`${event.target.id}`] ? 1 : -1)])
     };
 
     const setCrownPlayer = (player) => {
@@ -79,8 +75,8 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     };
 
     const removeFlexPlayer = (player) => {
-        let x = flexPlayers.filter(f => f !== player)
-        setFlexPlayers(x)
+        let z = flexPlayers.filter(p => p !== player)
+        setFlexPlayers(z)
         setLineupNumbers({
             salaryPerPlayer: parseInt((lineupNumbers.salary + player.Salary)/(lineupNumbers.playerCount + 1)),
             playerCount: lineupNumbers.playerCount + 1,
@@ -192,4 +188,4 @@ function MondayCaptainHome({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     );
 };
 
-export default MondayCaptainHome;
+export default CaptainHome2;

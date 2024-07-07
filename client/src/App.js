@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Head from './components/Head.js';
 import ClassicHome from './components/classic/ClassicHome.js';
-import CaptainHome from './components/captain/CaptainHome.js';
-import MondayCaptainHome from './components/captain/MondayCaptainHome.js';
+import CaptainHome1 from './components/captain/CaptainHome1.js';
+import CaptainHome2 from './components/captain/CaptainHome2.js';
 
 function App() {
 
@@ -18,10 +18,6 @@ function App() {
   const url = "https://optimize-daily.onrender.com";
 
   useEffect(() => {
-    getDates()
-  }, );
-
-  const getDates = () => {
     fetch(`${url}/dates`)
     .then((res)=> res.json())
     .then(data => {
@@ -31,7 +27,7 @@ function App() {
       setSdDate1(data.sdDate1)
       setSdDate2(data.sdDate2)
     })
-  };
+  });
 
   return (
     <BrowserRouter>
@@ -44,7 +40,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<ClassicHome />}/>
           <Route exact path="/showdown1" element={
-            <CaptainHome 
+            <CaptainHome1 
               sdTeams1={sdTeams1} 
               sdDate1={sdDate1} 
               sdDate2={sdDate2} 
@@ -52,7 +48,7 @@ function App() {
             />
           } />
           <Route exact path="/showdown2" element={
-            <MondayCaptainHome 
+            <CaptainHome2 
               sdTeams1={sdTeams1} 
               sdDate1={sdDate1} 
               sdDate2={sdDate2} 

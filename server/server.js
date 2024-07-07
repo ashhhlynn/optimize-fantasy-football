@@ -17,10 +17,10 @@ function fetchSleeperProjections() {
     fetch("https://api.sleeper.app/projections/nfl/2023/18?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr")
     .then((res)=> res.json())
     .then(data => {
-        data.map((element) => {
-            if (element.stats.pts_ppr > 0) {  
-                var name = element.player.position === "DEF" ?  element.player.last_name : element.player.first_name + ' ' + element.player.last_name 
-                sleeperProjections[name] = element.stats.pts_ppr
+        data.map((p) => {
+            if (p.stats.pts_ppr > 0) {  
+                var name = p.player.position === "DEF" ?  p.player.last_name : p.player.first_name + ' ' + p.player.last_name 
+                sleeperProjections[name] = p.stats.pts_ppr
             }
         });
         fetchClassicPlayers();
@@ -34,13 +34,13 @@ function fetchClassicPlayers() {
     .then(data => {
         for (let z=0; z < data.draftables.length; z++) {
             if (data.draftables[z].draftStatAttributes[0].id === 90) {
-                let element = data.draftables[z]
-                let sleeperElement = Object.keys(sleeperProjections).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
-                var proj = sleeperElement !== undefined ? sleeperProjections[sleeperElement] : 0
+                let p = data.draftables[z]
+                let sleeper = Object.keys(sleeperProjections).find(key => key === p.displayName || key.slice(0,10) === p.displayName.slice(0,10))
+                var proj = sleeper !== undefined ? sleeperProjections[sleeper] : 0
                 var details = {
-                    ...element, 
+                    ...p, 
                     Projection: proj, 
-                    [element.position]: 1, 
+                    [p.position]: 1, 
                     [z]: 1
                 }    
                 classicPlayers.push(details);
@@ -49,11 +49,11 @@ function fetchClassicPlayers() {
                     classicInt[z] = 1
                     classicConstraint[z] = {'max': 1}
                 }
-                if (z !== data.draftables.length - 1 && element.playerId === data.draftables[z+1].playerId) {
+                if (z !== data.draftables.length - 1 && p.playerId === data.draftables[z+1].playerId) {
                     if (proj > 0) {
                         classicCombined[z + 1000] = {
                             ...details, 
-                            [element.position]: 0, 
+                            [p.position]: 0, 
                             FLEX: 1
                         }
                         classicInt[z + 1000] = 1
@@ -80,38 +80,38 @@ function fetchCaptainPlayers() {
 
 function getCaptainPlayers(data) {
     let [flexesQueue, crownsQueue] = [[],[]]
-    data.map((element) => {
-        if (element.draftStatAttributes[0].id === 90) {
-            let sleeperElement = Object.keys(sleeperProjections).find(key => key === element.displayName || key.slice(0,10) === element.displayName.slice(0,10))
-            var proj = sleeperElement !== undefined ? sleeperProjections[sleeperElement] : 0
+    data.map((p) => {
+        if (p.draftStatAttributes[0].id === 90) {
+            let sleeper = Object.keys(sleeperProjections).find(key => key === p.displayName || key.slice(0,10) === p.displayName.slice(0,10))
+            var proj = sleeper !== undefined ? sleeperProjections[sleeper] : 0
             let details = {
-                Name: element.displayName,
-                Position: element.position,
-                Game: element.competition['name'],
-                Time: element.competition['startTime'],
-                FFPG: element.draftStatAttributes[0].value,
-                Team: element.teamAbbreviation,
-                DraftTableId: element.playerId,
-                Status: element.status,
-                Salary: element.salary,
+                Name: p.displayName,
+                Position: p.position,
+                Game: p.competition['name'],
+                Time: p.competition['startTime'],
+                FFPG: p.draftStatAttributes[0].value,
+                Team: p.teamAbbreviation,
+                DraftTableId: p.playerId,
+                Status: p.status,
+                Salary: p.salary,
             }
-            var ind = crownsQueue.findIndex(p => p.DraftTableId === element.playerId )
+            var ind = crownsQueue.findIndex(x => x.DraftTableId === p.playerId )
             if (ind === -1) {
-                let newElement = {
+                let newPlayer = {
                     ...details, 
                     CROWN: 1, 
                     [crownsQueue.length]: 1, 
                     Projection: proj * 1.5
                 }
-                crownsQueue.push(newElement)
+                crownsQueue.push(newPlayer)
             } else {
-                let newElement = {
+                let newPlayer = {
                     ...details, 
                     FLEX: 1, 
                     [ind]: 1, 
                     Projection: proj
                 }
-                flexesQueue.push(newElement)
+                flexesQueue.push(newPlayer)
             }
         }
     });
@@ -143,7 +143,7 @@ app.get("/classicplayers", (req, res) => {
 });
 
 app.get("/classicoptimizer", (req, res) => { 
-    let sortedResults = { lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, usedSal: 0 }
+    let sortedResults = { lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, remSal: 50000 }
     let classicConstraintNew = getClassicConstraint()
     let results = optimizeClassic(classicConstraintNew, classicCombined, .025)
     let endResult = sortClassicResults(results, sortedResults)
@@ -153,7 +153,7 @@ app.get("/classicoptimizer", (req, res) => {
 app.post("/classicoptimize", (req, res) => {
     let lineupPlayers = req.body.lp
     let fl = req.body.fl 
-    let sortedResults = { lineup: [...lineupPlayers, ...fl], qb: [], rb: [], wr: [], te: [], dst: [], flex: fl, result: 0, usedSal: 0 }
+    let sortedResults = { lineup: [...lineupPlayers, ...fl], qb: [], rb: [], wr: [], te: [], dst: [], flex: fl, result: 0, remSal: 50000 }
     let classicConstraintNew = getClassicConstraint()
     let classicAll = {...classicCombined}    
     for (let i = 0; i < lineupPlayers.length; i++) {
@@ -162,7 +162,7 @@ app.post("/classicoptimize", (req, res) => {
         let playerPos = lineupPlayers[i].position
         classicConstraintNew[`${playerPos}`]['min'] -= 1 
         classicConstraintNew[`${playerPos}`]['max'] -= 1 
-        sortedResults['usedSal'] += lineupPlayers[i].salary   
+        sortedResults['remSal'] -= lineupPlayers[i].salary   
         sortedResults['result'] += lineupPlayers[i].Projection             
         sortedResults[playerPos.toLowerCase()] = [...sortedResults[playerPos.toLowerCase()], lineupPlayers[i]]
     }  
@@ -170,10 +170,10 @@ app.post("/classicoptimize", (req, res) => {
         delete classicAll[Object.keys(fl[0])[0]]
         delete classicAll[Number(Object.keys(fl[0])[0]) + 1000]
         classicConstraintNew['FLEX'] = { 'min': 0, 'max': 0 }
-        sortedResults['usedSal'] += fl[0].salary   
+        sortedResults['remSal'] -= fl[0].salary   
         sortedResults['result'] += fl[0].Projection    
     }
-    classicConstraintNew['salary'] = { 'max': 50000 - sortedResults['usedSal'] }    
+    classicConstraintNew['salary'] = { 'max': sortedResults['remSal'] }    
     let results = optimizeClassic(classicConstraintNew, classicAll, 0)
     let endResult = sortClassicResults(results, sortedResults)
     res.json(endResult);
@@ -214,7 +214,7 @@ function sortClassicResults(results, sortedResults) {
                 sortedResults[player.position.toLowerCase()] = [...sortedResults[player.position.toLowerCase()], player]
             }
             sortedResults['lineup'] = [...sortedResults['lineup'], player]
-            sortedResults['usedSal'] += player.salary        
+            sortedResults['remSal'] -= player.salary        
         }
     }
     sortedResults['result'] += results.result

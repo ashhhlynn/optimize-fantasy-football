@@ -34,33 +34,29 @@ function ClassicHome() {
     const url = "https://optimize-daily.onrender.com";
 
     useEffect(() => {
-        fetchPlayerQueue()
-    },[]);
-
-    const fetchPlayerQueue = () => {
         fetch(`${url}/classicplayers`)
         .then((res)=> res.json())
         .then(data => {
             setQueue(data)
             setPlayers(data.qall)
         })
-    };
+    },[]);
 
     const filterQueue = (event) => setPlayers(queue[event.target.id]); 
 
     const sortFFPG = (event) => {
         event.preventDefault()
-        setPlayers([...players.slice().sort((item1, item2) => item2.draftStatAttributes[0].value - item1.draftStatAttributes[0].value)])
+        setPlayers([...players.slice().sort((a, b) => b.draftStatAttributes[0].value - a.draftStatAttributes[0].value)])
     };
 
     const sortName = (event) => {
         event.preventDefault()
-        setPlayers([...players.slice().sort((item1, item2) => item2.displayName < item1.displayName ? 1 : -1)])
+        setPlayers([...players.slice().sort((a, b) => b.displayName < a.displayName ? 1 : -1)])
     };
 
     const sortPlayers = (event) => {
         event.preventDefault()
-        setPlayers([...players.slice().sort((item1, item2) => item2[`${event.target.id}`] < item1[`${event.target.id}`] ? -1 : 1)])
+        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] < a[`${event.target.id}`] ? -1 : 1)])
     };
 
     const setPlayer = (player) => {
@@ -108,11 +104,11 @@ function ClassicHome() {
         if (player === flex[0]) { setFlex([]) }  
         else if (player.position === "QB") { setQb() }
         else if (player.position === "RB") {
-            let z = rbs.filter(f => f !== player)
+            let z = rbs.filter(p => p !== player)
             setRbs(z)
         }
         else if (player.position === "WR") {
-            let z = wrs.filter(f => f !== player)
+            let z = wrs.filter(p => p !== player)
             setWrs(z)
         }
         else if (player.position === "TE") { setTe() }
@@ -120,8 +116,8 @@ function ClassicHome() {
     };
 
     const removeLineupData = (player) => {
-        let x = lineupPlayers.filter(f => f.playerId !== player.playerId)
-        setLineupPlayers(x)
+        let z = lineupPlayers.filter(p => p.playerId !== player.playerId)
+        setLineupPlayers(z)
         setLineupNumbers({
             projection: lineupNumbers.projection - player.Projection,
             salaryPerPlayer: parseInt((lineupNumbers.salary + player.salary)/(lineupNumbers.playerCount + 1)),
@@ -167,7 +163,7 @@ function ClassicHome() {
         setTe(data.te[0])
         setFlex(data.flex)
         setLineupNumbers({
-            salary: 50000-data.usedSal,
+            salary: data.remSal,
             projection: data.result,
             salaryPerPlayer: 0,
             playerCount: 0
