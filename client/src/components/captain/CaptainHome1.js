@@ -29,65 +29,65 @@ function CaptainHome1({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
     },[]);
 
     const sortPlayers = (event) => {
-        event.preventDefault()   
-        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] - a[`${event.target.id}`])])
+        event.preventDefault();   
+        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] - a[`${event.target.id}`])]);
     };
 
     const sortNames = (event) => {
-        event.preventDefault()
-        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] < a[`${event.target.id}`] ? 1 : -1)])
+        event.preventDefault();
+        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] < a[`${event.target.id}`] ? 1 : -1)]);
     };
 
     const setCrownPlayer = (player) => {
         if (crown.length === 0 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId)) {            
-            setCrown([player])
+            setCrown([player]);
             let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.Salary * 1.5)/(lineupNumbers.playerCount - 1))
             setLineupNumbers({
                 salary:  lineupNumbers.salary - player.Salary * 1.5,
                 salaryPerPlayer: salPer,
                 playerCount: lineupNumbers.playerCount - 1,
                 projection: lineupNumbers.projection + player.Projection * 1.5
-            })
+            });
         }
     };
 
     const setFlexPlayer = (player) => {
         if (flexPlayers.length < 5 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId) && !crown.find(p => p.DraftTableId === player.DraftTableId)) {
-            setFlexPlayers(flexPlayers => [...flexPlayers, player])
+            setFlexPlayers(flexPlayers => [...flexPlayers, player]);
             let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.Salary)/(lineupNumbers.playerCount - 1))            
             setLineupNumbers({
                 salary:  lineupNumbers.salary - player.Salary,
                 salaryPerPlayer: salPer,
                 playerCount: lineupNumbers.playerCount - 1,
                 projection: lineupNumbers.projection + player.Projection 
-            })
+            });
         }
     };
 
     const removeCrownPlayer = (player) => {
-        setCrown([])
+        setCrown([]);
         setLineupNumbers({
             salaryPerPlayer: parseInt((lineupNumbers.salary + player.Salary * 1.5)/(lineupNumbers.playerCount + 1)),
             playerCount: lineupNumbers.playerCount + 1,
             projection: lineupNumbers.projection - player.Projection * 1.5, 
             salary:  lineupNumbers.salary + player.Salary * 1.5
-        })
+        });
     };
 
     const removeFlexPlayer = (player) => {
-        let z = flexPlayers.filter(p => p !== player)
-        setFlexPlayers(z)
+        let z = flexPlayers.filter(p => p !== player);
+        setFlexPlayers(z);
         setLineupNumbers({
             salaryPerPlayer: parseInt((lineupNumbers.salary + player.Salary)/(lineupNumbers.playerCount + 1)),
             playerCount: lineupNumbers.playerCount + 1,
             projection: lineupNumbers.projection - player.Projection, 
             salary:  lineupNumbers.salary + player.Salary
-        })
+        });
     };
 
     const optimizePlayers = (fp, cp) => {
-        setOpen(false)
-        setLoading(true)
+        setOpen(false);
+        setLoading(true);
         fetch(`${url}/optimizedcaptain1`, {
             method: "POST",
             body: JSON.stringify({ fp, cp }),
@@ -102,9 +102,9 @@ function CaptainHome1({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
                 projection: data.pSum,
                 salaryPerPlayer: 0,
                 playerCount: 0
-            })
-            setLoading(false)
-        })
+            });
+            setLoading(false);
+        });
     };
 
     return (

@@ -26,7 +26,7 @@ function App() {
       setSdTeams2(data.sdTeams2)
       setSdDate1(data.sdDate1)
       setSdDate2(data.sdDate2)
-    })
+    });
   });
 
   return (

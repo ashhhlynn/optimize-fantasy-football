@@ -39,99 +39,99 @@ function ClassicHome() {
         .then(data => {
             setQueue(data)
             setPlayers(data.qall)
-        })
+        });
     },[]);
 
     const filterQueue = (event) => setPlayers(queue[event.target.id]); 
 
     const sortFFPG = (event) => {
-        event.preventDefault()
-        setPlayers([...players.slice().sort((a, b) => b.draftStatAttributes[0].value - a.draftStatAttributes[0].value)])
+        event.preventDefault();
+        setPlayers([...players.slice().sort((a, b) => b.draftStatAttributes[0].value - a.draftStatAttributes[0].value)]);
     };
 
     const sortName = (event) => {
-        event.preventDefault()
-        setPlayers([...players.slice().sort((a, b) => b.displayName < a.displayName ? 1 : -1)])
+        event.preventDefault();
+        setPlayers([...players.slice().sort((a, b) => b.displayName < a.displayName ? 1 : -1)]);
     };
 
     const sortPlayers = (event) => {
-        event.preventDefault()
-        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] < a[`${event.target.id}`] ? -1 : 1)])
+        event.preventDefault();
+        setPlayers([...players.slice().sort((a, b) => b[`${event.target.id}`] < a[`${event.target.id}`] ? -1 : 1)]);
     };
 
     const setPlayer = (player) => {
         if (!lineupPlayers.find(p => p.playerId === player.playerId)) { 
             if (player.position === "RB" && rbs.length < 2) {
-                setRbs(rbs => [...rbs, player])
-                setLineupData(player)
+                setRbs(rbs => [...rbs, player]);
+                setLineupData(player);
             }
             else if (player.position === "WR" && wrs.length < 3) {
-                setWrs(wrs => [...wrs, player])
-                setLineupData(player)
+                setWrs(wrs => [...wrs, player]);
+                setLineupData(player);
             }
             else if (player.position === "TE" && !te) {
-                setTe(player)
-                setLineupData(player)
+                setTe(player);
+                setLineupData(player);
             }
             else if (flex.length < 1 && (player.position === "RB" || player.position === "WR"  || player.position === "TE")) {
-                setFlex([player])
-                setLineupData(player)
+                setFlex([player]);
+                setLineupData(player);
             }
             else if (player.position === "QB" && !qb ) {
-                setLineupData(player)
-                setQb(player)
+                setLineupData(player);
+                setQb(player);
             }
             else if (player.position === "DST" && !dst) {
-                setDst(player)
-                setLineupData(player)
+                setDst(player);
+                setLineupData(player);
             }
         }
     };
 
     const setLineupData = (player) => {   
-        setLineupPlayers(lineupPlayers => [...lineupPlayers, player])  
+        setLineupPlayers(lineupPlayers => [...lineupPlayers, player]);  
         let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.salary)/(lineupNumbers.playerCount - 1))
         setLineupNumbers({
             projection: lineupNumbers.projection + player.Projection,
             salary: lineupNumbers.salary - player.salary,
             playerCount: lineupNumbers.playerCount - 1,
             salaryPerPlayer: salPer
-        })
+        });
     };
 
     const removePlayer = (player) => {
-        removeLineupData(player)
+        removeLineupData(player);
         if (player === flex[0]) { setFlex([]) }  
         else if (player.position === "QB") { setQb() }
         else if (player.position === "RB") {
-            let z = rbs.filter(p => p !== player)
-            setRbs(z)
+            let z = rbs.filter(p => p !== player);
+            setRbs(z);
         }
         else if (player.position === "WR") {
-            let z = wrs.filter(p => p !== player)
-            setWrs(z)
+            let z = wrs.filter(p => p !== player);
+            setWrs(z);
         }
         else if (player.position === "TE") { setTe() }
         else if (player.position ==="DST" ) { setDst() }
     };
 
     const removeLineupData = (player) => {
-        let z = lineupPlayers.filter(p => p.playerId !== player.playerId)
-        setLineupPlayers(z)
+        let z = lineupPlayers.filter(p => p.playerId !== player.playerId);
+        setLineupPlayers(z);
         setLineupNumbers({
             projection: lineupNumbers.projection - player.Projection,
             salaryPerPlayer: parseInt((lineupNumbers.salary + player.salary)/(lineupNumbers.playerCount + 1)),
             salary: lineupNumbers.salary + player.salary,
             playerCount: lineupNumbers.playerCount + 1
-        })
+        });
     };
    
     const optimizeWith = () => {
-        setOpen(false)
+        setOpen(false);
         if (flex.length > 0 || lineupPlayers.length > 0) {
             let lp = flex.length > 0 ? lineupPlayers.filter(p => p.playerId !== flex[0].playerId) : lineupPlayers
-            let fl = flex 
-            setLoading(true)
+            let fl = flex; 
+            setLoading(true);
             fetch(`${url}/classicoptimize`, {
                 method: "POST",
                 body: JSON.stringify({ lp, fl }),
@@ -140,36 +140,36 @@ function ClassicHome() {
             .then(response => response.json())
             .then(data => {
                 setOptimizedLineup(data)
-            })
+            });
         }
         else { optimizeWithout() }
     };
 
     const optimizeWithout = () => {
-        setOpen(false)
-        setLoading(true)
+        setOpen(false);
+        setLoading(true);
         fetch(`${url}/classicoptimizer`)
         .then((res)=> res.json())
         .then(data => {
             setOptimizedLineup(data)
-        })
+        });
     };
 
     const setOptimizedLineup = (data) => {
-        setQb(data.qb[0])
-        setRbs(data.rb)
-        setWrs(data.wr)
-        setDst(data.dst[0])
-        setTe(data.te[0])
-        setFlex(data.flex)
+        setQb(data.qb[0]);
+        setRbs(data.rb);
+        setWrs(data.wr);
+        setDst(data.dst[0]);
+        setTe(data.te[0]);
+        setFlex(data.flex);
         setLineupNumbers({
             salary: data.remSal,
             projection: data.result,
             salaryPerPlayer: 0,
             playerCount: 0
-        })
-        setLineupPlayers(data.lineup)
-        setLoading(false)
+        });
+        setLineupPlayers(data.lineup);
+        setLoading(false);
     };
 
     return (
