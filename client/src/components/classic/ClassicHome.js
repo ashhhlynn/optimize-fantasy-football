@@ -139,7 +139,7 @@ function ClassicHome() {
             })
             .then(response => response.json())
             .then(data => {
-                setOptimizedLineup(data)
+                setOptimizedLineup(data);
             });
         }
         else { optimizeWithout() }
@@ -151,7 +151,7 @@ function ClassicHome() {
         fetch(`${url}/classicoptimizer`)
         .then((res)=> res.json())
         .then(data => {
-            setOptimizedLineup(data)
+            setOptimizedLineup(data);
         });
     };
 

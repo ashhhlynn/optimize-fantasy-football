@@ -95,8 +95,8 @@ function CaptainHome1({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
         })
         .then(response => response.json())
         .then(data => {
-            setCrown(data.crown)
-            setFlexPlayers(data.fps)
+            setCrown(data.crown);
+            setFlexPlayers(data.fps);
             setLineupNumbers({
                 salary: data.sSum,
                 projection: data.pSum,
