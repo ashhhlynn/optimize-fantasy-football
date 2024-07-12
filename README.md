@@ -7,7 +7,8 @@ Daily Fantasy Football lineup builder and optimizer application created with Nod
   </tr>
 </table> 
 
-Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/930504746">video</a> demos.
+#### :link: <a href="https://optimize-daily.netlify.app/">Website</a>
+#### :link: <a href="https://vimeo.com/930504746">Video</a>
 
 ### Technologies Used
 - JavaScript
