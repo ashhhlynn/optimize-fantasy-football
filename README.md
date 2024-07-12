@@ -9,7 +9,7 @@ Daily Fantasy Football lineup builder and optimizer application created with Nod
 
 Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href="https://vimeo.com/930504746">video</a> demos.
 
-## Technologies Used
+### Technologies Used
 - JavaScript
 - React.js
 - Node.js
@@ -21,7 +21,7 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - HTML & CSS
 - Netlify & Render
 
-## Features
+### Features
 - Fetch from DraftKings API to access live TNF/MNF Showdown and Sunday Classic contest data
 - Fetch from Sleeper API to access player projections for week (PPR scoring)
 - Sort player queue by position, name, projection, FPPG, and salary
@@ -30,15 +30,25 @@ Check out the <a href="https://optimize-daily.netlify.app/">live</a> and <a href
 - Option to include manually selected players in optimization calculation
 - View lineup total projection and remaining salary data
 
-## Media 
+### Media 
 ![Screenshot (190)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/80af461d-e490-4ba9-831a-f17d04faa4b0)
 ![Screenshot (192)](https://github.com/ashhhlynn/optimize-fantasy-football/assets/84604278/d2a85433-04ff-4d3e-b89b-2ba3f6afded0)
 
-## Setup
-- ` git clone < this repository > `
-- ` cd client  `
-- ` npm install `
-- ` npm start `
-
-## License 
+### Setup
+   ```sh
+   $ git clone https://github.com/ashhhlynn/optimize-fantasy-football.git
+   ```
+   ```sh
+   $ cd optimize-fantasy-football
+   ```
+   ```sh
+   $ cd client
+   ```
+   ```sh
+   $ npm install
+   ```
+   ```sh
+   $ npm start
+   ```
+### License 
 This project is MIT licensed.
