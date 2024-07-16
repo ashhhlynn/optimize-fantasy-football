@@ -127,49 +127,39 @@ function ClassicHome() {
     };
    
     const optimizeWith = () => {
-        setOpen(false);
-        if (flex.length > 0 || lineupPlayers.length > 0) {
-            let lp = flex.length > 0 ? lineupPlayers.filter(p => p.playerId !== flex[0].playerId) : lineupPlayers
-            let fl = flex; 
-            setLoading(true);
-            fetch(`${url}/classicoptimize`, {
-                method: "POST",
-                body: JSON.stringify({ lp, fl }),
-                headers: { "Content-type": "application/json; charset=UTF-8" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                setOptimizedLineup(data);
-            });
-        }
-        else { optimizeWithout() }
+        var lp = flex.length > 0 ? lineupPlayers.filter(p => p.playerId !== flex[0].playerId) : lineupPlayers
+        optimizeFetch(lp, flex);
     };
 
     const optimizeWithout = () => {
-        setOpen(false);
-        setLoading(true);
-        fetch(`${url}/classicoptimizer`)
-        .then((res)=> res.json())
-        .then(data => {
-            setOptimizedLineup(data);
-        });
+        optimizeFetch([], []);
     };
 
-    const setOptimizedLineup = (data) => {
-        setQb(data.qb[0]);
-        setRbs(data.rb);
-        setWrs(data.wr);
-        setDst(data.dst[0]);
-        setTe(data.te[0]);
-        setFlex(data.flex);
-        setLineupNumbers({
-            salary: data.remSal,
-            projection: data.result,
-            salaryPerPlayer: 0,
-            playerCount: 0
-        });
-        setLineupPlayers(data.lineup);
-        setLoading(false);
+    const optimizeFetch = (lp, fl) => {
+        setOpen(false);
+        setLoading(true);
+        fetch(`${url}/optimizeclassic`, {
+            method: "POST",
+            body: JSON.stringify({ lp, fl }),
+            headers: { "Content-type": "application/json; charset=UTF-8" }
+        })
+        .then(response => response.json())
+        .then(data => {
+            setQb(data.qb[0]);
+            setRbs(data.rb);
+            setWrs(data.wr);
+            setDst(data.dst[0]);
+            setTe(data.te[0]);
+            setFlex(data.flex);
+            setLineupNumbers({
+                salary: data.remSal,
+                projection: data.result,
+                salaryPerPlayer: 0,
+                playerCount: 0
+            });
+            setLineupPlayers(data.lineup);
+            setLoading(false);
+        })
     };
 
     return (

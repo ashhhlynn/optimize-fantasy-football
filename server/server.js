@@ -1,19 +1,26 @@
 const express = require("express");
 const cors = require("cors");
+const fetch = require("node-fetch");
 const solver = require("javascript-lp-solver");
 const app = express();
 const PORT = process.env.PORT || 8000;
-const fetch = require("node-fetch");
 app.use(cors());
 app.use(express.json());
 
 let sleeperProjections = {};
-let [classicPlayers, classicCombined, classicInt, classicConstraint] = [[], {}, {}, {}];
-let [captainQueue1, captainQueue2] = [{}, {}];
+let [classicPlayers, classicCombined, captainQueue1, captainQueue2, classicConstraint] = [[], {}, {}, {}, {}];
+let classicInt = {
+    'QB': 1,
+    'RB': 1,
+    'WR': 1,
+    'TE': 1,
+    'DST': 1,
+    'FLEX': 1
+};
 
-fetchSleeperProjections();
+startApp();
 
-function fetchSleeperProjections() {
+function startApp() {
     fetch("https://api.sleeper.app/projections/nfl/2023/18?season_type=regular&position%5B%5D=DEF&position%5B%5D=K&position%5B%5D=RB&position%5B%5D=QB&position%5B%5D=TE&position%5B%5D=WR&order_by=ppr")
     .then((res)=> res.json())
     .then(data => {
@@ -25,7 +32,7 @@ function fetchSleeperProjections() {
         });
         fetchClassicPlayers();
         fetchCaptainPlayers();
-    })
+    });    
 };
 
 function fetchClassicPlayers() {
@@ -142,44 +149,10 @@ app.get("/classicplayers", (req, res) => {
     res.json(sortedPlayers);    
 });
 
-app.get("/classicoptimizer", (req, res) => { 
-    let sortedResults = { lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, remSal: 50000 };
-    let classicConstraintNew = getClassicConstraint();
-    let results = optimizeClassic(classicConstraintNew, classicCombined, .025);
-    let endResult = sortClassicResults(results, sortedResults);
-    res.json(endResult);
-});
-
-app.post("/classicoptimize", (req, res) => {
+app.post("/optimizeclassic", (req, res) => {
     let lineupPlayers = req.body.lp;
     let fl = req.body.fl; 
-    let sortedResults = { lineup: [...lineupPlayers, ...fl], qb: [], rb: [], wr: [], te: [], dst: [], flex: fl, result: 0, remSal: 50000 };
-    let classicConstraintNew = getClassicConstraint();
-    let classicAll = {...classicCombined};
-    for (let i = 0; i < lineupPlayers.length; i++) {
-        delete classicAll[Object.keys(lineupPlayers[i])[0]];
-        delete classicAll[Number(Object.keys(lineupPlayers[i])[0]) + 1000];
-        let playerPos = lineupPlayers[i].position;
-        classicConstraintNew[`${playerPos}`]['min'] -= 1 
-        classicConstraintNew[`${playerPos}`]['max'] -= 1 
-        sortedResults['remSal'] -= lineupPlayers[i].salary   
-        sortedResults['result'] += lineupPlayers[i].Projection             
-        sortedResults[playerPos.toLowerCase()] = [...sortedResults[playerPos.toLowerCase()], lineupPlayers[i]]
-    }  
-    if (fl.length !== 0) {        
-        delete classicAll[Object.keys(fl[0])[0]];
-        delete classicAll[Number(Object.keys(fl[0])[0]) + 1000];
-        classicConstraintNew['FLEX'] = { 'min': 0, 'max': 0 }
-        sortedResults['remSal'] -= fl[0].salary   
-        sortedResults['result'] += fl[0].Projection    
-    }
-    classicConstraintNew['salary'] = { 'max': sortedResults['remSal'] }    
-    let results = optimizeClassic(classicConstraintNew, classicAll, 0);
-    let endResult = sortClassicResults(results, sortedResults);
-    res.json(endResult);
-});
-
-function getClassicConstraint() {
+    let sortedResults = { lineup: [], qb: [], rb: [], wr: [], te: [], dst: [], flex: [], result: 0, remSal: 50000 };
     classicConstraint['QB'] = { 'min': 1, 'max': 1 };
     classicConstraint['RB'] = { 'min': 2, 'max': 2 };
     classicConstraint['WR'] = { 'min': 3, 'max': 3 };
@@ -187,23 +160,42 @@ function getClassicConstraint() {
     classicConstraint['DST'] = { 'min': 1, 'max': 1 };
     classicConstraint['FLEX'] = { 'min': 1, 'max': 1 };
     classicConstraint['salary'] = { 'max': 50000 };
-    return classicConstraint
-};
-
-function optimizeClassic(classicConstraintNew, classicAll, num) {
-    classicInt['QB'] = classicInt['RB'] = classicInt['WR'] = classicInt['TE'] = classicInt['DST'] = classicInt['FLEX'] = 1
+    if (fl.length !== 0 || lineupPlayers.length !== 0) {
+        var classicConstraintNew = {...classicConstraint};
+        var classicAll = {...classicCombined};
+        for (let i = 0; i < lineupPlayers.length; i++) {
+            delete classicAll[Object.keys(lineupPlayers[i])[0]];
+            delete classicAll[Number(Object.keys(lineupPlayers[i])[0]) + 1000];
+            let playerPos = lineupPlayers[i].position;
+            classicConstraintNew[`${playerPos}`]['min'] -= 1 
+            classicConstraintNew[`${playerPos}`]['max'] -= 1 
+            sortedResults['remSal'] -= lineupPlayers[i].salary   
+            sortedResults['result'] += lineupPlayers[i].Projection             
+            sortedResults[playerPos.toLowerCase()] = [...sortedResults[playerPos.toLowerCase()], lineupPlayers[i]]
+            sortedResults['lineup'] = [...sortedResults['lineup'], lineupPlayers[i]]
+        }  
+        if (fl.length !== 0) {        
+            delete classicAll[Object.keys(fl[0])[0]];
+            delete classicAll[Number(Object.keys(fl[0])[0]) + 1000];
+            classicConstraintNew['FLEX'] = { 'min': 0, 'max': 0 }
+            sortedResults['remSal'] -= fl[0].salary   
+            sortedResults['result'] += fl[0].Projection
+            sortedResults['flex'] = fl
+        }
+        classicConstraintNew['salary'] = { 'max': sortedResults['remSal'] }    
+    } else {
+        var classicAll = classicCombined;
+        var classicConstraintNew = classicConstraint;
+    }
     const model = {
         optimize: "Projection",
         opType: "max",
         ints: classicInt,
         constraints: classicConstraintNew,   
         variables: classicAll,
-        options: { "tolerance": num }
+        options: { "tolerance": .025 }
     };    
-    return solver.Solve(model);
-};
-
-function sortClassicResults(results, sortedResults) {
+    let results = solver.Solve(model);
     for (const [key, value] of Object.entries(results)) {
         if (value === 1) {
             if (classicCombined[key].FLEX === 1) {    
@@ -218,8 +210,8 @@ function sortClassicResults(results, sortedResults) {
         }
     }
     sortedResults['result'] += results.result
-    return sortedResults
-};
+    res.json(sortedResults);
+});
 
 app.get("/captainplayers1", (req, res) => { 
     res.json({ flexes: captainQueue1.flexesQueue });
