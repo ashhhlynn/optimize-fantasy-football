@@ -32,7 +32,7 @@ function ClassicHome() {
     const [isLoading, setLoading] = useState(false);
 
     const url = "https://optimize-daily.onrender.com";
-
+    
     useEffect(() => {
         fetch(`${url}/classicplayers`)
         .then((res)=> res.json())
@@ -62,11 +62,11 @@ function ClassicHome() {
     const setPlayer = (player) => {
         if (!lineupPlayers.find(p => p.playerId === player.playerId)) { 
             if (player.position === "RB" && rbs.length < 2) {
-                setRbs(rbs => [...rbs, player]);
+                setRbs([...rbs, player]);
                 setLineupData(player);
             }
             else if (player.position === "WR" && wrs.length < 3) {
-                setWrs(wrs => [...wrs, player]);
+                setWrs([...wrs, player]);
                 setLineupData(player);
             }
             else if (player.position === "TE" && !te) {
@@ -89,7 +89,7 @@ function ClassicHome() {
     };
 
     const setLineupData = (player) => {   
-        setLineupPlayers(lineupPlayers => [...lineupPlayers, player]);  
+        setLineupPlayers([...lineupPlayers, player]);  
         let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.salary)/(lineupNumbers.playerCount - 1))
         setLineupNumbers({
             projection: lineupNumbers.projection + player.Projection,

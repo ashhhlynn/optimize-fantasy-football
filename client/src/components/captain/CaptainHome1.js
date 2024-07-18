@@ -53,7 +53,7 @@ function CaptainHome1({ sdTeams1, sdDate1, sdTeams2, sdDate2 }) {
 
     const setFlexPlayer = (player) => {
         if (flexPlayers.length < 5 && !flexPlayers.find(p => p.DraftTableId === player.DraftTableId) && !crown.find(p => p.DraftTableId === player.DraftTableId)) {
-            setFlexPlayers(flexPlayers => [...flexPlayers, player]);
+            setFlexPlayers([...flexPlayers, player]);
             let salPer = lineupNumbers.playerCount === 1 ? 0 : parseInt((lineupNumbers.salary - player.Salary)/(lineupNumbers.playerCount - 1))            
             setLineupNumbers({
                 salary:  lineupNumbers.salary - player.Salary,
